@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">IndoorLocalizatorApp</string>
+
+    <string name="title_localization">Lokalizace</string>
+    <string name="title_building">Objekt</string>
+    <string name="title_settings">Nastavení</string>
+
+    <string name="button_wifi_analysis">Wi-Fi Analýza</string>
+</resources>
