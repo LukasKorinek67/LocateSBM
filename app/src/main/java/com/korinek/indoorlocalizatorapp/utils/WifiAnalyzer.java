@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.korinek.indoorlocalizatorapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WifiAnalyzer {
@@ -27,7 +28,12 @@ public class WifiAnalyzer {
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
-    public void scanWifi() {
+    public interface WifiScanCallback {
+        void onWifiScanSuccess(List<ScanResult> results);
+        void onWifiScanFailure(String errorMessage);
+    }
+
+    public void scanAndGetWifi(WifiScanCallback callback) {
         // check if Wifi is enabled
         if (!this.wifiManager.isWifiEnabled()) {
             Log.e(TAG, "WiFi is disabled. Please enable it.");
@@ -39,10 +45,10 @@ public class WifiAnalyzer {
             public void onReceive(Context context, Intent intent) {
                 boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
                 if (success) {
-                    scanSuccess();
+                    List<ScanResult> results = getScanResult();
+                    callback.onWifiScanSuccess(results);
                 } else {
-                    Log.e(TAG, "WiFi scan failed.");
-                    scanFailure();
+                    callback.onWifiScanFailure(context.getString(R.string.toast_scan_failed));
                 }
                 context.unregisterReceiver(this);
             }
@@ -56,37 +62,25 @@ public class WifiAnalyzer {
         boolean success = wifiManager.startScan();
         if (!success) {
             Log.e(TAG, "WiFi scan failed.");
-            scanFailure();
+            Toast.makeText(this.context, this.context.getString(R.string.toast_scan_failed), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void scanSuccess() {
+    private List<ScanResult> getScanResult() {
+        List<ScanResult> results = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            List<ScanResult> results = this.wifiManager.getScanResults();
+            results = this.wifiManager.getScanResults();
             if (results.isEmpty()) {
                 Log.d(TAG, "No WiFi networks found.");
             } else {
                 // sorting by SSID
-                results.sort((result1, result2) -> result1.SSID.compareToIgnoreCase(result2.SSID));
-
-                for (ScanResult result : results) {
-                    String ssid = (result.SSID == null || result.SSID.isBlank()) ? "[No-SSID]" : result.SSID;
-                    int signalStrength = result.level;
-                    Log.d(TAG, "SSID: " + ssid + ", Signal Strength: " + signalStrength + " dBm");
-                }
+                //results.sort((result1, result2) -> result1.SSID.compareToIgnoreCase(result2.SSID));
+                // sorting by level
+                results.sort((result1, result2) -> Integer.compare(result2.level, result1.level));
             }
         } else {
             Toast.makeText(this.context, this.context.getString(R.string.toast_localization_permission_not_granted), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void scanFailure() {
-        /*
-        if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            List<ScanResult> results = wifiManager.getScanResults();
-            //... potentially use older scan results ...
-        }
-        */
-        Toast.makeText(this.context, this.context.getString(R.string.toast_scan_failed), Toast.LENGTH_LONG).show();
+        return results;
     }
 }
