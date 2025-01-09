@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
 
 import com.korinek.indoorlocalizatorapp.R;
 
@@ -73,14 +75,24 @@ public class WifiAnalyzer {
             if (results.isEmpty()) {
                 Log.d(TAG, "No WiFi networks found.");
             } else {
-                // sorting by SSID
-                //results.sort((result1, result2) -> result1.SSID.compareToIgnoreCase(result2.SSID));
-                // sorting by level
-                results.sort((result1, result2) -> Integer.compare(result2.level, result1.level));
+                sortResults(results);
             }
         } else {
             Toast.makeText(this.context, this.context.getString(R.string.toast_localization_permission_not_granted), Toast.LENGTH_LONG).show();
         }
         return results;
+    }
+
+    private void sortResults(List<ScanResult> results) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String sortingType = sharedPreferences.getString("settings_wifi_sorting", "name");
+
+        if(sortingType.equals("signal_strength")) {
+            // sorting by level
+            results.sort((result1, result2) -> Integer.compare(result2.level, result1.level));
+        } else {
+            // sorting by SSID
+            results.sort((result1, result2) -> result1.SSID.compareToIgnoreCase(result2.SSID));
+        }
     }
 }

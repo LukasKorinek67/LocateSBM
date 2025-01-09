@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="settings_building_type"
+        android:title="Budova"
+        android:summary="Zadejte název budovy"
+        android:defaultValue="TUL" />
+
+    <PreferenceCategory
+        android:title="Budova">
+
+        <ListPreference
+            android:key="settings_building_choose"
+            android:title="Budova"
+            android:summary="Vyberte budovu"
+            android:entries="@array/building_names"
+            android:entryValues="@array/building_values"
+            android:defaultValue="tul" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Wifi analýza">
+
+        <ListPreference
+            android:key="settings_wifi_sorting"
+            android:title="Řadit Wi-Fi dle"
+            android:summary="Seřazení okolních Wi-Fi"
+            android:entries="@array/wifi_sorting_type"
+            android:entryValues="@array/wifi_sorting_values"
+            android:defaultValue="name" />
+
+        <SwitchPreferenceCompat
+            android:key="settings_enable_continuous_wifi_scan"
+            android:title="Neustálý scan Wi-Fi"
+            android:summary="Zapnout nebo vypnout funkci"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

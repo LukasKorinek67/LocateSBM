@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wifi_sorting_type">
+        <item>Názvu</item>
+        <item>Síly signálu</item>
+    </string-array>
+
+    <string-array name="wifi_sorting_values">
+        <item>name</item>
+        <item>signal_strength</item>
+    </string-array>
+
+    <string-array name="building_names">
+        <item>TUL</item>
+        <item>Domov</item>
+        <item>Dům rodiče</item>
+    </string-array>
+
+    <string-array name="building_values">
+        <item>tul</item>
+        <item>home</item>
+        <item>parents_house</item>
+    </string-array>
+</resources>
