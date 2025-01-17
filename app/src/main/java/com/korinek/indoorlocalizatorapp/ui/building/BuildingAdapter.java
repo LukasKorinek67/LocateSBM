@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,15 +18,18 @@ import com.korinek.indoorlocalizatorapp.R;
 import java.util.List;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.BuildingViewHolder> {
-    private List<Building> buildings;
-    private OnBuildingClickListener listener;
+    private final List<Building> buildings;
+    private final Building selectedBuilding;
+    private final BuildingActionListener listener;
 
-    public interface OnBuildingClickListener {
+    public interface BuildingActionListener {
         void onBuildingClick(Building building);
+        void onBuildingSwiped(Building building);
     }
 
-    public BuildingAdapter(List<Building> buildings, OnBuildingClickListener listener) {
+    public BuildingAdapter(List<Building> buildings, Building selectedBuilding, BuildingActionListener listener) {
         this.buildings = buildings;
+        this.selectedBuilding = selectedBuilding;
         this.listener = listener;
     }
 
@@ -39,7 +43,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
     @Override
     public void onBindViewHolder(@NonNull BuildingViewHolder holder, int position) {
         Building building = buildings.get(position);
-        holder.bind(building, listener);
+        holder.bind(building, selectedBuilding, listener);
     }
 
     @Override
@@ -47,21 +51,33 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
         return buildings.size();
     }
 
+    public BuildingActionListener getListener() {
+        return listener;
+    }
+
     static class BuildingViewHolder extends RecyclerView.ViewHolder {
-        private View buildingColorView;
-        private TextView buildingNameTextView;
+        private final View buildingColorView;
+        private final TextView buildingNameTextView;
+        private final ImageView checkMarkSelected;
 
         public BuildingViewHolder(@NonNull View itemView) {
             super(itemView);
             buildingNameTextView = itemView.findViewById(R.id.building_text_view);
             buildingColorView = itemView.findViewById(R.id.building_color_view);
+            checkMarkSelected = itemView.findViewById(R.id.check_mark_selected);
         }
 
-        public void bind(Building building, OnBuildingClickListener listener) {
+        public void bind(Building building, Building selectedBuilding, BuildingActionListener listener) {
             GradientDrawable drawable = (GradientDrawable) buildingColorView.getBackground();
-            drawable.setColor(ContextCompat.getColor(itemView.getContext(), building.getColour()));
+            drawable.setColor(ContextCompat.getColor(itemView.getContext(), building.getColor()));
             buildingNameTextView.setText(building.getName());
+            checkMarkSelected.setVisibility(isBuildingSelected(building, selectedBuilding) ? View.VISIBLE : View.GONE);
             itemView.setOnClickListener(v -> listener.onBuildingClick(building));
+        }
+
+        private boolean isBuildingSelected(Building building, Building selectedBuilding) {
+            // TODO - maybe check by some id?
+            return building.equals(selectedBuilding);
         }
     }
 }
