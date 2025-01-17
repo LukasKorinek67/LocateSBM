@@ -1,13 +1,15 @@
 package com.korinek.indoorlocalizatorapp.model;
 
 
+import java.util.Objects;
+
 public class Building {
     private String name;
-    private int colour;
+    private int color;
 
-    public Building(String name, int colour) {
+    public Building(String name, int color) {
         this.name = name;
-        this.colour = colour;
+        this.color = color;
     }
 
     public String getName() {
@@ -18,11 +20,24 @@ public class Building {
         this.name = name;
     }
 
-    public int getColour() {
-        return colour;
+    public int getColor() {
+        return color;
     }
 
-    public void setColour(int colour) {
-        this.colour = colour;
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Building building = (Building) o;
+        return color == building.color && Objects.equals(name, building.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, color);
     }
 }

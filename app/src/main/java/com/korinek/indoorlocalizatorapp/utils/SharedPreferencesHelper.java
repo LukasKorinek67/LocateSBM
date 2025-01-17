@@ -32,7 +32,7 @@ public class SharedPreferencesHelper {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(KEY_IS_BUILDING_SELECTED, true);
         editor.putString(KEY_SELECTED_BUILDING_NAME, building.getName());
-        editor.putInt(KEY_SELECTED_BUILDING_COLOR, building.getColour());
+        editor.putInt(KEY_SELECTED_BUILDING_COLOR, building.getColor());
         editor.apply();
     }
 
