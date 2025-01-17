@@ -1,7 +1,5 @@
 package com.korinek.indoorlocalizatorapp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -13,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.korinek.indoorlocalizatorapp.databinding.ActivityMainBinding;
+import com.korinek.indoorlocalizatorapp.utils.SharedPreferencesHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // theme load and set
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        int selectedTheme = sharedPreferences.getInt("selected_theme", R.style.Theme_IndoorLocalizatorApp);
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
+        int selectedTheme = sharedPreferencesHelper.getTheme();
         setTheme(selectedTheme);
 
         super.onCreate(savedInstanceState);
