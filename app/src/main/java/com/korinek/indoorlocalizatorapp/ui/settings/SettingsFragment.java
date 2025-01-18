@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -110,8 +113,7 @@ public class SettingsFragment extends Fragment {
         }).attachToRecyclerView(buildingsRecyclerView);
 
         addBuildingButton.setOnClickListener(v -> {
-            buildings.add(new Building("Nová Budova", R.color.purple));
-            buildingAdapter.notifyDataSetChanged();
+            showAddBuildingDialog(buildings, buildingAdapter);
         });
 
         bottomSheetDialog.show();
@@ -174,5 +176,52 @@ public class SettingsFragment extends Fragment {
         requireActivity().recreate();
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.navigation_localization);
+    }
+
+    private void showAddBuildingDialog(List<Building> buildings, BuildingAdapter buildingAdapter) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_building, null);
+
+        EditText buildingNameInput = dialogView.findViewById(R.id.building_name_input);
+        RadioGroup colorPickerGroup = dialogView.findViewById(R.id.color_picker_group);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Přidat novou budovu")
+                .setView(dialogView)
+                .setPositiveButton("Přidat", (dialog, which) -> {
+                    String buildingName = buildingNameInput.getText().toString().trim();
+                    int selectedColor = getSelectedColor(colorPickerGroup);
+
+                    if (!buildingName.isEmpty() && selectedColor != -1) {
+                        buildings.add(new Building(buildingName, selectedColor));
+                        buildingAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(requireContext(), "Chyba: Je třeba zadat název budovy a vybrat barvu!", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("Zrušit", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private int getSelectedColor(RadioGroup colorPickerGroup) {
+        int selectedId = colorPickerGroup.getCheckedRadioButtonId();
+
+        if (selectedId == R.id.color_black) {
+            return R.color.black;
+        } else if (selectedId == R.id.color_blue) {
+            return R.color.blue;
+        } else if (selectedId == R.id.color_green) {
+            return R.color.green;
+        } else if (selectedId == R.id.color_orange) {
+            return R.color.orange;
+        } else if (selectedId == R.id.color_pink) {
+            return R.color.pink;
+        } else if (selectedId == R.id.color_purple) {
+            return R.color.purple;
+        } else if (selectedId == R.id.color_red) {
+            return R.color.red;
+        } else if (selectedId == R.id.color_yellow) {
+            return R.color.yellow;
+        }
+        return -1;
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/building_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Zadejte název objektu"
+        android:inputType="text" />
+
+    <RadioGroup
+        android:id="@+id/color_picker_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/color_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Černá"
+            android:buttonTint="@color/black" />
+
+        <RadioButton
+            android:id="@+id/color_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modrá"
+            android:buttonTint="@color/blue" />
+
+        <RadioButton
+            android:id="@+id/color_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zelená"
+            android:buttonTint="@color/green" />
+
+        <RadioButton
+            android:id="@+id/color_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Oranžová"
+            android:buttonTint="@color/orange" />
+
+        <RadioButton
+            android:id="@+id/color_pink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Růžová"
+            android:buttonTint="@color/pink" />
+
+        <RadioButton
+            android:id="@+id/color_purple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fialová"
+            android:buttonTint="@color/purple" />
+
+        <RadioButton
+            android:id="@+id/color_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Červená"
+            android:buttonTint="@color/red" />
+
+        <RadioButton
+            android:id="@+id/color_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Žlutá"
+            android:buttonTint="@color/yellow" />
+    </RadioGroup>
+</LinearLayout>
