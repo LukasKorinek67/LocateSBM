@@ -17,8 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,7 +48,6 @@ public class SettingsFragment extends Fragment {
                 .commit();
 
         initializeBuildingSelector();
-        initializeResetButton();
 
         return root;
     }
@@ -155,27 +152,6 @@ public class SettingsFragment extends Fragment {
         sharedPreferencesHelper.saveBuilding(building);
         sharedPreferencesHelper.saveTheme(building.getColor());
         requireActivity().recreate();
-    }
-
-    private void initializeResetButton() {
-        Button resetButton = binding.buttonReset;
-        resetButton.setOnClickListener(v -> {
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Reset aplikace")
-                    .setMessage("Opravdu chcete resetovat celou aplikaci?")
-                    .setPositiveButton("Ano", (dialog, which) -> {
-                        resetApp();
-                    })
-                    .setNegativeButton("Ne", (dialog, which) -> dialog.dismiss())
-                    .show();
-        });
-    }
-
-    private void resetApp() {
-        sharedPreferencesHelper.resetApp();
-        requireActivity().recreate();
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        navController.navigate(R.id.navigation_localization);
     }
 
     private void showAddBuildingDialog(List<Building> buildings, BuildingAdapter buildingAdapter) {
