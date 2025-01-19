@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // starting splash screen
+        SplashScreen.installSplashScreen(this);
+
         // theme load and set
         SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
         int selectedTheme = sharedPreferencesHelper.getTheme();
