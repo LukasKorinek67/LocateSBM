@@ -28,19 +28,17 @@ import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentSettingsBinding;
 import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingAdapter;
-import com.korinek.indoorlocalizatorapp.utils.SharedPreferencesHelper;
+import com.korinek.indoorlocalizatorapp.ui.building.BuildingViewModel;
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
-    SharedPreferencesHelper sharedPreferencesHelper;
-    BuildingViewModel2 buildingViewModel;
+    BuildingViewModel buildingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        sharedPreferencesHelper = new SharedPreferencesHelper(requireContext());
-        buildingViewModel = new ViewModelProvider(this).get(BuildingViewModel2.class);
+        buildingViewModel = new ViewModelProvider(requireActivity()).get(BuildingViewModel.class);
 
         getChildFragmentManager()
                 .beginTransaction()
@@ -58,16 +56,18 @@ public class SettingsFragment extends Fragment {
         GradientDrawable drawable = (GradientDrawable) buildingColorView.getBackground();
 
 
-        if(sharedPreferencesHelper.isBuildingSelected()) {
-            Building selectedBuilding = sharedPreferencesHelper.getBuilding();
-            buildingName.setText(selectedBuilding.getName());
-            drawable.setColor(ContextCompat.getColor(requireContext(), selectedBuilding.getColor()));
-            buildingColorView.setBackground(drawable);
-        } else {
-            buildingName.setText("Není zvoleno");
-            drawable.setColor(ContextCompat.getColor(requireContext(), R.color.white));
-            buildingColorView.setBackground(drawable);
-        }
+        buildingViewModel.getIsBuildingSelected().observe(getViewLifecycleOwner(), isBuildingSelected -> {
+            if(isBuildingSelected) {
+                Building selectedBuilding = buildingViewModel.getSelectedBuilding();
+                buildingName.setText(selectedBuilding.getName());
+                drawable.setColor(ContextCompat.getColor(requireContext(), selectedBuilding.getColor()));
+                buildingColorView.setBackground(drawable);
+            } else {
+                buildingName.setText("Není zvoleno");
+                drawable.setColor(ContextCompat.getColor(requireContext(), R.color.white));
+                buildingColorView.setBackground(drawable);
+            }
+        });
 
         LinearLayout buildingSelector = binding.buildingSelector;
         buildingSelector.setOnClickListener(v -> showBuildingBottomSheet(buildingName));
@@ -85,22 +85,23 @@ public class SettingsFragment extends Fragment {
         BuildingAdapter buildingAdapter = new BuildingAdapter(new BuildingAdapter.BuildingActionListener() {
             @Override
             public void onBuildingClick(Building building) {
-                setBuildingAndColor(building);
+                buildingViewModel.setBuilding(building);
+                requireActivity().recreate();
             }
 
             @Override
             public void onBuildingSwiped(Building building) {
                 // delete building
                 buildingViewModel.deleteBuilding(building);
-                if(building.equals(sharedPreferencesHelper.getBuilding())) {
-                    sharedPreferencesHelper.removeBuilding();
+                if(building.equals(buildingViewModel.getSelectedBuilding())) {
+                    buildingViewModel.unselectBuilding();
                     requireActivity().recreate();
                 }
             }
         });
 
-        buildingViewModel.getBuildings().observe(getViewLifecycleOwner(), buildings -> {
-            Building selectedBuilding = sharedPreferencesHelper.getBuilding();
+        buildingViewModel.getAllBuildings().observe(getViewLifecycleOwner(), buildings -> {
+            Building selectedBuilding = buildingViewModel.getSelectedBuilding();
             buildingAdapter.updateBuildings(buildings, selectedBuilding);
         });
 
@@ -146,12 +147,6 @@ public class SettingsFragment extends Fragment {
         });
 
         bottomSheetDialog.show();
-    }
-
-    private void setBuildingAndColor(Building building) {
-        sharedPreferencesHelper.saveBuilding(building);
-        sharedPreferencesHelper.saveTheme(building.getColor());
-        requireActivity().recreate();
     }
 
     private void showAddBuildingDialog() {
