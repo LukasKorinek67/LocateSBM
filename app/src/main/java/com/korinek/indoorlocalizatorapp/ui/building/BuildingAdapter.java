@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.BuildingViewHolder> {
-    private final List<Building> buildings;
-    private final Building selectedBuilding;
+    private final List<Building> buildings = new ArrayList<>();
+    private Building selectedBuilding;
     private final BuildingActionListener listener;
 
     public interface BuildingActionListener {
@@ -27,10 +28,19 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
         void onBuildingSwiped(Building building);
     }
 
-    public BuildingAdapter(List<Building> buildings, Building selectedBuilding, BuildingActionListener listener) {
-        this.buildings = buildings;
-        this.selectedBuilding = selectedBuilding;
+    public BuildingAdapter(BuildingActionListener listener) {
         this.listener = listener;
+    }
+
+    public void updateBuildings(List<Building> buildings, Building selectedBuilding) {
+        this.buildings.clear();
+        this.buildings.addAll(buildings);
+        this.selectedBuilding = selectedBuilding;
+        notifyDataSetChanged();
+    }
+
+    public Building getBuildingAt(int position) {
+        return buildings.get(position);
     }
 
     @NonNull

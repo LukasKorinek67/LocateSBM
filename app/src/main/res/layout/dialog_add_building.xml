@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Zadejte název objektu"
-        android:inputType="text" />
+        android:inputType="textCapSentences" />
 
     <RadioGroup
         android:id="@+id/color_picker_group"

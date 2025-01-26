@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,18 +30,17 @@ import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingAdapter;
 import com.korinek.indoorlocalizatorapp.utils.SharedPreferencesHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
     SharedPreferencesHelper sharedPreferencesHelper;
+    BuildingViewModel2 buildingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         sharedPreferencesHelper = new SharedPreferencesHelper(requireContext());
+        buildingViewModel = new ViewModelProvider(this).get(BuildingViewModel2.class);
 
         getChildFragmentManager()
                 .beginTransaction()
@@ -61,7 +61,6 @@ public class SettingsFragment extends Fragment {
         if(sharedPreferencesHelper.isBuildingSelected()) {
             Building selectedBuilding = sharedPreferencesHelper.getBuilding();
             buildingName.setText(selectedBuilding.getName());
-            buildingColorView.setBackgroundColor(selectedBuilding.getColor());
             drawable.setColor(ContextCompat.getColor(requireContext(), selectedBuilding.getColor()));
             buildingColorView.setBackground(drawable);
         } else {
@@ -77,19 +76,36 @@ public class SettingsFragment extends Fragment {
 
     private void showBuildingBottomSheet(TextView buildingName) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
-        View view = LayoutInflater.from(requireContext())
-                .inflate(R.layout.bottom_sheet_building_selection, null);
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_building_selection, null);
         bottomSheetDialog.setContentView(view);
 
         RecyclerView buildingsRecyclerView = view.findViewById(R.id.building_recycler_view);
         Button addBuildingButton = view.findViewById(R.id.add_building_button);
 
-        List<Building> buildings = getBuildings();
-        BuildingAdapter buildingAdapter = getBuildingAdapter(buildings);
+        BuildingAdapter buildingAdapter = new BuildingAdapter(new BuildingAdapter.BuildingActionListener() {
+            @Override
+            public void onBuildingClick(Building building) {
+                setBuildingAndColor(building);
+            }
+
+            @Override
+            public void onBuildingSwiped(Building building) {
+                // delete building
+                buildingViewModel.deleteBuilding(building);
+                if(building.equals(sharedPreferencesHelper.getBuilding())) {
+                    sharedPreferencesHelper.removeBuilding();
+                    requireActivity().recreate();
+                }
+            }
+        });
+
+        buildingViewModel.getBuildings().observe(getViewLifecycleOwner(), buildings -> {
+            Building selectedBuilding = sharedPreferencesHelper.getBuilding();
+            buildingAdapter.updateBuildings(buildings, selectedBuilding);
+        });
 
         buildingsRecyclerView.setAdapter(buildingAdapter);
         buildingsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(buildingsRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         buildingsRecyclerView.addItemDecoration(dividerItemDecoration);
@@ -103,49 +119,33 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                Building building = buildings.get(position);
-                buildingAdapter.getListener().onBuildingSwiped(building);
-                buildingAdapter.notifyItemRemoved(position);
+                Building building = buildingAdapter.getBuildingAt(position);
+                //String message = getString(R.string.delete_building_message, building.getName());
+
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Odstranění objektu")
+                        .setMessage(String.format("Opravdu chcete odstranit objekt %s? Všechna data budou smazána.", building.getName()))
+                        //.setMessage(message)
+                        .setPositiveButton("Odstranit", (dialog, which) -> {
+                            buildingAdapter.getListener().onBuildingSwiped(building);
+                        })
+                        .setNegativeButton("Zrušit", (dialog, which) -> {
+                            // return the building back
+                            buildingAdapter.notifyItemChanged(position);
+                        })
+                        .setOnCancelListener(dialog -> {
+                            // return the building back
+                            buildingAdapter.notifyItemChanged(position);
+                        })
+                        .show();
             }
         }).attachToRecyclerView(buildingsRecyclerView);
 
         addBuildingButton.setOnClickListener(v -> {
-            showAddBuildingDialog(buildings, buildingAdapter);
+            showAddBuildingDialog();
         });
 
         bottomSheetDialog.show();
-    }
-
-    @NonNull
-    private BuildingAdapter getBuildingAdapter(List<Building> buildings) {
-        Building selectedBuilding = sharedPreferencesHelper.getBuilding();
-        return new BuildingAdapter(buildings, selectedBuilding, new BuildingAdapter.BuildingActionListener() {
-            @Override
-            public void onBuildingClick(Building building) {
-                setBuildingAndColor(building);
-            }
-
-            @Override
-            public void onBuildingSwiped(Building building) {
-                System.out.println("Odstranění objektu " + building.getName());
-                buildings.remove(building);
-                //adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private List<Building> getBuildings() {
-        // Simulace dat
-        List<Building> buildings = new ArrayList<>();
-        buildings.add(new Building("TUL", R.color.purple));
-        buildings.add(new Building("Domov", R.color.blue));
-        buildings.add(new Building("Barák rodiče", R.color.orange));
-        buildings.add(new Building("Byt 1", R.color.green));
-        buildings.add(new Building("Byt 2", R.color.pink));
-        buildings.add(new Building("Byt 3", R.color.red));
-        buildings.add(new Building("Byt 4", R.color.yellow));
-        buildings.add(new Building("Byt 5", R.color.black));
-        return buildings;
     }
 
     private void setBuildingAndColor(Building building) {
@@ -154,24 +154,24 @@ public class SettingsFragment extends Fragment {
         requireActivity().recreate();
     }
 
-    private void showAddBuildingDialog(List<Building> buildings, BuildingAdapter buildingAdapter) {
+    private void showAddBuildingDialog() {
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_building, null);
 
         EditText buildingNameInput = dialogView.findViewById(R.id.building_name_input);
         RadioGroup colorPickerGroup = dialogView.findViewById(R.id.color_picker_group);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Přidat novou budovu")
+                .setTitle("Přidat nový objekt")
                 .setView(dialogView)
                 .setPositiveButton("Přidat", (dialog, which) -> {
                     String buildingName = buildingNameInput.getText().toString().trim();
                     int selectedColor = getSelectedColor(colorPickerGroup);
 
                     if (!buildingName.isEmpty() && selectedColor != -1) {
-                        buildings.add(new Building(buildingName, selectedColor));
-                        buildingAdapter.notifyDataSetChanged();
+                        Building building = new Building(buildingName, selectedColor);
+                        buildingViewModel.insertBuilding(building);
                     } else {
-                        Toast.makeText(requireContext(), "Chyba: Je třeba zadat název budovy a vybrat barvu!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), "Chyba: Je třeba zadat název objektu a vybrat barvu!", Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton("Zrušit", (dialog, which) -> dialog.dismiss())
