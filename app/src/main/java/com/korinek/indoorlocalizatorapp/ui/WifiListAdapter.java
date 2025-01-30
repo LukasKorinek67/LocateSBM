@@ -8,9 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.korinek.indoorlocalizatorapp.R;
+
 import java.util.List;
 
-public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.ViewHolder>{
+public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiViewHolder>{
 
     private final List<String> wifiList;
 
@@ -20,15 +22,14 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
-        return new ViewHolder(view);
+    public WifiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_wifi_item, parent, false);
+        return new WifiViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(wifiList.get(position));
+    public void onBindViewHolder(@NonNull WifiViewHolder holder, int position) {
+        holder.bind(wifiList.get(position));
     }
 
     @Override
@@ -36,12 +37,16 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.ViewHo
         return wifiList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView textView;
+    static class WifiViewHolder extends RecyclerView.ViewHolder {
+        private final TextView wifiTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public WifiViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+            wifiTextView = itemView.findViewById(R.id.wifi_text_view);
+        }
+
+        public void bind(String text) {
+            wifiTextView.setText(text);
         }
     }
 }
