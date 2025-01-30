@@ -14,6 +14,9 @@
 
     <Button
         android:id="@+id/button_wifi_analysis"
+        android:drawableLeft="@drawable/ic_wifi"
+        android:drawablePadding="15dp"
+        android:drawableTint="@color/design_default_color_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

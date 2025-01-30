@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_localization"
-        android:icon="@drawable/baseline_add_location_24"
+        android:icon="@drawable/ic_wifi_localization"
         android:title="@string/title_localization" />
 
     <item
         android:id="@+id/navigation_building"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_office_building_outline"
         android:title="@string/title_building" />
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/baseline_settings_24"
+        android:icon="@drawable/ic_settings"
         android:title="@string/title_settings" />
 
 </menu>

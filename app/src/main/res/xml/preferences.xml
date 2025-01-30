@@ -11,14 +11,14 @@
             android:entries="@array/wifi_sorting_type"
             android:entryValues="@array/wifi_sorting_values"
             android:defaultValue="name"
-            android:icon="@drawable/ic_home_black_24dp"/>
+            android:icon="@drawable/ic_sorting"/>
 
         <SwitchPreferenceCompat
             android:key="settings_enable_continuous_wifi_scan"
             android:title="Neustálý scan Wi-Fi"
             android:summary="Zapnout nebo vypnout funkci"
             android:defaultValue="false"
-            android:icon="@drawable/ic_dashboard_black_24dp"/>
+            android:icon="@drawable/ic_repeat"/>
 
     </PreferenceCategory>
 
@@ -28,12 +28,12 @@
         <Preference
             android:key="settings_about_app_info"
             android:title="Info o aplikaci"
-            android:icon="@drawable/ic_arrow_down" />
+            android:icon="@drawable/ic_info" />
 
         <Preference
             android:key="settings_reset_app"
             android:title="Reset aplikace"
-            android:icon="@drawable/ic_check" />
+            android:icon="@drawable/ic_reset" />
 
     </PreferenceCategory>
 
