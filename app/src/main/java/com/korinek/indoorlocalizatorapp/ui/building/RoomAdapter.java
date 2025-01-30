@@ -3,14 +3,18 @@ package com.korinek.indoorlocalizatorapp.ui.building;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.model.Room;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +25,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
 
     public interface RoomActionListener {
         void onRoomClick(Room room);
-        void onRoomSwiped(Room room);
+        void onRoomCalibrate(Room room);
+        void onRoomEdit(Room room);
+        void onRoomDelete(Room room);
     }
 
     public RoomAdapter(RoomAdapter.RoomActionListener listener) {
@@ -61,16 +67,59 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
     }
 
     static class RoomViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView roomIcon;
         private final TextView roomNameTextView;
+        private final ImageView roomMenu;
 
         public RoomViewHolder(@NonNull View itemView) {
             super(itemView);
+            roomIcon = itemView.findViewById(R.id.room_icon);
             roomNameTextView = itemView.findViewById(R.id.room_name);
+            roomMenu = itemView.findViewById(R.id.room_menu);
         }
 
         public void bind(Room room, RoomAdapter.RoomActionListener listener) {
+            roomIcon.setImageResource(room.getIcon());
             roomNameTextView.setText(room.getName());
             itemView.setOnClickListener(v -> listener.onRoomClick(room));
+            roomMenu.setOnClickListener(v -> showPopupMenu(v, room, listener));
+        }
+
+        private void showPopupMenu(View view, Room room, RoomAdapter.RoomActionListener listener) {
+            PopupMenu popup = new PopupMenu(view.getContext(), view);
+            popup.inflate(R.menu.room_menu);
+
+            enableMenuIcons(popup);
+
+            popup.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.menu_calibrate) {
+                    listener.onRoomCalibrate(room);
+                    return true;
+                } else if (item.getItemId() == R.id.menu_edit) {
+                    listener.onRoomEdit(room);
+                    return true;
+                } else if (item.getItemId() == R.id.menu_delete) {
+                    listener.onRoomDelete(room);
+                    return true;
+                }
+                return false;
+            });
+
+            popup.show();
+        }
+
+        private void enableMenuIcons(PopupMenu popup) {
+            try {
+                Field field = popup.getClass().getDeclaredField("mPopup");
+                field.setAccessible(true);
+                Object menuPopupHelper = field.get(popup);
+                Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                Method setForceShowIcon = classPopupHelper.getDeclaredMethod("setForceShowIcon", boolean.class);
+                setForceShowIcon.setAccessible(true);
+                setForceShowIcon.invoke(menuPopupHelper, true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -22,17 +22,20 @@ public class Room {
     private int id;
     private String name;
     private int buildingId;
+    private int icon;
 
-    public Room(int id, String name, int buildingId) {
+    public Room(int id, String name, int buildingId, int icon) {
         this.id = id;
         this.name = name;
         this.buildingId = buildingId;
+        this.icon = icon;
     }
 
     @Ignore
-    public Room(String name, int buildingId) {
+    public Room(String name, int buildingId, int icon) {
         this.name = name;
         this.buildingId = buildingId;
+        this.icon = icon;
     }
 
     @Ignore
@@ -64,16 +67,24 @@ public class Room {
         this.buildingId = buildingId;
     }
 
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return id == room.id && buildingId == room.buildingId && Objects.equals(name, room.name);
+        return id == room.id && buildingId == room.buildingId && icon == room.icon && Objects.equals(name, room.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, buildingId);
+        return Objects.hash(id, name, buildingId, icon);
     }
 }

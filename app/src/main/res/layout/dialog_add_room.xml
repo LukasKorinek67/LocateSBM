@@ -5,10 +5,42 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="start"
+        android:text="Název místnosti:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        />
+
     <EditText
         android:id="@+id/room_name_input"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Zadejte název místnosti"
+        android:layout_gravity="center"
+        android:paddingTop="10dp"
+        android:hint="Zadejte název"
         android:inputType="textCapSentences" />
+
+    <TextView
+        android:id="@+id/building_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="Ikona:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="25dp" />
+
+    <Spinner
+        android:id="@+id/room_icon_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:spinnerMode="dropdown"
+        android:layout_gravity="center"
+        android:prompt="@drawable/ic_room_pc_desktop" />
 </LinearLayout>
