@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -69,7 +69,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        LinearLayout buildingSelector = binding.buildingSelector;
+        CardView buildingSelector = binding.buildingSelector;
         buildingSelector.setOnClickListener(v -> showBuildingBottomSheet(buildingName));
 
     }
