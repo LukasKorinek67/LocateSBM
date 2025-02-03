@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiViewHolder>{
 
-    private final List<String> wifiList;
+    private List<String> wifiList;
 
     public WifiListAdapter(List<String> wifiList) {
         this.wifiList = wifiList;
@@ -35,6 +35,11 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiVi
     @Override
     public int getItemCount() {
         return wifiList.size();
+    }
+
+    public void updateWifiList(List<String> wifiList) {
+        this.wifiList = wifiList;
+        notifyDataSetChanged();
     }
 
     static class WifiViewHolder extends RecyclerView.ViewHolder {

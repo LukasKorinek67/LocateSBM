@@ -1,0 +1,153 @@
+package com.korinek.indoorlocalizatorapp.ui.localization.wifi_analysis;
+
+import android.net.wifi.ScanResult;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.korinek.indoorlocalizatorapp.R;
+import com.korinek.indoorlocalizatorapp.databinding.FragmentWifiAnalysisBinding;
+import com.korinek.indoorlocalizatorapp.ui.WifiListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class WifiAnalysisFragment extends Fragment {
+
+    private FragmentWifiAnalysisBinding binding;
+    private WifiAnalysisViewModel wifiAnalysisViewModel;
+    private SwitchCompat switchWifiAnalysis;
+    private ProgressBar progressBar;
+    private Button moreResultsButton;
+    private TextView wifiAnalysisInfoText;
+
+    private WifiListAdapter adapter;
+
+    private final int NUMBER_OF_SHOWN_WIFI = 4;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        wifiAnalysisViewModel = new ViewModelProvider(this).get(WifiAnalysisViewModel.class);
+        binding = FragmentWifiAnalysisBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        switchWifiAnalysis = binding.switchWifiAnalysis;
+        progressBar = binding.progressBar;
+        moreResultsButton = binding.moreResultsButton;
+        wifiAnalysisInfoText = binding.wifiAnalysisInfoText;
+
+        initialize();
+
+        return root;
+    }
+
+    private void initialize() {
+        switchWifiAnalysis.setChecked(wifiAnalysisViewModel.isWifiAnalysisActive());
+        progressBar.setVisibility(View.GONE);
+        moreResultsButton.setVisibility(View.GONE);
+        binding.wifiAnalysisInfoText.setVisibility(View.VISIBLE);
+
+        switchWifiAnalysis.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                wifiAnalysisViewModel.startWifiScanning();
+                progressBar.setVisibility(View.VISIBLE);
+                wifiAnalysisInfoText.setVisibility(View.GONE);
+            } else {
+                wifiAnalysisViewModel.stopWifiScanning();
+                resetWifiData();
+            }
+        });
+
+        List<String> wifiList = new ArrayList<>();
+        RecyclerView recyclerView = binding.recyclerViewWifiList;
+        adapter = new WifiListAdapter(wifiList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        wifiAnalysisViewModel.getWifiScanResults().observe(getViewLifecycleOwner(), this::updateWifiScanResults);
+        initializeMoreButton();
+    }
+
+    private void resetWifiData() {
+        List<String> wifiList = new ArrayList<>();
+        adapter.updateWifiList(wifiList);
+        progressBar.setVisibility(View.GONE);
+        moreResultsButton.setVisibility(View.GONE);
+        wifiAnalysisInfoText.setVisibility(View.VISIBLE);
+        wifiAnalysisInfoText.setText("Pro zobrazení okolních Wi-Fi zapněte scan");
+    }
+
+    private void updateWifiScanResults(List<ScanResult> results) {
+        progressBar.setVisibility(View.GONE);
+        if (results == null || results.isEmpty()) {
+            moreResultsButton.setVisibility(View.GONE);
+            wifiAnalysisInfoText.setVisibility(View.VISIBLE);
+            wifiAnalysisInfoText.setText("Nenalezeny žádné okolní Wi-Fi sítě");
+            return;
+        }
+
+        List<String> wifiList = getStringListFromScanResults(results);
+
+        if(wifiList.isEmpty()) {
+            moreResultsButton.setVisibility(View.GONE);
+            wifiAnalysisInfoText.setVisibility(View.VISIBLE);
+            wifiAnalysisInfoText.setText("Nenalezeny žádné okolní Wi-Fi sítě");
+        } else if(wifiList.size() <= NUMBER_OF_SHOWN_WIFI) {
+            moreResultsButton.setVisibility(View.GONE);
+            wifiAnalysisInfoText.setVisibility(View.GONE);
+        } else {
+            wifiList = wifiList.subList(0, NUMBER_OF_SHOWN_WIFI);
+            moreResultsButton.setVisibility(View.VISIBLE);
+            wifiAnalysisInfoText.setVisibility(View.GONE);
+        }
+        adapter.updateWifiList(wifiList);
+    }
+
+    private List<String> getStringListFromScanResults(List<ScanResult> results) {
+        List<String> wifiList = new ArrayList<>();
+        for (ScanResult result : results) {
+            String ssid = (result.SSID == null || result.SSID.isBlank()) ? "[No-SSID]" : result.SSID;
+            int signalStrength = result.level;
+            Log.d("WifiAnalysisFragment", "SSID: " + ssid + ", Signal Strength: " + signalStrength + " dBm");
+            wifiList.add(ssid + ", " + signalStrength + " dBm");
+        }
+        return wifiList;
+    }
+
+    private void initializeMoreButton() {
+        moreResultsButton.setOnClickListener(v -> {
+            LayoutInflater inflater = LayoutInflater.from(requireContext());
+            View dialogView = inflater.inflate(R.layout.dialog_wifi_list, null);
+
+            if(wifiAnalysisViewModel.getWifiScanResults().getValue() != null) {
+                List<String> wifiList = getStringListFromScanResults(wifiAnalysisViewModel.getWifiScanResults().getValue());
+
+                RecyclerView recyclerView = dialogView.findViewById(R.id.recycler_view_wifi_list);
+                WifiListAdapter adapter = new WifiListAdapter(wifiList);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                new AlertDialog.Builder(requireContext())
+                        .setView(dialogView)
+                        .setPositiveButton("Zavřít", (dialog, which) -> dialog.dismiss())
+                        .create()
+                        .show();
+            }
+        });
+    }
+}
