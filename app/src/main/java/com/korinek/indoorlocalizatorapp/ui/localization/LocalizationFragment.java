@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentLocalizationBinding;
 import com.korinek.indoorlocalizatorapp.ui.WifiListAdapter;
+import com.korinek.indoorlocalizatorapp.ui.localization.accelerometer.AccelerometerFragment;
+import com.korinek.indoorlocalizatorapp.ui.localization.gyroscope.GyroscopeFragment;
 import com.korinek.indoorlocalizatorapp.utils.WifiAnalyzer;
 
 import java.util.ArrayList;
@@ -47,9 +48,8 @@ public class LocalizationFragment extends Fragment {
         }
 
         initializeWifiButton();
+        addSensorFragments();
 
-        //final TextView textView = binding.textLocalization;
-        //localizationViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -106,5 +106,17 @@ public class LocalizationFragment extends Fragment {
                 .setPositiveButton("Zavřít", (dialog, which) -> dialog.dismiss())
                 .create()
                 .show();
+    }
+
+    private void addSensorFragments() {
+        // GyroscopeFragment
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.gyroscope_container, new GyroscopeFragment())
+                .commit();
+
+        // AccelerometerFragment
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.accelerometer_container, new AccelerometerFragment())
+                .commit();
     }
 }
