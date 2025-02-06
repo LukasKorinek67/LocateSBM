@@ -1,5 +1,7 @@
 package com.korinek.indoorlocalizatorapp.ui;
 
+import android.annotation.SuppressLint;
+import android.net.wifi.ScanResult;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,9 @@ import java.util.List;
 
 public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiViewHolder>{
 
-    private List<String> wifiList;
+    private List<ScanResult> wifiList;
 
-    public WifiListAdapter(List<String> wifiList) {
+    public WifiListAdapter(List<ScanResult> wifiList) {
         this.wifiList = wifiList;
     }
 
@@ -37,21 +39,28 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiVi
         return wifiList.size();
     }
 
-    public void updateWifiList(List<String> wifiList) {
+    public void updateWifiList(List<ScanResult> wifiList) {
         this.wifiList = wifiList;
         notifyDataSetChanged();
     }
 
     static class WifiViewHolder extends RecyclerView.ViewHolder {
         private final TextView wifiTextView;
+        private final TextView wifiSignalStrength;
+        private final TextView wifiRttRange;
 
         public WifiViewHolder(@NonNull View itemView) {
             super(itemView);
             wifiTextView = itemView.findViewById(R.id.wifi_text_view);
+            wifiSignalStrength = itemView.findViewById(R.id.wifi_signal_strength);
+            wifiRttRange = itemView.findViewById(R.id.rtt_text);
         }
 
-        public void bind(String text) {
-            wifiTextView.setText(text);
+        public void bind(ScanResult wifi) {
+            String ssid = (wifi.SSID == null || wifi.SSID.isBlank()) ? "[No-SSID]" : wifi.SSID;
+            wifiTextView.setText(ssid);
+            wifiSignalStrength.setText(wifi.level + " dBm");
+            wifiRttRange.setText(wifi.is80211mcResponder()? "RTT Wi-Fi" : "");
         }
     }
 }
