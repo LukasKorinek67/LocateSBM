@@ -72,11 +72,11 @@ public class SettingsFragment extends Fragment {
         });
 
         CardView buildingSelector = binding.buildingSelector;
-        buildingSelector.setOnClickListener(v -> showBuildingBottomSheet(buildingName));
+        buildingSelector.setOnClickListener(v -> showBuildingBottomSheet());
 
     }
 
-    private void showBuildingBottomSheet(TextView buildingName) {
+    private void showBuildingBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
         View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_building_selection, null);
         bottomSheetDialog.setContentView(view);

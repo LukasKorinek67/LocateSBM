@@ -163,10 +163,10 @@ public class BuildingFragment extends Fragment {
                 R.drawable.ic_room_shower,
                 R.drawable.ic_room_toilet
         };
-        ArrayAdapter<Integer> selectorAdapter = new ArrayAdapter<Integer>(requireContext(), android.R.layout.simple_spinner_item) {
+        ArrayAdapter<Integer> selectorAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item) {
             @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_room_icon_item, parent, false);
                 }
@@ -176,7 +176,7 @@ public class BuildingFragment extends Fragment {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_room_icon_item, parent, false);
                 }
