@@ -1,89 +1,90 @@
 <resources>
-    <string name="app_name">IndoorLocalizatorApp</string>
-    <string name="database_name">app_database</string>
+    <string name="app_name" translatable="false">IndoorLocalizatorApp</string>
+    <string name="database_name" translatable="false">app_database</string>
 
-    <string name="title_localization">Lokalizace</string>
-    <string name="title_building">Objekt</string>
-    <string name="title_settings">Nastavení</string>
+    <string name="title_localization">Localization</string>
+    <string name="title_building">Object</string>
+    <string name="title_settings">Settings</string>
 
     <!-- Buttons -->
-    <string name="yes">Ano</string>
-    <string name="no">Ne</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="ok">OK</string>
-    <string name="add">Přidat</string>
-    <string name="edit">Upravit</string>
-    <string name="delete">Odstranit</string>
-    <string name="calibrate">Kalibrovat</string>
-    <string name="cancel">Zrušit</string>
-    <string name="close">Zavřít</string>
-    <string name="add_building">Přidat místnost</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="calibrate">Calibrate</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="add_building">Add room</string>
     <string name="more_symbols_dots">…</string>
 
     <!-- Fragments -->
-    <string name="add_building_type_name">Zadejte název objektu</string>
-    <string name="add_room_type_name">Zadejte název místnosti</string>
-    <string name="label_room_name">Název místnosti:</string>
-    <string name="label_icon">Ikona:</string>
-    <string name="wifi_list_title">Seznam WiFi sítí</string>
-    <string name="accelerometer">Akcelerometr</string>
-    <string name="gyroscope">Gyroskop</string>
-    <string name="wifi_analysis">Wi-Fi Analýza</string>
+    <string name="add_building_type_name">Enter object name</string>
+    <string name="add_room_type_name">Enter room name</string>
+    <string name="label_room_name">Room name:</string>
+    <string name="label_icon">Icon:</string>
+    <string name="wifi_list_title">Wi-Fi list</string>
+    <string name="accelerometer">Accelerometer</string>
+    <string name="gyroscope">Gyroscope</string>
+    <string name="wifi_analysis">Wi-Fi Analysis</string>
 
     <!-- Settings -->
-    <string name="not_selected">Není zvoleno</string>
-    <string name="settings_wifi_analysis">Wi-Fi Analýza</string>
-    <string name="settings_sorting_title">Řadit Wi-Fi dle</string>
-    <string name="settings_sorting_summary">Seřazení okolních Wi-Fi</string>
-    <string name="settings_continuous_scan_title">Neustálý scan Wi-Fi</string>
-    <string name="settings_continuous_scan_summary">Zapnout nebo vypnout funkci</string>
-    <string name="settings_about_app">O aplikaci</string>
-    <string name="settings_app_info">Info o aplikaci</string>
-    <string name="settings_app_info_text">Info o aplikaci… \n\nTato aplikace byla vytvořena v rámci diplomové práce na TUL FM.</string>
-    <string name="settings_app_reset">Reset aplikace</string>
-    <string name="settings_app_reset_text">Reset vymaže všechna data a obnoví všechna nastavení aplikace na výchozí hodnoty. Opravdu chcete resetovat celou aplikaci?</string>
-    <string name="settings_choose_building">Vyberte objekt</string>
-    <string name="settings_add_building">Přidat objekt</string>
+    <string name="not_selected">Not selected</string>
+    <string name="settings_wifi_analysis">Wi-Fi Analysis</string>
+    <string name="settings_sorting_title">Sort Wi-Fi by</string>
+    <string name="settings_sorting_summary">Sorting of nearby Wi-Fi APs</string>
+    <string name="settings_sorting_type_name">Name</string>
+    <string name="settings_sorting_type_signal_strength">Signal strength</string>
+    <string name="settings_continuous_scan_title">Continuous Wi-Fi Scan</string>
+    <string name="settings_continuous_scan_summary">Turn the feature on or off</string>
+    <string name="settings_about_app">About app</string>
+    <string name="settings_app_info">App info</string>
+    <string name="settings_app_info_text">Info about the application… \n\nThis application was created as part of a diploma thesis at TUL FM.</string>
+    <string name="settings_app_reset">Reset app</string>
+    <string name="settings_app_reset_text">Resetting will erase all data and restore all app settings to their default values. Are you sure you want to reset the entire app?</string>
+    <string name="settings_choose_building">Choose object</string>
+    <string name="settings_add_building">Add object</string>
 
     <!-- Wi-Fi Analysis Fragment -->
-    <string name="wifi_analysis_info_scan_off">Pro zobrazení okolních Wi-Fi zapněte scan</string>
-    <string name="wifi_analysis_info_no_wifi">Nenalezeny žádné okolní Wi-Fi sítě</string>
+    <string name="wifi_analysis_info_scan_off">Turn on scan to view nearby Wi-Fi APs</string>
+    <string name="wifi_analysis_info_no_wifi">No nearby Wi-Fi networks found</string>
 
     <!-- Wi-Fi List Adapter -->
-    <string name="no_ssid">[No-SSID]</string>
-    <string name="wifi_rtt">Wi-Fi RTT</string>
-    <string name="wifi_signal_with_unit">%d dBm</string>
+    <string name="no_ssid" translatable="false">[No-SSID]</string>
+    <string name="wifi_rtt" translatable="false">Wi-Fi RTT</string>
+    <string name="wifi_signal_with_unit" translatable="false">%d dBm</string>
 
     <!-- Dialogs -->
-    <string name="dialog_title_add_building">Přidat nový objekt</string>
-    <string name="dialog_error_add_building">Chyba - je třeba zadat název objektu a vybrat barvu!</string>
-    <string name="dialog_title_delete_building">Odstranění objektu</string>
-    <string name="dialog_message_delete_building">Opravdu chcete odstranit objekt %s? Všechna data budou smazána.</string>
-    <string name="dialog_title_add_room">Přidat novou místnost</string>
-    <string name="dialog_error_add_room">Chyba - je třeba zadat název místnosti!</string>
-    <string name="dialog_title_delete_room">Odstranění místnosti</string>
-    <string name="dialog_message_delete_room">Opravdu chcete odstranit místnost %s?</string>
+    <string name="dialog_title_add_building">Add new object</string>
+    <string name="dialog_error_add_building">Error - you need to enter the object name and select a color!</string>
+    <string name="dialog_title_delete_building">Delete object</string>
+    <string name="dialog_message_delete_building">Are you sure you want to delete the object %s? All data will be deleted.</string>
+    <string name="dialog_title_add_room">Add new room</string>
+    <string name="dialog_error_add_room">Error - room name must be entered!</string>
+    <string name="dialog_title_delete_room">Delete room</string>
+    <string name="dialog_message_delete_room">Are you sure you want to delete room %s?</string>
 
     <!-- Info texts -->
-    <string name="info_please_choose_building">Zvolte prosím objekt v nastavení</string>
-    <string name="info_no_rooms_yet">Prozatím žádné místnosti</string>
-
+    <string name="info_please_choose_building">Please select an object in the settings</string>
+    <string name="info_no_rooms_yet">No rooms yet</string>
 
     <!-- Image descriptions -->
-    <string name="image_building_selected">Objekt je vybrán</string>
-    <string name="image_room_menu">Menu místnosti</string>
-    <string name="image_open_menu_choose_building">Otevřít menu zvolení objektu</string>
+    <string name="image_building_selected">Object is selected</string>
+    <string name="image_room_menu">Room menu</string>
+    <string name="image_open_menu_choose_building">Open choose building menu</string>
 
     <!-- Colors -->
-    <string name="black">Černá</string>
-    <string name="blue">Modrá</string>
-    <string name="green">Zelená</string>
-    <string name="orange">Oranžová</string>
-    <string name="pink">Růžová</string>
-    <string name="purple">Fialová</string>
-    <string name="red">Červená</string>
-    <string name="yellow">Žlutá</string>
+    <string name="black">Black</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="orange">Orange</string>
+    <string name="pink">Pink</string>
+    <string name="purple">Purple</string>
+    <string name="red">Red</string>
+    <string name="yellow">Yellow</string>
 
     <!-- Toast -->
-    <string name="toast_localization_permission_not_granted">Přístup k lokalizaci není povolen. Povolení je nutné pro skenování WiFi.</string>
-    <string name="toast_scan_failed">Skenování Wi-Fi selhalo.</string>
+    <string name="toast_localization_permission_not_granted">Location access is not allowed. Permission is required for WiFi scanning.</string>
+    <string name="toast_scan_failed">Wi-Fi scan failed.</string>
 </resources>
