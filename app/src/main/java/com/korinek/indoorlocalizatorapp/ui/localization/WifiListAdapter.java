@@ -1,6 +1,5 @@
-package com.korinek.indoorlocalizatorapp.ui;
+package com.korinek.indoorlocalizatorapp.ui.localization;
 
-import android.annotation.SuppressLint;
 import android.net.wifi.ScanResult;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.korinek.indoorlocalizatorapp.R;
 
 import java.util.List;
+import java.util.Locale;
 
 public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiViewHolder>{
 
@@ -57,10 +57,10 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiVi
         }
 
         public void bind(ScanResult wifi) {
-            String ssid = (wifi.SSID == null || wifi.SSID.isBlank()) ? "[No-SSID]" : wifi.SSID;
+            String ssid = (wifi.SSID == null || wifi.SSID.isBlank()) ? itemView.getContext().getString(R.string.no_ssid) : wifi.SSID;
             wifiTextView.setText(ssid);
-            wifiSignalStrength.setText(wifi.level + " dBm");
-            wifiRttRange.setText(wifi.is80211mcResponder()? "RTT Wi-Fi" : "");
+            wifiSignalStrength.setText(String.format(Locale.getDefault(), itemView.getContext().getString(R.string.wifi_signal_with_unit), wifi.level));
+            wifiRttRange.setText(wifi.is80211mcResponder()? itemView.getContext().getString(R.string.wifi_rtt) : "");
         }
     }
 }

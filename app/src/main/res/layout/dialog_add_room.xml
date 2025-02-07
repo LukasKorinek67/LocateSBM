@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -10,10 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_gravity="start"
-        android:text="Název místnosti:"
+        android:text="@string/label_room_name"
         android:textSize="18sp"
         android:textStyle="bold"
-
         />
 
     <EditText
@@ -21,8 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:autofillHints="name"
         android:paddingTop="10dp"
-        android:hint="Zadejte název"
+        android:hint="@string/add_room_type_name"
         android:inputType="textCapSentences" />
 
     <TextView
@@ -30,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:text="Ikona:"
+        android:text="@string/label_icon"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingTop="25dp" />
@@ -39,7 +40,6 @@
         android:id="@+id/room_icon_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:spinnerMode="dropdown"
         android:layout_gravity="center"
         android:prompt="@drawable/ic_room_pc_desktop" />

@@ -19,7 +19,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:contentDescription="Wifi"
+            android:contentDescription="@null"
             android:src="@drawable/ic_wifi" />
 
         <TextView

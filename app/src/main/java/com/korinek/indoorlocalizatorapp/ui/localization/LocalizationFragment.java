@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentLocalizationBinding;
@@ -23,10 +22,7 @@ public class LocalizationFragment extends Fragment {
 
     private FragmentLocalizationBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        LocalizationViewModel localizationViewModel =
-                new ViewModelProvider(this).get(LocalizationViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentLocalizationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

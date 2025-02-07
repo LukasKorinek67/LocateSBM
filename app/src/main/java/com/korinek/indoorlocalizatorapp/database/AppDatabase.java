@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
+import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.dao.BuildingDao;
 import com.korinek.indoorlocalizatorapp.dao.RoomDao;
 import com.korinek.indoorlocalizatorapp.model.Building;
@@ -24,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = androidx.room.Room.databaseBuilder(
                             context.getApplicationContext(),
                             AppDatabase.class,
-                            "app_database"
+                            context.getString(R.string.database_name)
                     ).fallbackToDestructiveMigration().build();
                 }
             }

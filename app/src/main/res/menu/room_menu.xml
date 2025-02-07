@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_calibrate"
-        android:title="Kalibrovat"
+        android:title="@string/calibrate"
         android:icon="@drawable/ic_calibrate"
         android:orderInCategory="0"
         app:showAsAction="never"/>
     <item
         android:id="@+id/menu_edit"
-        android:title="Upravit"
+        android:title="@string/edit"
         android:icon="@drawable/ic_edit"
         android:orderInCategory="1"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_delete"
-        android:title="Odstranit"
+        android:title="@string/delete"
         android:icon="@drawable/ic_delete"
         android:orderInCategory="2"
         app:showAsAction="never" />

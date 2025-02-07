@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner_icon"
     android:layout_width="80dp"
     android:layout_height="80dp"
     android:padding="8dp"
     android:layout_gravity="center"
     android:scaleType="fitCenter"
-    android:contentDescription="Ikona"/>
+    android:contentDescription="@null"/>

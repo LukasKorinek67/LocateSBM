@@ -30,6 +30,8 @@ import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingAdapter;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingViewModel;
 
+import java.util.Locale;
+
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
@@ -63,7 +65,7 @@ public class SettingsFragment extends Fragment {
                 drawable.setColor(ContextCompat.getColor(requireContext(), selectedBuilding.getColor()));
                 buildingColorView.setBackground(drawable);
             } else {
-                buildingName.setText("Není zvoleno");
+                buildingName.setText(getText(R.string.not_selected));
                 drawable.setColor(ContextCompat.getColor(requireContext(), R.color.white));
                 buildingColorView.setBackground(drawable);
             }
@@ -121,16 +123,15 @@ public class SettingsFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 Building building = buildingAdapter.getBuildingAt(position);
-                //String message = getString(R.string.delete_building_message, building.getName());
+                String message = String.format(Locale.getDefault(), getString(R.string.dialog_message_delete_building), building.getName());
 
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Odstranění objektu")
-                        .setMessage(String.format("Opravdu chcete odstranit objekt %s? Všechna data budou smazána.", building.getName()))
-                        //.setMessage(message)
-                        .setPositiveButton("Odstranit", (dialog, which) -> {
+                        .setTitle(getString(R.string.dialog_title_delete_building))
+                        .setMessage(message)
+                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
                             buildingAdapter.getListener().onBuildingSwiped(building);
                         })
-                        .setNegativeButton("Zrušit", (dialog, which) -> {
+                        .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                             // return the building back
                             buildingAdapter.notifyItemChanged(position);
                         })
@@ -156,9 +157,9 @@ public class SettingsFragment extends Fragment {
         RadioGroup colorPickerGroup = dialogView.findViewById(R.id.color_picker_group);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Přidat nový objekt")
+                .setTitle(getString(R.string.dialog_title_add_building))
                 .setView(dialogView)
-                .setPositiveButton("Přidat", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.add), (dialog, which) -> {
                     String buildingName = buildingNameInput.getText().toString().trim();
                     int selectedColor = getSelectedColor(colorPickerGroup);
 
@@ -166,10 +167,10 @@ public class SettingsFragment extends Fragment {
                         Building building = new Building(buildingName, selectedColor);
                         buildingViewModel.insertBuilding(building);
                     } else {
-                        Toast.makeText(requireContext(), "Chyba: Je třeba zadat název objektu a vybrat barvu!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), getString(R.string.dialog_error_add_building), Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton("Zrušit", (dialog, which) -> dialog.dismiss())
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                 .show();
     }
 

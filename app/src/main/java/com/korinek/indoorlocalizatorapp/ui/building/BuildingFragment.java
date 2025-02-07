@@ -83,13 +83,12 @@ public class BuildingFragment extends Fragment {
                 System.out.println("Room delete click: " + room.getName());
 
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Odstranění místnosti")
-                        .setMessage(String.format("Opravdu chcete odstranit místnost %s?", room.getName()))
-                        //.setMessage(message)
-                        .setPositiveButton("Odstranit", (dialog, which) -> {
+                        .setTitle(getString(R.string.dialog_title_delete_room))
+                        .setMessage(String.format(getString(R.string.dialog_message_delete_room), room.getName()))
+                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
                             buildingViewModel.deleteRoom(room);
                         })
-                        .setNegativeButton("Zrušit", (dialog, which) -> {
+                        .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                             dialog.dismiss();
                         })
                         .setOnCancelListener(DialogInterface::dismiss)
@@ -135,9 +134,9 @@ public class BuildingFragment extends Fragment {
         initializeIconSelector(iconSelector);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Přidat novou místnost")
+                .setTitle(getString(R.string.dialog_title_add_room))
                 .setView(dialogView)
-                .setPositiveButton("Přidat", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.add), (dialog, which) -> {
                     String roomName = roomNameInput.getText().toString().trim();
 
                     if (!roomName.isEmpty() && selectedIcon != 0) {
@@ -145,10 +144,10 @@ public class BuildingFragment extends Fragment {
                         Room room = new Room(roomName, buildingId, selectedIcon);
                         buildingViewModel.insertRoom(room);
                     } else {
-                        Toast.makeText(requireContext(), "Chyba: Je třeba zadat název místnosti!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), getString(R.string.dialog_error_add_room), Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton("Zrušit", (dialog, which) -> dialog.dismiss())
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                 .show();
     }
 

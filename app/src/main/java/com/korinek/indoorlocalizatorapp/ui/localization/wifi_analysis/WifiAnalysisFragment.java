@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentWifiAnalysisBinding;
-import com.korinek.indoorlocalizatorapp.ui.WifiListAdapter;
+import com.korinek.indoorlocalizatorapp.ui.localization.WifiListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public class WifiAnalysisFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         moreResultsButton.setVisibility(View.GONE);
         wifiAnalysisInfoText.setVisibility(View.VISIBLE);
-        wifiAnalysisInfoText.setText("Pro zobrazení okolních Wi-Fi zapněte scan");
+        wifiAnalysisInfoText.setText(getString(R.string.wifi_analysis_info_scan_off));
     }
 
     private void updateWifiScanResults(List<ScanResult> wifiList) {
@@ -98,7 +98,7 @@ public class WifiAnalysisFragment extends Fragment {
             if (wifiList == null || wifiList.isEmpty()) {
                 moreResultsButton.setVisibility(View.GONE);
                 wifiAnalysisInfoText.setVisibility(View.VISIBLE);
-                wifiAnalysisInfoText.setText("Nenalezeny žádné okolní Wi-Fi sítě");
+                wifiAnalysisInfoText.setText(getString(R.string.wifi_analysis_info_no_wifi));
             } else if (wifiList.size() <= NUMBER_OF_SHOWN_WIFI) {
                 moreResultsButton.setVisibility(View.GONE);
                 wifiAnalysisInfoText.setVisibility(View.GONE);
@@ -126,7 +126,7 @@ public class WifiAnalysisFragment extends Fragment {
 
                 new AlertDialog.Builder(requireContext())
                         .setView(dialogView)
-                        .setPositiveButton("Zavřít", (dialog, which) -> dialog.dismiss())
+                        .setPositiveButton(getString(R.string.close), (dialog, which) -> dialog.dismiss())
                         .create()
                         .show();
             }

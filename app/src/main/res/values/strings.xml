@@ -1,12 +1,89 @@
 <resources>
     <string name="app_name">IndoorLocalizatorApp</string>
+    <string name="database_name">app_database</string>
 
     <string name="title_localization">Lokalizace</string>
     <string name="title_building">Objekt</string>
     <string name="title_settings">Nastavení</string>
 
-    <string name="button_wifi_analysis">Wi-Fi Analýza</string>
+    <!-- Buttons -->
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="ok">OK</string>
+    <string name="add">Přidat</string>
+    <string name="edit">Upravit</string>
+    <string name="delete">Odstranit</string>
+    <string name="calibrate">Kalibrovat</string>
+    <string name="cancel">Zrušit</string>
+    <string name="close">Zavřít</string>
+    <string name="add_building">Přidat místnost</string>
+    <string name="more_symbols_dots">…</string>
 
+    <!-- Fragments -->
+    <string name="add_building_type_name">Zadejte název objektu</string>
+    <string name="add_room_type_name">Zadejte název místnosti</string>
+    <string name="label_room_name">Název místnosti:</string>
+    <string name="label_icon">Ikona:</string>
+    <string name="wifi_list_title">Seznam WiFi sítí</string>
+    <string name="accelerometer">Akcelerometr</string>
+    <string name="gyroscope">Gyroskop</string>
+    <string name="wifi_analysis">Wi-Fi Analýza</string>
+
+    <!-- Settings -->
+    <string name="not_selected">Není zvoleno</string>
+    <string name="settings_wifi_analysis">Wi-Fi Analýza</string>
+    <string name="settings_sorting_title">Řadit Wi-Fi dle</string>
+    <string name="settings_sorting_summary">Seřazení okolních Wi-Fi</string>
+    <string name="settings_continuous_scan_title">Neustálý scan Wi-Fi</string>
+    <string name="settings_continuous_scan_summary">Zapnout nebo vypnout funkci</string>
+    <string name="settings_about_app">O aplikaci</string>
+    <string name="settings_app_info">Info o aplikaci</string>
+    <string name="settings_app_info_text">Info o aplikaci… \n\nTato aplikace byla vytvořena v rámci diplomové práce na TUL FM.</string>
+    <string name="settings_app_reset">Reset aplikace</string>
+    <string name="settings_app_reset_text">Reset vymaže všechna data a obnoví všechna nastavení aplikace na výchozí hodnoty. Opravdu chcete resetovat celou aplikaci?</string>
+    <string name="settings_choose_building">Vyberte objekt</string>
+    <string name="settings_add_building">Přidat objekt</string>
+
+    <!-- Wi-Fi Analysis Fragment -->
+    <string name="wifi_analysis_info_scan_off">Pro zobrazení okolních Wi-Fi zapněte scan</string>
+    <string name="wifi_analysis_info_no_wifi">Nenalezeny žádné okolní Wi-Fi sítě</string>
+
+    <!-- Wi-Fi List Adapter -->
+    <string name="no_ssid">[No-SSID]</string>
+    <string name="wifi_rtt">Wi-Fi RTT</string>
+    <string name="wifi_signal_with_unit">%d dBm</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_title_add_building">Přidat nový objekt</string>
+    <string name="dialog_error_add_building">Chyba - je třeba zadat název objektu a vybrat barvu!</string>
+    <string name="dialog_title_delete_building">Odstranění objektu</string>
+    <string name="dialog_message_delete_building">Opravdu chcete odstranit objekt %s? Všechna data budou smazána.</string>
+    <string name="dialog_title_add_room">Přidat novou místnost</string>
+    <string name="dialog_error_add_room">Chyba - je třeba zadat název místnosti!</string>
+    <string name="dialog_title_delete_room">Odstranění místnosti</string>
+    <string name="dialog_message_delete_room">Opravdu chcete odstranit místnost %s?</string>
+
+    <!-- Info texts -->
+    <string name="info_please_choose_building">Zvolte prosím objekt v nastavení</string>
+    <string name="info_no_rooms_yet">Prozatím žádné místnosti</string>
+
+
+    <!-- Image descriptions -->
+    <string name="image_building_selected">Objekt je vybrán</string>
+    <string name="image_room_menu">Menu místnosti</string>
+    <string name="image_open_menu_choose_building">Otevřít menu zvolení objektu</string>
+
+    <!-- Colors -->
+    <string name="black">Černá</string>
+    <string name="blue">Modrá</string>
+    <string name="green">Zelená</string>
+    <string name="orange">Oranžová</string>
+    <string name="pink">Růžová</string>
+    <string name="purple">Fialová</string>
+    <string name="red">Červená</string>
+    <string name="yellow">Žlutá</string>
+
+    <!-- Toast -->
     <string name="toast_localization_permission_not_granted">Přístup k lokalizaci není povolen. Povolení je nutné pro skenování WiFi.</string>
     <string name="toast_scan_failed">Skenování Wi-Fi selhalo.</string>
 </resources>

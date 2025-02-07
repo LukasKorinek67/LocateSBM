@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginVertical="20dp"
     app:cardElevation="4dp">
 
@@ -24,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Wi-Fi Analýza"
+                android:text="@string/wifi_analysis"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="30dp"
-            android:text="Pro zobrazení okolních Wi-Fi zapněte scan"
+            android:text="@string/wifi_analysis_info_scan_off"
             android:textSize="16sp"
             android:textStyle="italic"
             android:visibility="gone"/>
@@ -66,8 +67,8 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="..."
-            android:textSize="24dp"/>
+            android:text="@string/more_symbols_dots"
+            android:textSize="24sp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

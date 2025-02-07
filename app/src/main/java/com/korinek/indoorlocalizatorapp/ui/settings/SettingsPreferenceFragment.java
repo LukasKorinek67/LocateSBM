@@ -25,9 +25,9 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         if (infoPreference != null) {
             infoPreference.setOnPreferenceClickListener(preference -> {
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Info o aplikaci")
-                        .setMessage("Info o aplikaci... \n\nTato aplikace byla vytvořena v rámci diplomové práce na TUL FM.")
-                        .setPositiveButton("Zavřít", (dialog, which) -> dialog.dismiss())
+                        .setTitle(getString(R.string.settings_app_info))
+                        .setMessage(getString(R.string.settings_app_info_text))
+                        .setPositiveButton(getString(R.string.close), (dialog, which) -> dialog.dismiss())
                         .show();
                 return true;
             });
@@ -39,12 +39,12 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         if (resetPreference != null) {
             resetPreference.setOnPreferenceClickListener(preference -> {
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Reset aplikace")
-                        .setMessage("Reset vymaže všechna data a obnoví všechna nastavení aplikace na výchozí hodnoty. Opravdu chcete resetovat celou aplikaci?")
-                        .setPositiveButton("Ano", (dialog, which) -> {
+                        .setTitle(getString(R.string.settings_app_reset))
+                        .setMessage(getString(R.string.settings_app_reset_text))
+                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                             resetApp();
                         })
-                        .setNegativeButton("Ne", (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss())
                         .show();
                 return true;
             });
