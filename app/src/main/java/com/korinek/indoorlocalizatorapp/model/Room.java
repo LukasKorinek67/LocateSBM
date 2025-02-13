@@ -3,6 +3,7 @@ package com.korinek.indoorlocalizatorapp.model;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
@@ -15,7 +16,11 @@ import java.util.Objects;
                 parentColumns = "id",
                 childColumns = "buildingId",
                 onDelete = ForeignKey.CASCADE
-        )
+        ),
+        indices = {@Index(
+                        value = {"name", "buildingId"},
+                        unique = true
+                )}
 )
 public class Room {
     @PrimaryKey(autoGenerate = true)

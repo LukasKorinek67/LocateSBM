@@ -73,15 +73,11 @@ public class BuildingFragment extends Fragment {
 
             @Override
             public void onRoomEdit(Room room) {
-                System.out.println("Room edit click: " + room.getName());
-                Toast.makeText(requireContext(), "Click: " + room.getName() + " - Upravit", Toast.LENGTH_LONG).show();
-                // TODO - implement what to do
+                showEditRoomDialog(room);
             }
 
             @Override
             public void onRoomDelete(Room room) {
-                System.out.println("Room delete click: " + room.getName());
-
                 new AlertDialog.Builder(requireContext())
                         .setTitle(getString(R.string.dialog_title_delete_room))
                         .setMessage(String.format(getString(R.string.dialog_message_delete_room), room.getName()))
@@ -145,6 +141,32 @@ public class BuildingFragment extends Fragment {
                         buildingViewModel.insertRoom(room);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.dialog_error_add_room), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void showEditRoomDialog(Room room) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_room, null);
+
+        TextView roomName = dialogView.findViewById(R.id.room_name_edit_dialog);
+        Spinner iconSelector = dialogView.findViewById(R.id.room_edit_icon_selector);
+
+        roomName.setText(room.getName());
+        initializeIconSelector(iconSelector);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.dialog_title_edit_room))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.edit), (dialog, which) -> {
+                    room.setIcon(selectedIcon);
+
+                    if (selectedIcon != 0) {
+                        room.setIcon(selectedIcon);
+                        buildingViewModel.updateRoom(room);
+                    } else {
+                        Toast.makeText(requireContext(), getString(R.string.dialog_error_edit_room), Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())

@@ -1,6 +1,10 @@
 package com.korinek.indoorlocalizatorapp.ui.building;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteConstraintException;
+import android.widget.Toast;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -15,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class BuildingViewModel extends AndroidViewModel {
     private final AppDatabase database;
@@ -88,13 +93,44 @@ public class BuildingViewModel extends AndroidViewModel {
 
     public void insertRoom(Room room) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(() -> database.roomDao().insert(room));
+        executorService.execute(() -> {
+            try {
+                database.roomDao().insert(room);
+                List<Room> roomsList = rooms.getValue();
+                if (roomsList != null) {
+                    roomsList.add(room);
+                    rooms.postValue(roomsList);
+                }
+            } catch (SQLiteConstraintException e) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                        Toast.makeText(getApplication().getApplicationContext(),
+                                "Nelze přidat místnost, název je již použit v této budově.",
+                                Toast.LENGTH_LONG).show()
+                );
+            }
+        });
+    }
 
-        List<Room> roomsList = rooms.getValue();
-        if(roomsList != null && room != null) {
-            roomsList.add(room);
-            rooms.setValue(roomsList);
-        }
+    public void updateRoom(Room room) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            try {
+                database.roomDao().update(room);
+                List<Room> roomsList = rooms.getValue();
+                if (roomsList != null) {
+                    roomsList = roomsList.stream()
+                            .map(orginalRoom -> orginalRoom.getName().equals(room.getName()) ? room : orginalRoom)
+                            .collect(Collectors.toList());
+                    rooms.postValue(roomsList);
+                }
+            } catch (SQLiteConstraintException e) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                        Toast.makeText(getApplication().getApplicationContext(),
+                                "Nelze upravit místnost! Problém v databázi",
+                                Toast.LENGTH_LONG).show()
+                );
+            }
+        });
     }
 
     public void deleteRoom(Room room) {

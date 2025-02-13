@@ -55,6 +55,8 @@
     <string name="dialog_message_delete_building">Opravdu chcete odstranit objekt %s? Všechna data budou smazána.</string>
     <string name="dialog_title_add_room">Přidat novou místnost</string>
     <string name="dialog_error_add_room">Chyba - je třeba zadat název místnosti!</string>
+    <string name="dialog_title_edit_room">Upravit místnost</string>
+    <string name="dialog_error_edit_room">Chyba - je třeba vybrat ikonu!</string>
     <string name="dialog_title_delete_room">Odstranění místnosti</string>
     <string name="dialog_message_delete_room">Opravdu chcete odstranit místnost %s?</string>
 
