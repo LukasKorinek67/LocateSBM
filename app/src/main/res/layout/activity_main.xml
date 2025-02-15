@@ -62,10 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:paddingBottom="?attr/actionBarSize"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragment_activity_main"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
