@@ -14,6 +14,7 @@ import com.korinek.indoorlocalizatorapp.database.AppDatabase;
 import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.utils.SharedPreferencesHelper;
+import com.korinek.indoorlocalizatorapp.utils.api.ApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,46 @@ public class BuildingViewModel extends AndroidViewModel {
 
         //set rooms for building
         setRooms(building);
+        changeTecoApiIntegrationInPreferences(building);
+
+        //reset API client - new URL and authorization
+        ApiClient.resetClient();
+    }
+
+    public void setBuildingTecoApiUrl(String url) {
+        Building building = getSelectedBuilding();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> database.buildingDao().updateBuildingTecoUrl(building.getId(), url));
+    }
+
+    public void setUseAuthorization(boolean useAuth) {
+        Building building = getSelectedBuilding();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> database.buildingDao().updateBuildingUseAuthorization(building.getId(), useAuth));
+    }
+
+    public void setAuthorizationUsername(String username) {
+        Building building = getSelectedBuilding();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> database.buildingDao().updateBuildingAuthUsername(building.getId(), username));
+    }
+
+    public void setAuthorizationPassword(String password) {
+        Building building = getSelectedBuilding();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> database.buildingDao().updateBuildingAuthPassword(building.getId(), password));
+    }
+
+    private void changeTecoApiIntegrationInPreferences(Building building) {
+        SharedPreferences sharedPreferences = getApplication()
+                .getSharedPreferences("com.korinek.indoorlocalizatorapp_preferences", Context.MODE_PRIVATE);
+        sharedPreferences
+                .edit()
+                .putString("settings_teco_api_url", building.getIntegration().getTecoApiUrl())
+                .putBoolean("settings_request_authorization", building.getIntegration().isUseAuthorization())
+                .putString("settings_request_authorization_username", building.getIntegration().getUsername())
+                .putString("settings_request_authorization_password", building.getIntegration().getPassword())
+                .apply();
     }
 
     private void setRooms(Building building) {

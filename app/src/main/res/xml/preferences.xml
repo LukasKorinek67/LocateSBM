@@ -3,6 +3,40 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/settings_teco_api_integration">
+
+        <EditTextPreference
+            android:key="settings_teco_api_url"
+            android:title="@string/settings_url_title"
+            android:dialogMessage="@string/settings_url_dialog_message"
+            android:icon="@drawable/ic_api"/>
+
+        <SwitchPreferenceCompat
+            android:key="settings_request_authorization"
+            android:title="@string/settings_request_auth_title"
+            android:defaultValue="true"
+            android:icon="@drawable/ic_lock_locked"/>
+
+        <EditTextPreference
+            android:key="settings_request_authorization_username"
+            android:title="@string/settings_request_auth_username_title"
+            android:dialogMessage="@string/settings_request_auth_username_dialog_message"
+            android:icon="@drawable/ic_user"/>
+
+        <EditTextPreference
+            android:key="settings_request_authorization_password"
+            android:title="@string/settings_request_auth_password_title"
+            android:dialogMessage="@string/settings_request_auth_password_dialog_message"
+            android:icon="@drawable/ic_password"/>
+
+        <Preference
+            android:key="settings_room_load"
+            android:title="@string/settings_room_load_title"
+            android:icon="@drawable/ic_reset" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_wifi_analysis">
 
         <ListPreference

@@ -30,4 +30,16 @@ public interface BuildingDao {
 
     @Query("DELETE FROM buildings")
     void deleteAllBuildings();
+
+    @Query("UPDATE buildings SET tecoApiUrl = :tecoApiUrl WHERE id = :buildingId")
+    void updateBuildingTecoUrl(int buildingId, String tecoApiUrl);
+
+    @Query("UPDATE buildings SET useAuthorization = :useAuth WHERE id = :buildingId")
+    void updateBuildingUseAuthorization(int buildingId, boolean useAuth);
+
+    @Query("UPDATE buildings SET username = :username WHERE id = :buildingId")
+    void updateBuildingAuthUsername(int buildingId, String username);
+
+    @Query("UPDATE buildings SET password = :password WHERE id = :buildingId")
+    void updateBuildingAuthPassword(int buildingId, String password);
 }

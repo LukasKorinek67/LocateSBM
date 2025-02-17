@@ -1,6 +1,7 @@
 package com.korinek.indoorlocalizatorapp.model;
 
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -14,6 +15,8 @@ public class Building {
     private int id;
     private String name;
     private int color;
+    @Embedded
+    private TecoApiIntegration integration;
 
     public Building(int id, String name, int color) {
         this.id = id;
@@ -25,6 +28,7 @@ public class Building {
     public Building(String name, int color) {
         this.name = name;
         this.color = color;
+        this.integration = new TecoApiIntegration();
     }
 
     public int getId() {
@@ -51,16 +55,24 @@ public class Building {
         this.color = color;
     }
 
+    public TecoApiIntegration getIntegration() {
+        return integration;
+    }
+
+    public void setIntegration(TecoApiIntegration integration) {
+        this.integration = integration;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Building building = (Building) o;
-        return id == building.id && color == building.color && Objects.equals(name, building.name);
+        return id == building.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, color);
+        return Objects.hash(id, name, color, integration);
     }
 }

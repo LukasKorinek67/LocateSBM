@@ -46,6 +46,8 @@ dependencies {
     implementation(libs.preference)
     implementation(libs.core.splashscreen)
     implementation(libs.room.runtime)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     annotationProcessor(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

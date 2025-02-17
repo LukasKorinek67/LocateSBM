@@ -28,7 +28,21 @@
     <string name="wifi_analysis">Wi-Fi Analýza</string>
 
     <!-- Settings -->
+    <string name="not_set_text">Nezadáno</string>
     <string name="not_selected">Není zvoleno</string>
+    <string name="settings_teco_api_integration">Integrace s TecoApi</string>
+    <string name="settings_url_title">URL</string>
+    <string name="settings_url_dialog_message">Zadejte URL adresu pro komunikaci s TecoApi</string>
+    <string name="settings_request_auth_title">Autorizace requestu</string>
+    <string name="settings_request_auth_summary_enabled">Používat basic autorizaci ke komunikaci s TecoApi</string>
+    <string name="settings_request_auth_summary_disabled">Nepoužívat basic autorizaci ke komunikaci s TecoApi</string>
+    <string name="settings_request_auth_username_title">Username</string>
+    <string name="settings_request_auth_username_dialog_message">Zadejte username pro autorizaci</string>
+    <string name="settings_request_auth_password_title">Password</string>
+    <string name="settings_request_auth_password_dialog_message">Zadejte heslo pro autorizaci</string>
+    <string name="settings_room_load_title">Přenačíst místnosti v objektu</string>
+    <string name="settings_room_load_dialog_title">Načtení místností</string>
+    <string name="settings_room_load_dialog_message">Opravdu chcete načíst všechny místnosti z TecoApi? Všechny stávající místnosti s daty budou smazány.</string>
     <string name="settings_wifi_analysis">Wi-Fi Analýza</string>
     <string name="settings_sorting_title">Řadit Wi-Fi dle</string>
     <string name="settings_sorting_summary">Seřazení okolních Wi-Fi</string>
@@ -43,6 +57,11 @@
     <string name="settings_app_reset_text">Reset vymaže všechna data a obnoví všechna nastavení aplikace na výchozí hodnoty. Opravdu chcete resetovat celou aplikaci?</string>
     <string name="settings_choose_building">Vyberte objekt</string>
     <string name="settings_add_building">Přidat objekt</string>
+
+    <!-- RequestHandler -->
+    <string name="request_error_data_load">Chyba při načítání dat: %s</string>
+    <string name="request_error_network">Chyba sítě: %s</string>
+    <string name="request_error_room_not_in_teco_api">Chyba: Místnost nenalezena v TecoApi</string>
 
     <!-- Wi-Fi Analysis Fragment -->
     <string name="wifi_analysis_info_scan_off">Pro zobrazení okolních Wi-Fi zapněte scan</string>
