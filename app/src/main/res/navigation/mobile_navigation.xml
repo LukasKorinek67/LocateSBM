@@ -10,7 +10,16 @@
         android:id="@+id/navigation_localization"
         android:name="com.korinek.indoorlocalizatorapp.ui.localization.LocalizationFragment"
         android:label="@string/title_localization"
-        tools:layout="@layout/fragment_localization" />
+        tools:layout="@layout/fragment_localization" >
+
+        <action
+            android:id="@+id/action_localizationFragment_to_roomSetupFragment"
+            app:destination="@id/roomSetupFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_building"
@@ -23,4 +32,14 @@
         android:name="com.korinek.indoorlocalizatorapp.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/roomSetupFragment"
+        android:name="com.korinek.indoorlocalizatorapp.ui.room_setup.RoomSetupFragment"
+        android:label="Room Setup"
+        tools:layout="@layout/fragment_room_setup" >
+        <argument
+            android:name="roomName"
+            app:argType="string" />
+    </fragment>
 </navigation>

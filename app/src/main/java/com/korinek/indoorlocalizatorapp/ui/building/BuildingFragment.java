@@ -46,9 +46,9 @@ public class BuildingFragment extends Fragment {
     }
 
     private void initializeComponents() {
-        final TextView textBuildingNotSet = binding.textBuildingNotSet;
+        final TextView textBuildingNotSet = binding.infoTextBuildingNotSetBuilding;
         final TextView textBuildingName = binding.textBuildingName;
-        final TextView textNoRooms = binding.textNoRooms;
+        final TextView textNoRooms = binding.infoTextNoRoomsBuilding;
         RecyclerView roomsRecyclerView = binding.recyclerViewRooms;
         Button addRoomButton = binding.addRoomButton;
 

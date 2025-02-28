@@ -8,7 +8,7 @@
     tools:context=".ui.building.BuildingFragment">
 
     <TextView
-        android:id="@+id/text_building_not_set"
+        android:id="@+id/info_text_building_not_set_building"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/text_no_rooms"
+        android:id="@+id/info_text_no_rooms_building"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

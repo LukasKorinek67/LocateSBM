@@ -14,6 +14,7 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="calibrate">Calibrate</string>
+    <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="add_building">Add room</string>
@@ -89,6 +90,7 @@
     <!-- Info texts -->
     <string name="info_please_choose_building">Please select an object in the settings</string>
     <string name="info_no_rooms_yet">No rooms yet</string>
+    <string name="info_data_not_available">Data not available</string>
 
     <!-- Image descriptions -->
     <string name="image_building_selected">Object is selected</string>
