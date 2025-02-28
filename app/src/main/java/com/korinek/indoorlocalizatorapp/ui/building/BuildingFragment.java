@@ -183,7 +183,8 @@ public class BuildingFragment extends Fragment {
                 R.drawable.ic_room_kitchen_faucet,
                 R.drawable.ic_room_fridge,
                 R.drawable.ic_room_shower,
-                R.drawable.ic_room_toilet
+                R.drawable.ic_room_toilet,
+                R.drawable.ic_stairs
         };
         ArrayAdapter<Integer> selectorAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item) {
             @NonNull
