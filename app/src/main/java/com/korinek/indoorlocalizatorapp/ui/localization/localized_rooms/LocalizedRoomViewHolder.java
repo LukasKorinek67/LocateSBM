@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
-import com.korinek.indoorlocalizatorapp.utils.RoomAttributesFilter;
+import com.korinek.indoorlocalizatorapp.utils.RoomAttributesHelper;
 import com.korinek.indoorlocalizatorapp.utils.api.ApiCalls;
 import com.korinek.indoorlocalizatorapp.utils.api.RequestHandler;
 
@@ -80,7 +80,8 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
             requestHandler.getRoomData(roomName, new ApiCalls.RoomDataCallback() {
                 @Override
                 public void onSuccess(RoomApiModel room) {
-                    Map<String, Object> attributes = RoomAttributesFilter.filterNegativeAttributes(room.getAttributes());
+                    Map<String, Object> attributes = RoomAttributesHelper.filterNegativeAttributes(room.getAttributes());
+                    attributes = RoomAttributesHelper.sortAttributes(attributes);
                     adapter.updateAttributes(attributes);
                     overviewLoadingBar.setVisibility(View.GONE);
                     roomDataNotAvailableText.setVisibility(View.GONE);

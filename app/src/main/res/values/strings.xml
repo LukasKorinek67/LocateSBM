@@ -102,6 +102,18 @@
     <string name="image_room_menu">Room menu</string>
     <string name="image_open_menu_choose_building">Open choose building menu</string>
 
+    <!-- Room attributes -->
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="co2">CO2</string>
+    <string name="set_temperature">Set temperature</string>
+    <string name="valve">Valve</string>
+    <string name="light1">Light 1</string>
+    <string name="light2">Light 2</string>
+    <string name="light3">Light 3</string>
+    <string name="blinds">Blinds</string>
+    <string name="ventilation">Ventilation</string>
+
     <!-- Colors -->
     <string name="black">Black</string>
     <string name="blue">Blue</string>

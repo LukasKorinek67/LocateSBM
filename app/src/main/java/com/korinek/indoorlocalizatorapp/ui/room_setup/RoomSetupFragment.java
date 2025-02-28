@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentRoomSetupBinding;
 import com.korinek.indoorlocalizatorapp.ui.custom_views.WheelView;
-import com.korinek.indoorlocalizatorapp.utils.RoomAttributesFilter;
+import com.korinek.indoorlocalizatorapp.utils.RoomAttributesHelper;
 
 import java.util.Locale;
 import java.util.Map;
@@ -77,10 +77,11 @@ public class RoomSetupFragment extends Fragment {
         roomSetupViewModel.getRoom().observe(getViewLifecycleOwner(), room -> {
             if(room != null) {
                 Map<String, Object> attributes = room.getAttributes();
-                attributes = RoomAttributesFilter.filterNegativeAttributes(attributes);
+                attributes = RoomAttributesHelper.filterNegativeAttributes(attributes);
                 if (attributes.isEmpty()) {
                     roomSetupInfoTextView.setText(getString(R.string.info_room_has_no_attributtes));
                 } else {
+                    attributes = RoomAttributesHelper.sortAttributes(attributes);
                     wheelView.setData(attributes);
                     wheelView.setVisibility(View.VISIBLE);
                     roomSetupInfoTextView.setVisibility(View.GONE);

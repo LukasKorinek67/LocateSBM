@@ -95,6 +95,18 @@
     <string name="image_room_menu">Menu místnosti</string>
     <string name="image_open_menu_choose_building">Otevřít menu zvolení objektu</string>
 
+    <!-- Room attributes -->
+    <string name="temperature">Teplota</string>
+    <string name="humidity">Vlhkost</string>
+    <string name="co2">CO2</string>
+    <string name="set_temperature">Cílová teplota</string>
+    <string name="valve">Ventil</string>
+    <string name="light1">Světlo 1</string>
+    <string name="light2">Světlo 2</string>
+    <string name="light3">Světlo 3</string>
+    <string name="blinds">Rolety</string>
+    <string name="ventilation">Ventilace</string>
+
     <!-- Colors -->
     <string name="black">Černá</string>
     <string name="blue">Modrá</string>

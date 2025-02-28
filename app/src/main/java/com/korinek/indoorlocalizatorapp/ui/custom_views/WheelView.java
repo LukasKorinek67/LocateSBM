@@ -114,7 +114,7 @@ public class WheelView extends View {
     public void setData(Map<String, Object> items) {
         menuItems.clear();
         for (Map.Entry<String, Object> entry : items.entrySet()) {
-            menuItems.add(new WheelViewSegment(entry.getKey(), entry.getValue()));
+            menuItems.add(new WheelViewSegment(entry.getKey(), entry.getValue(), getContext()));
         }
         if (menuItems.isEmpty()) {
             selectedSegment = -1;
