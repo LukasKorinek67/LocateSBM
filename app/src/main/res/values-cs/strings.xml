@@ -15,6 +15,7 @@
     <string name="set">Nastavit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
+    <string name="back">Zpět</string>
     <string name="add_building">Přidat místnost</string>
     <string name="more_symbols_dots">…</string>
 
@@ -84,6 +85,10 @@
     <string name="info_please_choose_building">Zvolte prosím objekt v nastavení</string>
     <string name="info_no_rooms_yet">Prozatím žádné místnosti</string>
     <string name="info_data_not_available">Data nejsou k dispozici</string>
+    <string name="info_loading">Načítání dat…</string>
+    <string name="info_data_not_loaded">Nepodařilo se načíst data o místnosti</string>
+    <string name="info_data_not_loaded_with_error_message">Nepodařilo se načíst data o místnosti\n\n%s</string>
+    <string name="info_room_has_no_attributtes">Místnost neobsahuje žádné nastavitelné atributy</string>
 
     <!-- Image descriptions -->
     <string name="image_building_selected">Objekt je vybrán</string>

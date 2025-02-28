@@ -42,7 +42,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_room_pc_desktop"
                     android:contentDescription="@null" />
 
                 <TextView
@@ -52,7 +51,7 @@
                     android:layout_weight="1"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/black"
                     android:ellipsize="end"
                     android:maxLines="1" />
             </LinearLayout>

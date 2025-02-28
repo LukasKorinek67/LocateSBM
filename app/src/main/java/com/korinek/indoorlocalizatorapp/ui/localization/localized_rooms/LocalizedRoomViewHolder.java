@@ -52,6 +52,7 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         roomSetButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("roomName", room.getName());
+            bundle.putInt("roomIcon", room.getIcon());
 
             NavController navController = Navigation.findNavController(parentFragment.requireActivity(), R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.action_localizationFragment_to_roomSetupFragment, bundle);
@@ -83,14 +84,14 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
                     adapter.updateAttributes(attributes);
                     overviewLoadingBar.setVisibility(View.GONE);
                     roomDataNotAvailableText.setVisibility(View.GONE);
-                    roomSetButton.setEnabled(true);
+                    //roomSetButton.setEnabled(true);
                 }
 
                 @Override
                 public void onFailure(String errorMessage) {
                     overviewLoadingBar.setVisibility(View.GONE);
                     roomDataNotAvailableText.setVisibility(View.VISIBLE);
-                    roomSetButton.setEnabled(false);
+                    //roomSetButton.setEnabled(false);
                     Toast.makeText(itemView.getContext(), errorMessage, Toast.LENGTH_LONG).show();
                 }
             });

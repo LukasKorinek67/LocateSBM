@@ -17,6 +17,7 @@
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="back">Back</string>
     <string name="add_building">Add room</string>
     <string name="more_symbols_dots">…</string>
 
@@ -91,6 +92,10 @@
     <string name="info_please_choose_building">Please select an object in the settings</string>
     <string name="info_no_rooms_yet">No rooms yet</string>
     <string name="info_data_not_available">Data not available</string>
+    <string name="info_loading">Loading…</string>
+    <string name="info_data_not_loaded">Failed to load room data</string>
+    <string name="info_data_not_loaded_with_error_message">Failed to load room data\n\n%s</string>
+    <string name="info_room_has_no_attributtes">The room does not contain any adjustable attributes.</string>
 
     <!-- Image descriptions -->
     <string name="image_building_selected">Object is selected</string>
