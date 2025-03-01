@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.model.Room;
+import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -79,7 +80,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         }
 
         public void bind(Room room, RoomAdapter.RoomActionListener listener) {
-            roomIcon.setImageResource(room.getIcon());
+            roomIcon.setImageResource(RoomIconsHelper.getIconResId(room.getIcon()));
             roomNameTextView.setText(room.getName());
             itemView.setOnClickListener(v -> listener.onRoomClick(room));
             roomMenu.setOnClickListener(v -> showPopupMenu(v, room, listener));

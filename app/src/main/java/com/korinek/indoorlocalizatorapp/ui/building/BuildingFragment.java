@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentBuildingBinding;
 import com.korinek.indoorlocalizatorapp.model.Room;
-
+import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
 
 public class BuildingFragment extends Fragment {
@@ -137,7 +137,7 @@ public class BuildingFragment extends Fragment {
 
                     if (!roomName.isEmpty() && selectedIcon != 0) {
                         int buildingId = buildingViewModel.getSelectedBuilding().getId();
-                        Room room = new Room(roomName, buildingId, selectedIcon);
+                        Room room = new Room(roomName, buildingId, RoomIconsHelper.getIconName(selectedIcon));
                         buildingViewModel.insertRoom(room);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.dialog_error_add_room), Toast.LENGTH_LONG).show();
@@ -160,10 +160,8 @@ public class BuildingFragment extends Fragment {
                 .setTitle(getString(R.string.dialog_title_edit_room))
                 .setView(dialogView)
                 .setPositiveButton(getString(R.string.edit), (dialog, which) -> {
-                    room.setIcon(selectedIcon);
-
                     if (selectedIcon != 0) {
-                        room.setIcon(selectedIcon);
+                        room.setIcon(RoomIconsHelper.getIconName(selectedIcon));
                         buildingViewModel.updateRoom(room);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.dialog_error_edit_room), Toast.LENGTH_LONG).show();
@@ -174,18 +172,7 @@ public class BuildingFragment extends Fragment {
     }
 
     private void initializeIconSelector(Spinner iconSelector) {
-        int[] icons = {
-                R.drawable.ic_room_pc_desktop,
-                R.drawable.ic_room_meeting_board,
-                R.drawable.ic_room_floor_plan,
-                R.drawable.ic_room_sofa,
-                R.drawable.ic_room_bed,
-                R.drawable.ic_room_kitchen_faucet,
-                R.drawable.ic_room_fridge,
-                R.drawable.ic_room_shower,
-                R.drawable.ic_room_toilet,
-                R.drawable.ic_stairs
-        };
+        int[] icons = RoomIconsHelper.getIcons();
         ArrayAdapter<Integer> selectorAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item) {
             @NonNull
             @Override

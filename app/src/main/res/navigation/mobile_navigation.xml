@@ -43,6 +43,6 @@
             app:argType="string" />
         <argument
             android:name="roomIcon"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -18,6 +18,7 @@ import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentRoomSetupBinding;
 import com.korinek.indoorlocalizatorapp.ui.custom_views.WheelView;
 import com.korinek.indoorlocalizatorapp.utils.RoomAttributesHelper;
+import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
 import java.util.Locale;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class RoomSetupFragment extends Fragment {
     private FragmentRoomSetupBinding binding;
     RoomSetupViewModel roomSetupViewModel;
     private String roomName;
-    private int roomIcon;
+    private String roomIcon;
 
 
     @Override
@@ -37,7 +38,7 @@ public class RoomSetupFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             roomName = getArguments().getString(ARG_ROOM_NAME);
-            roomIcon = getArguments().getInt(ARG_ROOM_ICON);
+            roomIcon = getArguments().getString(ARG_ROOM_ICON);
         }
     }
 
@@ -70,7 +71,7 @@ public class RoomSetupFragment extends Fragment {
         WheelView wheelView = binding.wheelView;
 
         textRoomName.setText(roomName);
-        roomSetupIcon.setImageResource(roomIcon);
+        roomSetupIcon.setImageResource(RoomIconsHelper.getIconResId(roomIcon));
         roomSetupInfoTextView.setText(R.string.info_loading);
         roomSetupInfoTextView.setVisibility(View.VISIBLE);
 

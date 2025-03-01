@@ -27,9 +27,9 @@ public class Room {
     private int id;
     private String name;
     private int buildingId;
-    private int icon;
+    private String icon;
 
-    public Room(int id, String name, int buildingId, int icon) {
+    public Room(int id, String name, int buildingId, String icon) {
         this.id = id;
         this.name = name;
         this.buildingId = buildingId;
@@ -37,7 +37,7 @@ public class Room {
     }
 
     @Ignore
-    public Room(String name, int buildingId, int icon) {
+    public Room(String name, int buildingId, String icon) {
         this.name = name;
         this.buildingId = buildingId;
         this.icon = icon;
@@ -72,11 +72,11 @@ public class Room {
         this.buildingId = buildingId;
     }
 
-    public int getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 
@@ -85,7 +85,7 @@ public class Room {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return id == room.id && buildingId == room.buildingId && icon == room.icon && Objects.equals(name, room.name);
+        return id == room.id && buildingId == room.buildingId && Objects.equals(icon, room.icon) && Objects.equals(name, room.name);
     }
 
     @Override

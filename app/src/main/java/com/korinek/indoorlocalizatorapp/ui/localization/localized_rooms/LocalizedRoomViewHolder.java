@@ -19,6 +19,7 @@ import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
 import com.korinek.indoorlocalizatorapp.utils.RoomAttributesHelper;
+import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 import com.korinek.indoorlocalizatorapp.utils.api.ApiCalls;
 import com.korinek.indoorlocalizatorapp.utils.api.RequestHandler;
 
@@ -53,14 +54,14 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
     }
 
     public void bind(Room room, Fragment parentFragment) {
-        roomIcon.setImageResource(room.getIcon());
+        roomIcon.setImageResource(RoomIconsHelper.getIconResId(room.getIcon()));
         roomNameTextView.setText(room.getName());
 
 
         roomSetButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("roomName", room.getName());
-            bundle.putInt("roomIcon", room.getIcon());
+            bundle.putString("roomIcon", room.getIcon());
 
             NavController navController = Navigation.findNavController(parentFragment.requireActivity(), R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.action_localizationFragment_to_roomSetupFragment, bundle);

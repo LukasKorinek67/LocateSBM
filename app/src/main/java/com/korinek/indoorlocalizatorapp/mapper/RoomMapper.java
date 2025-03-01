@@ -1,8 +1,8 @@
 package com.korinek.indoorlocalizatorapp.mapper;
 
-import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
+import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +11,8 @@ import java.util.stream.Collectors;
 
 public class RoomMapper {
 
-    private static final int DEFAULT_ICON = R.drawable.ic_room_floor_plan;
-
     public static Room toRoom(RoomApiModel apiModel, int buildingId) {
-        return new Room(apiModel.getName(), buildingId, DEFAULT_ICON);
+        return new Room(apiModel.getName(), buildingId, RoomIconsHelper.DEFAULT_ICON_NAME);
     }
 
     public static List<Room> toRoomList(List<RoomApiModel> apiModels, int buildingId) {

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.model.Room;
+import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
 class NonLocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRoomViewHolder {
     private final ImageView roomIcon;
@@ -20,7 +21,7 @@ class NonLocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSorte
     }
 
     public void bind(Room room) {
-        roomIcon.setImageResource(room.getIcon());
+        roomIcon.setImageResource(RoomIconsHelper.getIconResId(room.getIcon()));
         roomNameTextView.setText(room.getName());
     }
 }
