@@ -92,14 +92,33 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginVertical="10dp"
             android:layout_gravity="center">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/room_data_overview_recycler_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="true"/>
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/room_data_overview_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:nestedScrollingEnabled="true"/>
+
+                <ImageView
+                    android:id="@+id/indicator_more_items"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_dots_more"
+                    android:contentDescription="@null"
+                    app:tint="@color/black"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/data_overview_loading_bar"
@@ -115,6 +134,17 @@
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:text="@string/info_data_not_available"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/text_room_has_no_attributes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:text="@string/info_room_has_no_attributes"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="italic" />

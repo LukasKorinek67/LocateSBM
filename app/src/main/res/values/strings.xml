@@ -95,7 +95,7 @@
     <string name="info_loading">Loading…</string>
     <string name="info_data_not_loaded">Failed to load room data</string>
     <string name="info_data_not_loaded_with_error_message">Failed to load room data\n\n%s</string>
-    <string name="info_room_has_no_attributtes">The room does not contain any adjustable attributes.</string>
+    <string name="info_room_has_no_attributes">The room does not contain any adjustable attributes.</string>
 
     <!-- Image descriptions -->
     <string name="image_building_selected">Object is selected</string>

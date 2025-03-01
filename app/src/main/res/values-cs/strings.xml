@@ -88,7 +88,7 @@
     <string name="info_loading">Načítání dat…</string>
     <string name="info_data_not_loaded">Nepodařilo se načíst data o místnosti</string>
     <string name="info_data_not_loaded_with_error_message">Nepodařilo se načíst data o místnosti\n\n%s</string>
-    <string name="info_room_has_no_attributtes">Místnost neobsahuje žádné nastavitelné atributy</string>
+    <string name="info_room_has_no_attributes">Místnost neobsahuje žádné nastavitelné atributy</string>
 
     <!-- Image descriptions -->
     <string name="image_building_selected">Objekt je vybrán</string>

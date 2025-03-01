@@ -23,14 +23,20 @@ import com.korinek.indoorlocalizatorapp.utils.api.ApiCalls;
 import com.korinek.indoorlocalizatorapp.utils.api.RequestHandler;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRoomViewHolder {
+    private final int MAX_ATTRIBUTES_TO_SHOW = 4;
+    Map<String, Object> allAttributes;
     private final ImageView roomIcon;
     private final TextView roomNameTextView;
     private final Button roomSetButton;
     private final ProgressBar overviewLoadingBar;
     private final TextView roomDataNotAvailableText;
+    private final TextView roomHasNoAttributesText;
+    private final ImageView indicatorMoreItems;
     private final RecyclerView recyclerView;
     RoomDataOverviewAdapter adapter;
 
@@ -41,6 +47,8 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         roomSetButton = itemView.findViewById(R.id.room_set_button);
         overviewLoadingBar = itemView.findViewById(R.id.data_overview_loading_bar);
         roomDataNotAvailableText = itemView.findViewById(R.id.text_room_data_not_available);
+        roomHasNoAttributesText = itemView.findViewById(R.id.text_room_has_no_attributes);
+        indicatorMoreItems = itemView.findViewById(R.id.indicator_more_items);
         recyclerView = itemView.findViewById(R.id.room_data_overview_recycler_view);
     }
 
@@ -60,6 +68,8 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
 
         overviewLoadingBar.setVisibility(View.VISIBLE);
         roomDataNotAvailableText.setVisibility(View.GONE);
+        roomHasNoAttributesText.setVisibility(View.GONE);
+        indicatorMoreItems.setVisibility(View.GONE);
         Map<String, Object> attributes = new HashMap<>();
 
         adapter = new RoomDataOverviewAdapter(attributes);
@@ -71,6 +81,13 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         recyclerView.setRecycledViewPool(viewPool);
 
         loadData(room.getName());
+
+        indicatorMoreItems.setOnClickListener(v -> {
+            indicatorMoreItems.setVisibility(View.GONE);
+            if(allAttributes != null) {
+                adapter.updateAttributes(allAttributes);
+            }
+        });
     }
 
     private void loadData(String roomName) {
@@ -80,9 +97,27 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
             requestHandler.getRoomData(roomName, new ApiCalls.RoomDataCallback() {
                 @Override
                 public void onSuccess(RoomApiModel room) {
-                    Map<String, Object> attributes = RoomAttributesHelper.filterNegativeAttributes(room.getAttributes());
-                    attributes = RoomAttributesHelper.sortAttributes(attributes);
-                    adapter.updateAttributes(attributes);
+                    allAttributes = RoomAttributesHelper.filterNegativeAttributes(room.getAttributes());
+                    allAttributes = RoomAttributesHelper.sortAttributes(allAttributes);
+
+                    if (allAttributes.isEmpty()) {
+                        roomHasNoAttributesText.setVisibility(View.VISIBLE);
+                    } else if (allAttributes.size() > MAX_ATTRIBUTES_TO_SHOW) {
+                        Map<String, Object> shortenAttributes = allAttributes.entrySet()
+                                .stream()
+                                .limit(MAX_ATTRIBUTES_TO_SHOW)
+                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                        (e1, e2) -> e1,
+                                        LinkedHashMap::new
+                                ));
+                        indicatorMoreItems.setVisibility(View.VISIBLE);
+                        adapter.updateAttributes(shortenAttributes);
+                        roomHasNoAttributesText.setVisibility(View.GONE);
+                    } else {
+                        indicatorMoreItems.setVisibility(View.GONE);
+                        adapter.updateAttributes(allAttributes);
+                        roomHasNoAttributesText.setVisibility(View.GONE);
+                    }
                     overviewLoadingBar.setVisibility(View.GONE);
                     roomDataNotAvailableText.setVisibility(View.GONE);
                     roomSetButton.setEnabled(true);
@@ -92,6 +127,8 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
                 public void onFailure(String errorMessage) {
                     overviewLoadingBar.setVisibility(View.GONE);
                     roomDataNotAvailableText.setVisibility(View.VISIBLE);
+                    roomHasNoAttributesText.setVisibility(View.GONE);
+                    indicatorMoreItems.setVisibility(View.GONE);
                     roomSetButton.setEnabled(false);
                     Toast.makeText(itemView.getContext(), errorMessage, Toast.LENGTH_LONG).show();
                 }

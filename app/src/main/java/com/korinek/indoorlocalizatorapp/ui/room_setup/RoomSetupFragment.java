@@ -79,7 +79,7 @@ public class RoomSetupFragment extends Fragment {
                 Map<String, Object> attributes = room.getAttributes();
                 attributes = RoomAttributesHelper.filterNegativeAttributes(attributes);
                 if (attributes.isEmpty()) {
-                    roomSetupInfoTextView.setText(getString(R.string.info_room_has_no_attributtes));
+                    roomSetupInfoTextView.setText(getString(R.string.info_room_has_no_attributes));
                 } else {
                     attributes = RoomAttributesHelper.sortAttributes(attributes);
                     wheelView.setData(attributes);
