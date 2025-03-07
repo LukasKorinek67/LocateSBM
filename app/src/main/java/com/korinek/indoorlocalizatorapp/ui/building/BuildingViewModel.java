@@ -132,6 +132,7 @@ public class BuildingViewModel extends AndroidViewModel {
     }
 
     public void unselectBuilding() {
+        isBuildingSelected.setValue(false);
         sharedPreferencesHelper.removeBuilding();
     }
 
