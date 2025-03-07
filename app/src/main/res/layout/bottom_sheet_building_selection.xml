@@ -18,8 +18,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/building_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/add_building_button"
