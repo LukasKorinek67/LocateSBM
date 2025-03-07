@@ -68,6 +68,11 @@
     <string name="request_error_data_load">Chyba při načítání dat: %s</string>
     <string name="request_error_network">Chyba sítě: %s</string>
     <string name="request_error_room_not_in_teco_api">Chyba: Místnost nenalezena v TecoApi</string>
+    <string name="request_error_invalid_url">Neplatná URL adresa - %s</string>
+    <string name="request_error_edited_room_not_in_teco_api">Chyba: Místnost, kterou upravujete, nebyla v TecoApi nalezena</string>
+    <string name="request_error_reading_error_response">Chyba při čtení error response</string>
+    <string name="request_error_reading_error_response_message">Chyba při čtení error response: %s</string>
+    <string name="request_error_unknown">Chyba: neznámý error</string>
 
     <!-- Wi-Fi Analysis Fragment -->
     <string name="wifi_analysis_info_scan_off">Pro zobrazení okolních Wi-Fi zapněte scan</string>

@@ -17,6 +17,12 @@ public interface ApiCalls {
         void onFailure(String errorMessage);
     }
 
+    interface SetRoomAttributeCallback {
+        void onSuccess();
+        void onFailure(String errorMessage);
+    }
+
     void getRoomsFromApi(RoomsFromApiCallback callback);
     void getRoomData(String name, RoomDataCallback callback);
+    void setRoomAttribute(String roomName, String attribute, Object newValue, SetRoomAttributeCallback callback);
 }

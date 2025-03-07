@@ -18,7 +18,9 @@ import java.security.cert.CertificateFactory;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -66,6 +68,8 @@ public class ApiClient {
 
     private static OkHttpClient getHttpClient(Context context) {
         try {
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+
             // Načtení certifikátu ze složky res/raw
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             InputStream certInput = context.getResources().openRawResource(R.raw.teco_api_cert);
@@ -75,29 +79,34 @@ public class ApiClient {
             // Uložení certifikátu do KeyStore
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
-            keyStore.setCertificateEntry("ca", ca);
-
-            // Vytvoření TrustManagerFactory
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            tmf.init(keyStore);
-
-            // Konfigurace SSL
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, tmf.getTrustManagers(), new java.security.SecureRandom());
+            keyStore.setCertificateEntry("custom_ca", ca);
 
             // Přidání vlastního hostname verifieru, který vše povolí
             HostnameVerifier hostnameVerifier = (hostname, session) -> true;
+
+            // Vytvoření nového TrustManagerFactory s oběma certifikáty (systémový + vlastní)
+            TrustManagerFactory combinedTmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            combinedTmf.init(keyStore);
+
+            // Použij TrustManager, který kombinuje oba zdroje certifikátů
+            X509TrustManager systemTrustManager = getSystemTrustManager();
+            X509TrustManager customTrustManager = (X509TrustManager) combinedTmf.getTrustManagers()[0];
+
+            X509TrustManager combinedTrustManager = new CombinedTrustManager(systemTrustManager, customTrustManager);
+
+            // Konfigurace SSL
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new TrustManager[]{combinedTrustManager}, new java.security.SecureRandom());
+
+
+            clientBuilder.sslSocketFactory(sslContext.getSocketFactory(), combinedTrustManager);
+            clientBuilder.hostnameVerifier(hostnameVerifier);
 
             // Přihlašovací údaje
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean isAuthEnabled = sharedPreferences.getBoolean("settings_request_authorization", false);
             String username = sharedPreferences.getString("settings_request_authorization_username", "");
             String password = sharedPreferences.getString("settings_request_authorization_password", "");
-
-            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
-                    .sslSocketFactory(sslContext.getSocketFactory(),
-                            (javax.net.ssl.X509TrustManager) tmf.getTrustManagers()[0])
-                    .hostnameVerifier(hostnameVerifier);
 
             // Přidání interceptoru pouze pokud je isAuthEnabled true
             if (isAuthEnabled) {
@@ -107,17 +116,31 @@ public class ApiClient {
                 Interceptor authInterceptor = chain -> {
                     Request original = chain.request();
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", basicAuth) // Přidání Basic Auth hlavičky
-                            .header("Accept", "application/json") // Přidání JSON Accept hlavičky
+                            .header("Authorization", basicAuth)
+                            .header("Accept", "application/json")
                             .method(original.method(), original.body());
 
                     return chain.proceed(requestBuilder.build());
                 };
-
                 clientBuilder.addInterceptor(authInterceptor);
             }
             return clientBuilder.build();
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static X509TrustManager getSystemTrustManager() {
+        try {
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init((KeyStore) null);
+            for (TrustManager tm : tmf.getTrustManagers()) {
+                if (tm instanceof X509TrustManager) {
+                    return (X509TrustManager) tm;
+                }
+            }
+            throw new IllegalStateException("No X509TrustManager found");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

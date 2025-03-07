@@ -70,6 +70,11 @@
     <string name="request_error_data_load">Error loading data: %s</string>
     <string name="request_error_network">Network error: %s</string>
     <string name="request_error_room_not_in_teco_api">Error: Room not found in TecoApi</string>
+    <string name="request_error_invalid_url">Invalid URL address - %s</string>
+    <string name="request_error_edited_room_not_in_teco_api">Error: Room that is going to be edited not found in TecoApi</string>
+    <string name="request_error_reading_error_response">Error while reading error response</string>
+    <string name="request_error_reading_error_response_message">Error while reading error response: %s</string>
+    <string name="request_error_unknown">Error: Unknown error</string>
 
     <!-- Wi-Fi Analysis Fragment -->
     <string name="wifi_analysis_info_scan_off">Turn on scan to view nearby Wi-Fi APs</string>
