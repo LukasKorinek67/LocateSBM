@@ -80,6 +80,12 @@ public class BuildingViewModel extends AndroidViewModel {
         executorService.execute(() -> database.buildingDao().updateBuildingTecoUrl(building.getId(), url));
     }
 
+    public void setBuildingTecoApiName(String buildingTecoApiName) {
+        Building building = getSelectedBuilding();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> database.buildingDao().updateBuildingTecoName(building.getId(), buildingTecoApiName));
+    }
+
     public void setUseAuthorization(boolean useAuth) {
         Building building = getSelectedBuilding();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -104,6 +110,7 @@ public class BuildingViewModel extends AndroidViewModel {
         sharedPreferences
                 .edit()
                 .putString("settings_teco_api_url", building.getIntegration().getTecoApiUrl())
+                .putString("settings_teco_api_building_name", building.getIntegration().getTecoApiBuildingName())
                 .putBoolean("settings_request_authorization", building.getIntegration().isUseAuthorization())
                 .putString("settings_request_authorization_username", building.getIntegration().getUsername())
                 .putString("settings_request_authorization_password", building.getIntegration().getPassword())

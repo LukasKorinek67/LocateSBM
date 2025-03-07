@@ -34,6 +34,9 @@ public interface BuildingDao {
     @Query("UPDATE buildings SET tecoApiUrl = :tecoApiUrl WHERE id = :buildingId")
     void updateBuildingTecoUrl(int buildingId, String tecoApiUrl);
 
+    @Query("UPDATE buildings SET tecoApiBuildingName = :tecoApiName WHERE id = :buildingId")
+    void updateBuildingTecoName(int buildingId, String tecoApiName);
+
     @Query("UPDATE buildings SET useAuthorization = :useAuth WHERE id = :buildingId")
     void updateBuildingUseAuthorization(int buildingId, boolean useAuth);
 

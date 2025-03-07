@@ -37,6 +37,8 @@
     <string name="settings_teco_api_integration">TecoApi Integration</string>
     <string name="settings_url_title">URL</string>
     <string name="settings_url_dialog_message">Enter the URL address for communication with TecoApi</string>
+    <string name="settings_building_name_title">Building name in TecoApi</string>
+    <string name="settings_building_name_dialog_message">Enter the building name in TecoAPI</string>
     <string name="settings_request_auth_title">Request authorization</string>
     <string name="settings_request_auth_summary_enabled">Use basic authorization to communicate with TecoApi</string>
     <string name="settings_request_auth_summary_disabled">Do not use basic authorization to communicate with TecoApi</string>
@@ -47,6 +49,8 @@
     <string name="settings_room_load_title">Reload rooms in the object</string>
     <string name="settings_room_load_dialog_title">Rooms reload</string>
     <string name="settings_room_load_dialog_message">Are you sure you want to load all the rooms from TecoApi? All existing rooms with data will be deleted.</string>
+    <string name="settings_room_load_loaded_rooms_text">Loaded Rooms</string>
+    <string name="settings_room_load_success_toast">Rooms added</string>
     <string name="settings_wifi_analysis">Wi-Fi Analysis</string>
     <string name="settings_sorting_title">Sort Wi-Fi by</string>
     <string name="settings_sorting_summary">Sorting of nearby Wi-Fi APs</string>

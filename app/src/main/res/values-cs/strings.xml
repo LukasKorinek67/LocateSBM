@@ -35,6 +35,8 @@
     <string name="settings_teco_api_integration">Integrace s TecoApi</string>
     <string name="settings_url_title">URL</string>
     <string name="settings_url_dialog_message">Zadejte URL adresu pro komunikaci s TecoApi</string>
+    <string name="settings_building_name_title">Název objektu v TecoApi</string>
+    <string name="settings_building_name_dialog_message">Zadejte název budovy v TecoAPI</string>
     <string name="settings_request_auth_title">Autorizace requestu</string>
     <string name="settings_request_auth_summary_enabled">Používat basic autorizaci ke komunikaci s TecoApi</string>
     <string name="settings_request_auth_summary_disabled">Nepoužívat basic autorizaci ke komunikaci s TecoApi</string>
@@ -45,6 +47,8 @@
     <string name="settings_room_load_title">Přenačíst místnosti v objektu</string>
     <string name="settings_room_load_dialog_title">Načtení místností</string>
     <string name="settings_room_load_dialog_message">Opravdu chcete načíst všechny místnosti z TecoApi? Všechny stávající místnosti s daty budou smazány.</string>
+    <string name="settings_room_load_loaded_rooms_text">Načtené místnosti</string>
+    <string name="settings_room_load_success_toast">Místnosti přidány</string>
     <string name="settings_wifi_analysis">Wi-Fi Analýza</string>
     <string name="settings_sorting_title">Řadit Wi-Fi dle</string>
     <string name="settings_sorting_summary">Seřazení okolních Wi-Fi</string>

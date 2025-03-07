@@ -3,12 +3,14 @@ package com.korinek.indoorlocalizatorapp.model;
 public class TecoApiIntegration {
 
     private String tecoApiUrl;
+    private String tecoApiBuildingName;
     private boolean useAuthorization;
     private String username;
     private String password;
 
     public TecoApiIntegration() {
         this.tecoApiUrl = "";
+        this.tecoApiBuildingName = "";
         this.useAuthorization = false;
         this.username = "";
         this.password = "";
@@ -20,6 +22,14 @@ public class TecoApiIntegration {
 
     public void setTecoApiUrl(String tecoApiUrl) {
         this.tecoApiUrl = tecoApiUrl;
+    }
+
+    public String getTecoApiBuildingName() {
+        return tecoApiBuildingName;
+    }
+
+    public void setTecoApiBuildingName(String tecoApiBuildingName) {
+        this.tecoApiBuildingName = tecoApiBuildingName;
     }
 
     public boolean isUseAuthorization() {

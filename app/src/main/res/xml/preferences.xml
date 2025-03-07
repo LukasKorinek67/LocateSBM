@@ -11,6 +11,12 @@
             android:dialogMessage="@string/settings_url_dialog_message"
             android:icon="@drawable/ic_api"/>
 
+        <EditTextPreference
+            android:key="settings_teco_api_building_name"
+            android:title="@string/settings_building_name_title"
+            android:dialogMessage="@string/settings_building_name_dialog_message"
+            android:icon="@drawable/ic_office_building_outline"/>
+
         <SwitchPreferenceCompat
             android:key="settings_request_authorization"
             android:title="@string/settings_request_auth_title"
