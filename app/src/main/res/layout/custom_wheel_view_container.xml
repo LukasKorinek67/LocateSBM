@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.korinek.indoorlocalizatorapp.ui.custom_views.WheelView
+        android:id="@+id/wheel_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:mainColor="?colorPrimary"/>
+
+    <LinearLayout
+        android:id="@+id/number_picker_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/number_picker_int"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            aigestudio:wheel_atmospheric="true"
+            aigestudio:wheel_curved="true"
+            aigestudio:wheel_item_align="right"
+            aigestudio:wheel_item_text_color="@color/light_gray"
+            aigestudio:wheel_item_text_size="34sp"
+            aigestudio:wheel_selected_item_text_color="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/number_picker_double"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.aigestudio.wheelpicker.WheelPicker
+                android:id="@+id/number_picker_int_part"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                aigestudio:wheel_atmospheric="true"
+                aigestudio:wheel_curved="true"
+                aigestudio:wheel_item_align="right"
+                aigestudio:wheel_item_text_color="@color/light_gray"
+                aigestudio:wheel_item_text_size="34sp"
+                aigestudio:wheel_selected_item_text_color="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="34sp"
+                android:textColor="@color/black"
+                android:text="@string/decimal_separator"/>
+
+            <com.aigestudio.wheelpicker.WheelPicker
+                android:id="@+id/number_picker_decimal_part"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                aigestudio:wheel_atmospheric="true"
+                aigestudio:wheel_curved="true"
+                aigestudio:wheel_item_align="left"
+                aigestudio:wheel_item_text_color="@color/light_gray"
+                aigestudio:wheel_item_text_size="34sp"
+                aigestudio:wheel_selected_item_text_color="@color/black" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/number_picker_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="34sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel_attribute_change_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:id="@+id/set_attribute_change_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set"
+            android:layout_marginEnd="10dp" />
+
+    </LinearLayout>
+</FrameLayout>

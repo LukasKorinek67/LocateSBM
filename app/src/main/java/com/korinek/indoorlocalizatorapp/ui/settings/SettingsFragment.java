@@ -130,9 +130,7 @@ public class SettingsFragment extends Fragment {
                 new AlertDialog.Builder(requireContext())
                         .setTitle(getString(R.string.dialog_title_delete_building))
                         .setMessage(message)
-                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
-                            buildingAdapter.getListener().onBuildingSwiped(building);
-                        })
+                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> buildingAdapter.getListener().onBuildingSwiped(building))
                         .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                             // return the building back
                             buildingAdapter.notifyItemChanged(position);
@@ -145,9 +143,7 @@ public class SettingsFragment extends Fragment {
             }
         }).attachToRecyclerView(buildingsRecyclerView);
 
-        addBuildingButton.setOnClickListener(v -> {
-            showAddBuildingDialog();
-        });
+        addBuildingButton.setOnClickListener(v -> showAddBuildingDialog());
 
         bottomSheetDialog.show();
     }

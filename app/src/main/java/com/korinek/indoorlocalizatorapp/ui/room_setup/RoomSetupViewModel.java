@@ -25,7 +25,7 @@ public class RoomSetupViewModel extends AndroidViewModel {
         loadData();
     }
 
-    private void loadData() {
+    public void loadData() {
         RequestHandler requestHandler = new RequestHandler(getApplication());
 
         if(roomName != null && roomName.getValue() != null) {

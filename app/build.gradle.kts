@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.wheelpicker)
     annotationProcessor(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

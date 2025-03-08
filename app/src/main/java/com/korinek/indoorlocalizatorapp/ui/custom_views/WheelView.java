@@ -14,7 +14,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.korinek.indoorlocalizatorapp.R;
@@ -24,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class WheelView extends View {
+
+    // TODO - really ugly class, needs to refactor when there is more time
 
     private Paint segmentPaint;
     private Paint highlightSegmentPaint;
@@ -38,6 +39,13 @@ public class WheelView extends View {
     private float centerX, centerY, outerRadius, innerRadius;
     private int selectedSegment = -1;
     private boolean isCenterPressed = false;
+    private OnCenterClickListener centerClickListener;
+    private boolean isValueEditing = false;
+    private boolean isDataLoading = false;
+
+    public interface OnCenterClickListener {
+        void onCenterClick(String key, Object value, String unit);
+    }
 
     public WheelView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -116,11 +124,16 @@ public class WheelView extends View {
         for (Map.Entry<String, Object> entry : items.entrySet()) {
             menuItems.add(new WheelViewSegment(entry.getKey(), entry.getValue(), getContext()));
         }
+        // if empty, then no segment should be selected
         if (menuItems.isEmpty()) {
             selectedSegment = -1;
-        } else {
+        // if not empty, selected first fragment
+        } else if (selectedSegment == -1){
             selectedSegment = 0;
         }
+        // if not empty and some segment was selected before, then keep it
+
+        isDataLoading = false;
         invalidate();
     }
 
@@ -210,20 +223,22 @@ public class WheelView extends View {
 
         canvas.drawCircle(centerX, centerY, innerRadius, centerPaint);
 
-        // value or icon inside
-        if (selectedSegment == -1) {
-            Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_gesture_tap);
-            if (icon != null) {
-                int iconSize = 250;
-                int iconX = (int) (centerX - (float) iconSize / 2);
-                int iconY = (int) (centerY - (float) iconSize / 2);
+        if(!isValueEditing && !isDataLoading) {
+            // value or icon inside
+            if (selectedSegment == -1) {
+                Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_gesture_tap);
+                if (icon != null) {
+                    int iconSize = 250;
+                    int iconX = (int) (centerX - (float) iconSize / 2);
+                    int iconY = (int) (centerY - (float) iconSize / 2);
 
-                icon.setBounds(iconX, iconY, iconX + iconSize, iconY + iconSize);
-                icon.setTint(mainColor);
-                icon.draw(canvas);
+                    icon.setBounds(iconX, iconY, iconX + iconSize, iconY + iconSize);
+                    icon.setTint(mainColor);
+                    icon.draw(canvas);
+                }
+            } else {
+                canvas.drawText(menuItems.get(selectedSegment).getValueWithUnit(), centerX, centerY + 30, valuePaint);
             }
-        } else {
-            canvas.drawText(menuItems.get(selectedSegment).getValueWithUnit(), centerX, centerY + 30, valuePaint);
         }
     }
 
@@ -232,6 +247,10 @@ public class WheelView extends View {
         float x = event.getX() - centerX;
         float y = event.getY() - centerY;
         double distance = Math.sqrt(x * x + y * y);
+
+        if(isValueEditing) {
+            return true;
+        }
 
         boolean isInsideCenter = distance < innerRadius;
         boolean isSegmentClick = distance > innerRadius && distance < outerRadius;
@@ -245,18 +264,14 @@ public class WheelView extends View {
                     }
                     break;
 
+                case MotionEvent.ACTION_CANCEL:
                 case MotionEvent.ACTION_UP:
                     if (isCenterPressed) {
                         isCenterPressed = false;
                         invalidate();
                         performClick();
-                        showSegmentDialog("Středové tlačítko");
+                        startEditingAttribute();
                     }
-                    break;
-
-                case MotionEvent.ACTION_CANCEL:
-                    isCenterPressed = false;
-                    invalidate();
                     break;
             }
             return true;
@@ -295,17 +310,34 @@ public class WheelView extends View {
         }
     }
 
+    public void startEditingAttribute() {
+        if (centerClickListener != null) {
+            String key = menuItems.get(selectedSegment).getKey();
+            Object value = menuItems.get(selectedSegment).getValue();
+            String unit = menuItems.get(selectedSegment).getUnit();
+            centerClickListener.onCenterClick(key, value, unit);
+            isValueEditing = true;
+        }
+    }
+
+    public void setOnCenterClickListener(OnCenterClickListener listener) {
+        this.centerClickListener = listener;
+    }
+
+    public void editingDone() {
+        isValueEditing = false;
+        isDataLoading = true;
+        invalidate();
+    }
+
+    public void editingCanceled() {
+        isValueEditing = false;
+        invalidate();
+    }
+
     @Override
     public boolean performClick() {
         super.performClick();
         return true;
-    }
-
-    private void showSegmentDialog(String segmentName) {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Vybraný segment")
-                .setMessage("Klikl jsi na: " + segmentName)
-                .setPositiveButton("OK", null)
-                .show();
     }
 }

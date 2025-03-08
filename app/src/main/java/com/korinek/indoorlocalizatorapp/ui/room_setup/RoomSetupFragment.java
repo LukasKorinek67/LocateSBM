@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentRoomSetupBinding;
-import com.korinek.indoorlocalizatorapp.ui.custom_views.WheelView;
+import com.korinek.indoorlocalizatorapp.ui.custom_views.RoomAttributesWheelContainer;
 import com.korinek.indoorlocalizatorapp.utils.RoomAttributesHelper;
 import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
@@ -31,6 +32,10 @@ public class RoomSetupFragment extends Fragment {
     RoomSetupViewModel roomSetupViewModel;
     private String roomName;
     private String roomIcon;
+
+    public interface RoomSetupReloadCallback {
+        void reloadRoomData();
+    }
 
 
     @Override
@@ -68,12 +73,14 @@ public class RoomSetupFragment extends Fragment {
         TextView roomSetupErrorTextView = binding.roomSetupErrorTextView;
         ImageButton buttonBack = binding.buttonBack;
         ImageView roomSetupIcon = binding.roomSetupIcon;
-        WheelView wheelView = binding.wheelView;
+        RoomAttributesWheelContainer roomAttributesWheelContainer = binding.roomAttributesWheelContainer;
+        ProgressBar reloadProgressBar = binding.reloadProgressBar;
 
         textRoomName.setText(roomName);
         roomSetupIcon.setImageResource(RoomIconsHelper.getIconResId(roomIcon));
-        roomSetupInfoTextView.setText(R.string.info_loading);
-        roomSetupInfoTextView.setVisibility(View.VISIBLE);
+        roomSetupInfoTextView.setVisibility(View.GONE);
+        roomSetupErrorTextView.setVisibility(View.GONE);
+        reloadProgressBar.setVisibility(View.VISIBLE);
 
         roomSetupViewModel.getRoom().observe(getViewLifecycleOwner(), room -> {
             if(room != null) {
@@ -81,17 +88,21 @@ public class RoomSetupFragment extends Fragment {
                 attributes = RoomAttributesHelper.filterNegativeAttributes(attributes);
                 if (attributes.isEmpty()) {
                     roomSetupInfoTextView.setText(getString(R.string.info_room_has_no_attributes));
+                    roomSetupInfoTextView.setVisibility(View.VISIBLE);
+                    reloadProgressBar.setVisibility(View.GONE);
                 } else {
                     attributes = RoomAttributesHelper.sortAttributes(attributes);
-                    wheelView.setData(attributes);
-                    wheelView.setVisibility(View.VISIBLE);
+                    roomAttributesWheelContainer.setData(room.getName(), attributes);
+                    roomAttributesWheelContainer.setVisibility(View.VISIBLE);
                     roomSetupInfoTextView.setVisibility(View.GONE);
                     roomSetupErrorTextView.setVisibility(View.GONE);
+                    reloadProgressBar.setVisibility(View.GONE);
                 }
             } else {
                 roomSetupErrorTextView.setVisibility(View.VISIBLE);
                 roomSetupInfoTextView.setVisibility(View.GONE);
-                wheelView.setVisibility(View.GONE);
+                roomAttributesWheelContainer.setVisibility(View.GONE);
+                reloadProgressBar.setVisibility(View.GONE);
             }
         });
 
@@ -105,6 +116,11 @@ public class RoomSetupFragment extends Fragment {
         });
 
         buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
+
+        roomAttributesWheelContainer.setRoomSetupCallback(() -> {
+            reloadProgressBar.setVisibility(View.VISIBLE);
+            roomSetupViewModel.loadData();
+        });
     }
 
     @Override

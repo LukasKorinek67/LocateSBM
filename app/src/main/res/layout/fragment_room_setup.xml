@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.korinek.indoorlocalizatorapp.ui.custom_views.WheelView
-        android:id="@+id/wheel_view"
+    <com.korinek.indoorlocalizatorapp.ui.custom_views.RoomAttributesWheelContainer
+        android:id="@+id/room_attributes_wheel_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:mainColor="?colorPrimary"/>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,4 +69,10 @@
         android:visibility="gone"
         />
 
+    <ProgressBar
+        android:id="@+id/reload_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 </FrameLayout>
