@@ -7,8 +7,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.korinek.indoorlocalizatorapp.model.BuildingApiModel;
-import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.BuildingApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.RoomApiModel;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

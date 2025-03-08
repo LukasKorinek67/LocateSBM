@@ -10,9 +10,9 @@ import androidx.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.mapper.RoomMapper;
-import com.korinek.indoorlocalizatorapp.model.BuildingApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.BuildingApiModel;
 import com.korinek.indoorlocalizatorapp.model.Room;
-import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.RoomApiModel;
 import com.korinek.indoorlocalizatorapp.model.api.ApiErrorModel;
 import com.korinek.indoorlocalizatorapp.utils.SharedPreferencesHelper;
 

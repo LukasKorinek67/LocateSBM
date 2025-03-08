@@ -1,7 +1,7 @@
 package com.korinek.indoorlocalizatorapp.mapper;
 
 import com.korinek.indoorlocalizatorapp.model.Room;
-import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.RoomApiModel;
 import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
 import java.util.HashMap;

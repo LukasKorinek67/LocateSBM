@@ -1,4 +1,4 @@
-package com.korinek.indoorlocalizatorapp.ui.custom_views;
+package com.korinek.indoorlocalizatorapp.ui.room_setup.wheel_view;
 
 import android.view.View;
 import android.widget.LinearLayout;

@@ -1,6 +1,6 @@
 package com.korinek.indoorlocalizatorapp.utils.api;
 
-import com.korinek.indoorlocalizatorapp.model.BuildingApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.BuildingApiModel;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

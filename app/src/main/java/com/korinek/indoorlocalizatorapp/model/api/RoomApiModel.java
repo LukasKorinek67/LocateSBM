@@ -1,4 +1,4 @@
-package com.korinek.indoorlocalizatorapp.model;
+package com.korinek.indoorlocalizatorapp.model.api;
 
 import java.util.Map;
 

@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentRoomSetupBinding;
-import com.korinek.indoorlocalizatorapp.ui.custom_views.RoomAttributesWheelContainer;
+import com.korinek.indoorlocalizatorapp.ui.room_setup.wheel_view.RoomAttributesWheelContainer;
 import com.korinek.indoorlocalizatorapp.utils.RoomAttributesHelper;
 import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 

@@ -9,7 +9,7 @@ import androidx.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.korinek.indoorlocalizatorapp.R;
-import com.korinek.indoorlocalizatorapp.model.BuildingApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.BuildingApiModel;
 
 import java.io.InputStream;
 import java.security.KeyStore;

@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.korinek.indoorlocalizatorapp.model.RoomApiModel;
+import com.korinek.indoorlocalizatorapp.model.api.RoomApiModel;
 import com.korinek.indoorlocalizatorapp.utils.api.ApiCalls;
 import com.korinek.indoorlocalizatorapp.utils.api.RequestHandler;
 
