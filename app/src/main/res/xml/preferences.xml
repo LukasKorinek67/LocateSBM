@@ -64,6 +64,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/settings_building">
+        <Preference
+            android:key="settings_change_building_color"
+            android:title="@string/settings_change_color_title"
+            android:icon="@drawable/ic_color_palette" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_about_app">
 
         <Preference

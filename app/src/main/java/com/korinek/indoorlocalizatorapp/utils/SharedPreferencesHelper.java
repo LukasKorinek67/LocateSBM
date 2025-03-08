@@ -39,7 +39,7 @@ public class SharedPreferencesHelper {
     }
 
     public void saveTheme(int color) {
-        int theme = ColorToTheme.getThemeForColor(color);
+        int theme = ColorHelper.getThemeForColor(color);
         sharedPreferences.edit().putInt(KEY_SELECTED_THEME, theme).apply();
     }
 

@@ -31,6 +31,9 @@ public interface BuildingDao {
     @Query("DELETE FROM buildings")
     void deleteAllBuildings();
 
+    @Query("UPDATE buildings SET color = :color WHERE id = :buildingId")
+    void updateBuildingColor(int buildingId, int color);
+
     @Query("UPDATE buildings SET tecoApiUrl = :tecoApiUrl WHERE id = :buildingId")
     void updateBuildingTecoUrl(int buildingId, String tecoApiUrl);
 

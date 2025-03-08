@@ -131,6 +131,15 @@ public class BuildingViewModel extends AndroidViewModel {
         return sharedPreferencesHelper.getBuilding();
     }
 
+    public void changeBuildingColor(int color) {
+        Building building = getSelectedBuilding();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> database.buildingDao().updateBuildingColor(building.getId(), color));
+        building.setColor(color);
+        sharedPreferencesHelper.saveBuilding(building);
+        sharedPreferencesHelper.saveTheme(color);
+    }
+
     public void unselectBuilding() {
         isBuildingSelected.setValue(false);
         sharedPreferencesHelper.removeBuilding();

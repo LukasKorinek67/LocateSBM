@@ -6,9 +6,12 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -20,14 +23,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.korinek.indoorlocalizatorapp.R;
+import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingViewModel;
+import com.korinek.indoorlocalizatorapp.utils.ColorHelper;
 import com.korinek.indoorlocalizatorapp.utils.SharedPreferencesHelper;
 import com.korinek.indoorlocalizatorapp.utils.api.ApiCalls;
 import com.korinek.indoorlocalizatorapp.utils.api.ApiClient;
 import com.korinek.indoorlocalizatorapp.utils.api.RequestHandler;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
 
@@ -39,6 +45,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
     EditTextPreference authUsername;
     EditTextPreference authPassword;
     Preference roomLoadPreference;
+    Preference changeColorPreference;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -49,6 +56,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         setOnChangeListeners();
         setDynamicSummaries();
         initializeRoomLoadButton();
+        initializeChangeColorButton();
         initializeInfoButton();
         initializeResetButton();
 
@@ -62,6 +70,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         authUsername = findPreference("settings_request_authorization_username");
         authPassword = findPreference("settings_request_authorization_password");
         roomLoadPreference = findPreference("settings_room_load");
+        changeColorPreference = findPreference("settings_change_building_color");
     }
 
     private void setOnChangeListeners() {
@@ -291,6 +300,66 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         cancelAddingButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         bottomSheetDialog.show();
+    }
+
+    private void initializeChangeColorButton() {
+        Building selectedBuilding = buildingViewModel.getSelectedBuilding();
+        if(selectedBuilding != null) {
+            int color = selectedBuilding.getColor();
+            if (changeColorPreference != null) {
+                changeColorPreference.setSummary(ColorHelper.getColorName(requireContext(), color));
+                changeColorPreference.setOnPreferenceClickListener(preference -> {
+                    showEditColorDialog(selectedBuilding);
+                    return true;
+                });
+            }
+        } else {
+            changeColorPreference.setEnabled(false);
+        }
+    }
+
+    private void showEditColorDialog(Building selectedBuilding) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_building_color, null);
+        RadioGroup colorPickerGroup = dialogView.findViewById(R.id.edit_color_picker_group);
+
+        for (ColorHelper.ColorTheme colorTheme : ColorHelper.getAllColors()) {
+            RadioButton radioButton = new RadioButton(requireContext());
+            radioButton.setText(getString(colorTheme.getColorNameResId()));
+            radioButton.setId(colorTheme.getColorId());
+            radioButton.setButtonTintList(ContextCompat.getColorStateList(requireContext(), colorTheme.getColor()));
+
+            if(selectedBuilding.getColor() == colorTheme.getColor()) {
+                radioButton.setChecked(true);
+            }
+            colorPickerGroup.addView(radioButton);
+        }
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle(String.format(Locale.getDefault(), getString(R.string.dialog_change_color_title), selectedBuilding.getName()))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.edit), (dialog, which) -> {
+                    int selectedColor = getSelectedColor(colorPickerGroup);
+                    if (selectedColor != -1) {
+                        buildingViewModel.changeBuildingColor(selectedColor);
+
+                        // reset activity
+                        requireActivity().recreate();
+                    } else {
+                        Toast.makeText(requireContext(), getString(R.string.dialog_error_add_building), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private int getSelectedColor(RadioGroup colorPickerGroup) {
+        int selectedId = colorPickerGroup.getCheckedRadioButtonId();
+        for (ColorHelper.ColorTheme colorTheme : ColorHelper.getAllColors()) {
+            if (selectedId == colorTheme.getColorId()) {
+                return colorTheme.getColor();
+            }
+        }
+        return -1;
     }
 
     private void initializeInfoButton() {

@@ -6,16 +6,8 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/building_name_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="name"
-        android:hint="@string/add_building_type_name"
-        android:inputType="textCapSentences" />
-
     <RadioGroup
-        android:id="@+id/color_picker_group"
+        android:id="@+id/edit_color_picker_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

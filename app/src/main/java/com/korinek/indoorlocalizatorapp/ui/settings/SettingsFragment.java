@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.korinek.indoorlocalizatorapp.databinding.FragmentSettingsBinding;
 import com.korinek.indoorlocalizatorapp.model.Building;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingAdapter;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingViewModel;
+import com.korinek.indoorlocalizatorapp.utils.ColorHelper;
 
 import java.util.Locale;
 
@@ -156,6 +158,15 @@ public class SettingsFragment extends Fragment {
         EditText buildingNameInput = dialogView.findViewById(R.id.building_name_input);
         RadioGroup colorPickerGroup = dialogView.findViewById(R.id.color_picker_group);
 
+        for (ColorHelper.ColorTheme colorTheme : ColorHelper.getAllColors()) {
+            RadioButton radioButton = new RadioButton(requireContext());
+            radioButton.setText(getString(colorTheme.getColorNameResId()));
+            radioButton.setId(colorTheme.getColorId());
+            radioButton.setButtonTintList(ContextCompat.getColorStateList(requireContext(), colorTheme.getColor()));
+
+            colorPickerGroup.addView(radioButton);
+        }
+
         new AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.dialog_title_add_building))
                 .setView(dialogView)
@@ -176,23 +187,10 @@ public class SettingsFragment extends Fragment {
 
     private int getSelectedColor(RadioGroup colorPickerGroup) {
         int selectedId = colorPickerGroup.getCheckedRadioButtonId();
-
-        if (selectedId == R.id.color_black) {
-            return R.color.black;
-        } else if (selectedId == R.id.color_blue) {
-            return R.color.blue;
-        } else if (selectedId == R.id.color_green) {
-            return R.color.green;
-        } else if (selectedId == R.id.color_orange) {
-            return R.color.orange;
-        } else if (selectedId == R.id.color_pink) {
-            return R.color.pink;
-        } else if (selectedId == R.id.color_purple) {
-            return R.color.purple;
-        } else if (selectedId == R.id.color_red) {
-            return R.color.red;
-        } else if (selectedId == R.id.color_yellow) {
-            return R.color.yellow;
+        for (ColorHelper.ColorTheme colorTheme : ColorHelper.getAllColors()) {
+            if (selectedId == colorTheme.getColorId()) {
+                return colorTheme.getColor();
+            }
         }
         return -1;
     }

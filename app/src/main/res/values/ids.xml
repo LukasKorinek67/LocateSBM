@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="color_black" type="id"/>
+    <item name="color_blue" type="id"/>
+    <item name="color_green" type="id"/>
+    <item name="color_orange" type="id"/>
+    <item name="color_pink" type="id"/>
+    <item name="color_purple" type="id"/>
+    <item name="color_red" type="id"/>
+    <item name="color_yellow" type="id"/>
+</resources>

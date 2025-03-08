@@ -56,6 +56,8 @@
     <string name="settings_sorting_type_signal_strength">Síly signálu</string>
     <string name="settings_continuous_scan_title">Neustálý scan Wi-Fi</string>
     <string name="settings_continuous_scan_summary">Zapnout nebo vypnout funkci</string>
+    <string name="settings_building">Objekt</string>
+    <string name="settings_change_color_title">Změnit barvu objektu</string>
     <string name="settings_about_app">O aplikaci</string>
     <string name="settings_app_info">Info o aplikaci</string>
     <string name="settings_app_info_text">Info o aplikaci… \n\nTato aplikace byla vytvořena v rámci diplomové práce na TUL FM.</string>
@@ -89,6 +91,7 @@
     <string name="dialog_error_edit_room">Chyba - je třeba vybrat ikonu!</string>
     <string name="dialog_title_delete_room">Odstranění místnosti</string>
     <string name="dialog_message_delete_room">Opravdu chcete odstranit místnost %s?</string>
+    <string name="dialog_change_color_title">Změnit barvu objektu %s</string>
 
     <!-- Info texts -->
     <string name="info_please_choose_building">Zvolte prosím objekt v nastavení</string>

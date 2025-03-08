@@ -58,6 +58,8 @@
     <string name="settings_sorting_type_signal_strength">Signal strength</string>
     <string name="settings_continuous_scan_title">Continuous Wi-Fi Scan</string>
     <string name="settings_continuous_scan_summary">Turn the feature on or off</string>
+    <string name="settings_building">Building</string>
+    <string name="settings_change_color_title">Change building color</string>
     <string name="settings_about_app">About app</string>
     <string name="settings_app_info">App info</string>
     <string name="settings_app_info_text">Info about the application… \n\nThis application was created as part of a diploma thesis at TUL FM.</string>
@@ -96,6 +98,7 @@
     <string name="dialog_error_edit_room">Error - icon must be entered!</string>
     <string name="dialog_title_delete_room">Delete room</string>
     <string name="dialog_message_delete_room">Are you sure you want to delete room %s?</string>
+    <string name="dialog_change_color_title">Change the color of building %s</string>
 
     <!-- Info texts -->
     <string name="info_please_choose_building">Please select an object in the settings</string>
