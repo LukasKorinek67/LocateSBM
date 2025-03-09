@@ -46,33 +46,23 @@ public class LocalizationFragment extends Fragment {
         }
 
         //addFragmentsOnScreen();
-        initializeLocalizationComponents();
-        initializeRoomsList();
+        initialize();
 
         return root;
     }
 
-    private void initializeLocalizationComponents() {
+    private void initialize() {
         ImageButton locateNowButton = binding.localizationRefreshButton;
         TextView countdownTimerNumber = binding.localizationCountdownTimer;
+        TextView textBuildingNotSet = binding.infoTextBuildingNotSetLocalization;
+        TextView textNoRooms = binding.infoTextNoRoomsLocalization;
+        RecyclerView roomsRecyclerView = binding.locationSortedRoomsList;
 
+        // localization countdown timer
         localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
-
         localizationViewModel.getLocalizationTrigger().observe(getViewLifecycleOwner(), trigger -> sortAndUpdateRoomsList(buildingViewModel.getRooms().getValue()));
 
         locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
-    }
-
-    private void sortAndUpdateRoomsList(List<Room> rooms) {
-        // Sorting rooms by location
-        List<Room> locationSortedRooms = RoomLocationSorter.sortRoomsByLocation(rooms);
-        locationSortedRoomAdapter.updateRooms(locationSortedRooms);
-    }
-
-    private void initializeRoomsList() {
-        final TextView textBuildingNotSet = binding.infoTextBuildingNotSetLocalization;
-        final TextView textNoRooms = binding.infoTextNoRoomsLocalization;
-        RecyclerView roomsRecyclerView = binding.locationSortedRoomsList;
 
         locationSortedRoomAdapter = new LocationSortedRoomAdapter(LocalizationFragment.this);
 
@@ -90,13 +80,22 @@ public class LocalizationFragment extends Fragment {
         roomsRecyclerView.setAdapter(locationSortedRoomAdapter);
         roomsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        // visibility of elements depends on selected building
         buildingViewModel.getIsBuildingSelected().observe(getViewLifecycleOwner(), isBuildingSelected -> {
             roomsRecyclerView.setVisibility(isBuildingSelected ? View.VISIBLE : View.GONE);
             textBuildingNotSet.setVisibility(isBuildingSelected ? View.GONE : View.VISIBLE);
+            locateNowButton.setVisibility(isBuildingSelected ? View.VISIBLE : View.GONE);
+            countdownTimerNumber.setVisibility(isBuildingSelected ? View.VISIBLE : View.GONE);
             if (!isBuildingSelected) {
                 textNoRooms.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    private void sortAndUpdateRoomsList(List<Room> rooms) {
+        // Sorting rooms by location
+        List<Room> locationSortedRooms = RoomLocationSorter.sortRoomsByLocation(rooms);
+        locationSortedRoomAdapter.updateRooms(locationSortedRooms);
     }
 
     @Override
