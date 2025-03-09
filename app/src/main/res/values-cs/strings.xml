@@ -52,13 +52,6 @@
     <string name="settings_room_load_dialog_message">Opravdu chcete načíst všechny místnosti z TecoApi? Všechny stávající místnosti s daty budou smazány.</string>
     <string name="settings_room_load_loaded_rooms_text">Načtené místnosti</string>
     <string name="settings_room_load_success_toast">Místnosti přidány</string>
-    <string name="settings_wifi_analysis">Wi-Fi Analýza</string>
-    <string name="settings_sorting_title">Řadit Wi-Fi dle</string>
-    <string name="settings_sorting_summary">Seřazení okolních Wi-Fi</string>
-    <string name="settings_sorting_type_name">Názvu</string>
-    <string name="settings_sorting_type_signal_strength">Síly signálu</string>
-    <string name="settings_continuous_scan_title">Neustálý scan Wi-Fi</string>
-    <string name="settings_continuous_scan_summary">Zapnout nebo vypnout funkci</string>
     <string name="settings_building">Objekt</string>
     <string name="settings_change_color_title">Změnit barvu objektu</string>
     <string name="settings_about_app">O aplikaci</string>

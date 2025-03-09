@@ -43,27 +43,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_wifi_analysis">
-
-        <ListPreference
-            android:key="settings_wifi_sorting"
-            android:title="@string/settings_sorting_title"
-            android:summary="@string/settings_sorting_summary"
-            android:entries="@array/wifi_sorting_type"
-            android:entryValues="@array/wifi_sorting_values"
-            android:defaultValue="name"
-            android:icon="@drawable/ic_sorting"/>
-
-        <SwitchPreferenceCompat
-            android:key="settings_enable_continuous_wifi_scan"
-            android:title="@string/settings_continuous_scan_title"
-            android:summary="@string/settings_continuous_scan_summary"
-            android:defaultValue="false"
-            android:icon="@drawable/ic_repeat"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/settings_building">
         <Preference
             android:key="settings_change_building_color"

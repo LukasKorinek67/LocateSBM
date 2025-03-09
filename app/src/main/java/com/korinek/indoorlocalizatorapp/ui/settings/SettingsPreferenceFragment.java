@@ -230,22 +230,6 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
                 }
             });
         }
-
-        ListPreference wifiSorting = findPreference("settings_wifi_sorting");
-        if (wifiSorting != null) {
-            wifiSorting.setSummaryProvider(preference -> {
-                String value = (String) wifiSorting.getEntry();
-                return value != null && !value.isEmpty() ? value : getString(R.string.not_set_text);
-            });
-        }
-
-        SwitchPreferenceCompat continuousWifiScan = findPreference("settings_enable_continuous_wifi_scan");
-        if (continuousWifiScan != null) {
-            continuousWifiScan.setSummaryProvider(preference -> {
-                boolean isEnabled = ((SwitchPreferenceCompat) preference).isChecked();
-                return isEnabled ? "Nepřetržité skenování zapnuto" : "Nepřetržité skenování vypnuto";
-            });
-        }
     }
 
     private void initializeRoomLoadButton() {

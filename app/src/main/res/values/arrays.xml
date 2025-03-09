@@ -1,12 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="wifi_sorting_type">
-        <item>@string/settings_sorting_type_name</item>
-        <item>@string/settings_sorting_type_signal_strength</item>
-    </string-array>
-
-    <string-array name="wifi_sorting_values">
-        <item>name</item>
-        <item>signal_strength</item>
-    </string-array>
 </resources>

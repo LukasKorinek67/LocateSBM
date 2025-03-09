@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.preference.PreferenceManager;
 
 import com.korinek.indoorlocalizatorapp.R;
 
@@ -77,16 +75,7 @@ public class WifiAnalysisViewModel extends AndroidViewModel {
     }
 
     private void sortResults(List<ScanResult> results) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        String sortingType = sharedPreferences.getString("settings_wifi_sorting", "name");
-
-        if(sortingType.equals("signal_strength")) {
-            // sorting by level
-            results.sort((result1, result2) -> Integer.compare(result2.level, result1.level));
-        } else {
-            // sorting by SSID
-            results.sort((result1, result2) -> result1.SSID.compareToIgnoreCase(result2.SSID));
-        }
+        results.sort((result1, result2) -> Integer.compare(result2.level, result1.level));
     }
 
     public boolean isWifiAnalysisActive() {

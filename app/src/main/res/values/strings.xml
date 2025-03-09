@@ -54,13 +54,6 @@
     <string name="settings_room_load_dialog_message">Are you sure you want to load all the rooms from TecoApi? All existing rooms with data will be deleted.</string>
     <string name="settings_room_load_loaded_rooms_text">Loaded Rooms</string>
     <string name="settings_room_load_success_toast">Rooms added</string>
-    <string name="settings_wifi_analysis">Wi-Fi Analysis</string>
-    <string name="settings_sorting_title">Sort Wi-Fi by</string>
-    <string name="settings_sorting_summary">Sorting of nearby Wi-Fi APs</string>
-    <string name="settings_sorting_type_name">Name</string>
-    <string name="settings_sorting_type_signal_strength">Signal strength</string>
-    <string name="settings_continuous_scan_title">Continuous Wi-Fi Scan</string>
-    <string name="settings_continuous_scan_summary">Turn the feature on or off</string>
     <string name="settings_building">Building</string>
     <string name="settings_change_color_title">Change building color</string>
     <string name="settings_about_app">About app</string>
