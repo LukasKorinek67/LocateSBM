@@ -60,15 +60,12 @@ public class BuildingFragment extends Fragment {
         RoomAdapter roomAdapter = new RoomAdapter(new RoomAdapter.RoomActionListener() {
             @Override
             public void onRoomClick(Room room) {
-                System.out.println("Room click: " + room.getName());
-                Toast.makeText(requireContext(), "Click: " + room.getName(), Toast.LENGTH_LONG).show();
                 // TODO - implement what to do
             }
 
             @Override
             public void onRoomCalibrate(Room room) {
-                System.out.println("Room calibrate click: " + room.getName());
-                Toast.makeText(requireContext(), "Click: " + room.getName() + " - Kalibrovat", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "Not implemented yet", Toast.LENGTH_LONG).show();
                 // TODO - implement what to do
             }
 
