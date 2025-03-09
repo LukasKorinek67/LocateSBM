@@ -63,7 +63,7 @@
     <string name="settings_change_color_title">Změnit barvu objektu</string>
     <string name="settings_about_app">O aplikaci</string>
     <string name="settings_app_info">Info o aplikaci</string>
-    <string name="settings_app_info_text">Info o aplikaci… \n\nTato aplikace byla vytvořena v rámci diplomové práce na TUL FM.</string>
+    <string name="settings_app_info_text">IndoorLocalizatorApp je aplikace, která umožňuje uživateli připojit se na řídící systém budovy a ovládat přes telefon atributy jednotlivých místností. Zároveň aplikace využívá WiFi fingerprinting a senzory telefonu k lokalizaci uživatele v rámci budovy. Díky tomu se snaží určit jeho polohu a usnadnit mu ovládání tím, že mu vždy ukáže relevantní místnost. \n\nTato aplikace byla vytvořena v rámci diplomové práce na Technické univerzitě v Liberci, Fakulta mechatroniky, informatiky a mezioborových studií (TUL FM).\n</string>
     <string name="settings_app_reset">Reset aplikace</string>
     <string name="settings_app_reset_text">Reset vymaže všechna data a obnoví všechna nastavení aplikace na výchozí hodnoty. Opravdu chcete resetovat celou aplikaci?</string>
     <string name="settings_choose_building">Vyberte objekt</string>
