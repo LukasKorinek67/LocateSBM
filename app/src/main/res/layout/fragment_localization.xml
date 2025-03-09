@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!--<FrameLayout
-        android:id="@+id/wifi_analysis_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <FrameLayout
-        android:id="@+id/accelerometer_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <FrameLayout
-        android:id="@+id/gyroscope_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>-->
 
     <TextView
         android:id="@+id/info_text_building_not_set_localization"
@@ -47,10 +33,75 @@
         android:textStyle="italic"
         android:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/location_sorted_rooms_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="40dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="top|center_horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="top|center_horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:id="@+id/localization_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/localization_title"
+                android:textAlignment="textStart"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/localization_countdown_timer"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="12dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="@drawable/ic_circle"
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@color/dark_gray" />
+
+            <ImageButton
+                android:id="@+id/localization_refresh_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_reload"
+                android:contentDescription="@string/locate_now"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/dark_gray" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/location_sorted_rooms_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="40dp"/>
+    </LinearLayout>
+
+    <!--<FrameLayout
+        android:id="@+id/wifi_analysis_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:id="@+id/accelerometer_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:id="@+id/gyroscope_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>-->
 </FrameLayout>

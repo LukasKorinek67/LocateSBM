@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,21 +17,23 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentLocalizationBinding;
+import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.ui.building.BuildingViewModel;
-import com.korinek.indoorlocalizatorapp.ui.localization.accelerometer.AccelerometerFragment;
-import com.korinek.indoorlocalizatorapp.ui.localization.gyroscope.GyroscopeFragment;
 import com.korinek.indoorlocalizatorapp.ui.localization.localized_rooms.LocationSortedRoomAdapter;
-import com.korinek.indoorlocalizatorapp.ui.localization.wifi_analysis.WifiAnalysisFragment;
+
+import java.util.List;
 
 public class LocalizationFragment extends Fragment {
 
     private FragmentLocalizationBinding binding;
+    LocalizationCountdownViewModel localizationViewModel;
     BuildingViewModel buildingViewModel;
+    LocationSortedRoomAdapter locationSortedRoomAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        localizationViewModel = new ViewModelProvider(requireActivity()).get(LocalizationCountdownViewModel.class);
         buildingViewModel = new ViewModelProvider(requireActivity()).get(BuildingViewModel.class);
 
         binding = FragmentLocalizationBinding.inflate(inflater, container, false);
@@ -43,9 +46,27 @@ public class LocalizationFragment extends Fragment {
         }
 
         //addFragmentsOnScreen();
+        initializeLocalizationComponents();
         initializeRoomsList();
 
         return root;
+    }
+
+    private void initializeLocalizationComponents() {
+        ImageButton locateNowButton = binding.localizationRefreshButton;
+        TextView countdownTimerNumber = binding.localizationCountdownTimer;
+
+        localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
+
+        localizationViewModel.getLocalizationTrigger().observe(getViewLifecycleOwner(), trigger -> sortAndUpdateRoomsList(buildingViewModel.getRooms().getValue()));
+
+        locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
+    }
+
+    private void sortAndUpdateRoomsList(List<Room> rooms) {
+        // Sorting rooms by location
+        List<Room> locationSortedRooms = RoomLocationSorter.sortRoomsByLocation(rooms);
+        locationSortedRoomAdapter.updateRooms(locationSortedRooms);
     }
 
     private void initializeRoomsList() {
@@ -53,10 +74,10 @@ public class LocalizationFragment extends Fragment {
         final TextView textNoRooms = binding.infoTextNoRoomsLocalization;
         RecyclerView roomsRecyclerView = binding.locationSortedRoomsList;
 
-        LocationSortedRoomAdapter locationSortedRoomAdapter = new LocationSortedRoomAdapter(LocalizationFragment.this);
+        locationSortedRoomAdapter = new LocationSortedRoomAdapter(LocalizationFragment.this);
 
         buildingViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
-            locationSortedRoomAdapter.updateRooms(rooms);
+            sortAndUpdateRoomsList(rooms);
             if(rooms.isEmpty()) {
                 textNoRooms.setVisibility(View.VISIBLE);
                 roomsRecyclerView.setVisibility(View.GONE);
@@ -82,6 +103,18 @@ public class LocalizationFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        localizationViewModel.stopCountdownTimer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        localizationViewModel.restartCountdown();
     }
 
     /*private void addFragmentsOnScreen() {

@@ -30,6 +30,8 @@
     <string name="accelerometer">Accelerometer</string>
     <string name="gyroscope">Gyroscope</string>
     <string name="wifi_analysis">Wi-Fi Analysis</string>
+    <string name="localization_title">Localization</string>
+    <string name="locate_now">Locate now</string>
 
     <!-- Settings -->
     <string name="not_set_text">Not set</string>
