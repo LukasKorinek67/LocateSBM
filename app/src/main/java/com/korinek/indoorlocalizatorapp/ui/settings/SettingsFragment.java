@@ -143,16 +143,19 @@ public class SettingsFragment extends Fragment {
             }
         }).attachToRecyclerView(buildingsRecyclerView);
 
-        addBuildingButton.setOnClickListener(v -> showAddBuildingDialog());
+        addBuildingButton.setOnClickListener(v -> showAddBuildingBottomSheet());
 
         bottomSheetDialog.show();
     }
 
-    private void showAddBuildingDialog() {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_building, null);
+    private void showAddBuildingBottomSheet() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_add_building, null);
+        bottomSheetDialog.setContentView(view);
 
-        EditText buildingNameInput = dialogView.findViewById(R.id.building_name_input);
-        RadioGroup colorPickerGroup = dialogView.findViewById(R.id.color_picker_group);
+        EditText buildingNameInput = view.findViewById(R.id.building_name_input);
+        RadioGroup colorPickerGroup = view.findViewById(R.id.color_picker_group);
+        Button addButton = view.findViewById(R.id.confirm_add_building_button);
 
         for (ColorHelper.ColorTheme colorTheme : ColorHelper.getAllColors()) {
             RadioButton radioButton = new RadioButton(requireContext());
@@ -163,22 +166,20 @@ public class SettingsFragment extends Fragment {
             colorPickerGroup.addView(radioButton);
         }
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.dialog_title_add_building))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.add), (dialog, which) -> {
-                    String buildingName = buildingNameInput.getText().toString().trim();
-                    int selectedColor = getSelectedColor(colorPickerGroup);
+        addButton.setOnClickListener(v -> {
+            String buildingName = buildingNameInput.getText().toString().trim();
+            int selectedColor = getSelectedColor(colorPickerGroup);
 
-                    if (!buildingName.isEmpty() && selectedColor != -1) {
-                        Building building = new Building(buildingName, selectedColor);
-                        buildingViewModel.insertBuilding(building);
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.dialog_error_add_building), Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
-                .show();
+            if (!buildingName.isEmpty() && selectedColor != -1) {
+                Building building = new Building(buildingName, selectedColor);
+                buildingViewModel.insertBuilding(building);
+                bottomSheetDialog.dismiss();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.dialog_error_add_building), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        bottomSheetDialog.show();
     }
 
     private int getSelectedColor(RadioGroup colorPickerGroup) {

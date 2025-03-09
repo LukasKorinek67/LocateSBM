@@ -24,8 +24,9 @@
     <!-- Fragments -->
     <string name="add_building_type_name">Enter object name</string>
     <string name="add_room_type_name">Enter room name</string>
-    <string name="label_room_name">Room name:</string>
+    <string name="label_name">Name:</string>
     <string name="label_icon">Icon:</string>
+    <string name="label_color">Color:</string>
     <string name="wifi_list_title">Wi-Fi list</string>
     <string name="accelerometer">Accelerometer</string>
     <string name="gyroscope">Gyroscope</string>
@@ -96,7 +97,6 @@
     <string name="dialog_message_delete_building">Are you sure you want to delete the object %s? All data will be deleted.</string>
     <string name="dialog_title_add_room">Add new room</string>
     <string name="dialog_error_add_room">Error - room name must be entered!</string>
-    <string name="dialog_title_edit_room">Edit room</string>
     <string name="dialog_error_edit_room">Error - icon must be entered!</string>
     <string name="dialog_title_delete_room">Delete room</string>
     <string name="dialog_message_delete_room">Are you sure you want to delete room %s?</string>

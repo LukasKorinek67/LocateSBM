@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -309,7 +310,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
             if (changeColorPreference != null) {
                 changeColorPreference.setSummary(ColorHelper.getColorName(requireContext(), color));
                 changeColorPreference.setOnPreferenceClickListener(preference -> {
-                    showEditColorDialog(selectedBuilding);
+                    showEditColorBottomSheet(selectedBuilding);
                     return true;
                 });
             }
@@ -318,9 +319,15 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void showEditColorDialog(Building selectedBuilding) {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_building_color, null);
-        RadioGroup colorPickerGroup = dialogView.findViewById(R.id.edit_color_picker_group);
+    private void showEditColorBottomSheet(Building selectedBuilding) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_edit_building_color, null);
+        bottomSheetDialog.setContentView(view);
+
+        TextView editColorTitle= view.findViewById(R.id.edit_color_title);
+        RadioGroup colorPickerGroup = view.findViewById(R.id.edit_color_picker_group);
+
+        editColorTitle.setText(String.format(Locale.getDefault(), getString(R.string.dialog_change_color_title), selectedBuilding.getName()));
 
         for (ColorHelper.ColorTheme colorTheme : ColorHelper.getAllColors()) {
             RadioButton radioButton = new RadioButton(requireContext());
@@ -334,22 +341,19 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
             colorPickerGroup.addView(radioButton);
         }
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(String.format(Locale.getDefault(), getString(R.string.dialog_change_color_title), selectedBuilding.getName()))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.edit), (dialog, which) -> {
-                    int selectedColor = getSelectedColor(colorPickerGroup);
-                    if (selectedColor != -1) {
-                        buildingViewModel.changeBuildingColor(selectedColor);
+        colorPickerGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            int selectedColor = getSelectedColor(colorPickerGroup);
+            if (selectedColor != -1) {
+                buildingViewModel.changeBuildingColor(selectedColor);
 
-                        // reset activity
-                        requireActivity().recreate();
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.dialog_error_add_building), Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
-                .show();
+                // reset activity
+                requireActivity().recreate();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.dialog_error_add_building), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        bottomSheetDialog.show();
     }
 
     private int getSelectedColor(RadioGroup colorPickerGroup) {

@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.korinek.indoorlocalizatorapp.R;
 import com.korinek.indoorlocalizatorapp.databinding.FragmentBuildingBinding;
 import com.korinek.indoorlocalizatorapp.model.Room;
@@ -54,7 +55,7 @@ public class BuildingFragment extends Fragment {
         RecyclerView roomsRecyclerView = binding.recyclerViewRooms;
         Button addRoomButton = binding.addRoomButton;
 
-        addRoomButton.setOnClickListener(v -> showAddRoomDialog());
+        addRoomButton.setOnClickListener(v -> showAddRoomBottomSheet());
 
         RoomAdapter roomAdapter = new RoomAdapter(new RoomAdapter.RoomActionListener() {
             @Override
@@ -73,7 +74,7 @@ public class BuildingFragment extends Fragment {
 
             @Override
             public void onRoomEdit(Room room) {
-                showEditRoomDialog(room);
+                showEditRoomBottomSheet(room);
             }
 
             @Override
@@ -119,57 +120,61 @@ public class BuildingFragment extends Fragment {
         });
     }
 
-    private void showAddRoomDialog() {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_room, null);
+    private void showAddRoomBottomSheet() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_add_room, null);
+        bottomSheetDialog.setContentView(view);
 
-        EditText roomNameInput = dialogView.findViewById(R.id.room_name_input);
-        Spinner iconSelector = dialogView.findViewById(R.id.room_icon_selector);
+        EditText roomNameInput = view.findViewById(R.id.room_name_input);
+        Spinner iconSelector = view.findViewById(R.id.room_icon_selector);
+        Button addButton = view.findViewById(R.id.confirm_add_room_button);
 
         initializeIconSelector(iconSelector);
+        addButton.setOnClickListener(v -> {
+            String roomName = roomNameInput.getText().toString().trim();
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.dialog_title_add_room))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.add), (dialog, which) -> {
-                    String roomName = roomNameInput.getText().toString().trim();
+            if (!roomName.isEmpty() && selectedIcon != 0) {
+                int buildingId = buildingViewModel.getSelectedBuilding().getId();
+                Room room = new Room(roomName, buildingId, RoomIconsHelper.getIconName(selectedIcon));
+                buildingViewModel.insertRoom(room);
+                bottomSheetDialog.dismiss();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.dialog_error_add_room), Toast.LENGTH_LONG).show();
+            }
+        });
 
-                    if (!roomName.isEmpty() && selectedIcon != 0) {
-                        int buildingId = buildingViewModel.getSelectedBuilding().getId();
-                        Room room = new Room(roomName, buildingId, RoomIconsHelper.getIconName(selectedIcon));
-                        buildingViewModel.insertRoom(room);
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.dialog_error_add_room), Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
-                .show();
+        bottomSheetDialog.show();
     }
 
-    private void showEditRoomDialog(Room room) {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_room, null);
+    private void showEditRoomBottomSheet(Room room) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_edit_room, null);
+        bottomSheetDialog.setContentView(view);
 
-        TextView roomName = dialogView.findViewById(R.id.room_name_edit_dialog);
-        Spinner iconSelector = dialogView.findViewById(R.id.room_edit_icon_selector);
+        TextView roomName = view.findViewById(R.id.room_name_edit_bottom_sheet);
+        Spinner iconSelector = view.findViewById(R.id.room_edit_icon_selector);
+        Button editButton = view.findViewById(R.id.confirm_edit_room_button);
 
         roomName.setText(room.getName());
-        initializeIconSelector(iconSelector);
+        initializeIconSelector(iconSelector, room.getIcon());
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.dialog_title_edit_room))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.edit), (dialog, which) -> {
-                    if (selectedIcon != 0) {
-                        room.setIcon(RoomIconsHelper.getIconName(selectedIcon));
-                        buildingViewModel.updateRoom(room);
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.dialog_error_edit_room), Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
-                .show();
+        editButton.setOnClickListener(v -> {
+            if (selectedIcon != 0) {
+                room.setIcon(RoomIconsHelper.getIconName(selectedIcon));
+                buildingViewModel.updateRoom(room);
+                bottomSheetDialog.dismiss();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.dialog_error_edit_room), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        bottomSheetDialog.show();
     }
 
     private void initializeIconSelector(Spinner iconSelector) {
+        initializeIconSelector(iconSelector, null);
+    }
+    private void initializeIconSelector(Spinner iconSelector, String defaultIconName) {
         int[] icons = RoomIconsHelper.getIcons();
         ArrayAdapter<Integer> selectorAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item) {
             @NonNull
@@ -199,6 +204,16 @@ public class BuildingFragment extends Fragment {
             }
         };
         iconSelector.setAdapter(selectorAdapter);
+
+        if(defaultIconName != null) {
+            for (int i = 0; i < icons.length; i++) {
+                if (icons[i] == RoomIconsHelper.getIconResId(defaultIconName)) {
+                    iconSelector.setSelection(i);
+                    selectedIcon = icons[i];
+                }
+            }
+        }
+
         iconSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
