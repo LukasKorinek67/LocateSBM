@@ -26,6 +26,8 @@ import com.korinek.indoorlocalizatorapp.databinding.FragmentBuildingBinding;
 import com.korinek.indoorlocalizatorapp.model.Room;
 import com.korinek.indoorlocalizatorapp.utils.RoomIconsHelper;
 
+import java.util.Comparator;
+
 
 public class BuildingFragment extends Fragment {
 
@@ -52,9 +54,7 @@ public class BuildingFragment extends Fragment {
         RecyclerView roomsRecyclerView = binding.recyclerViewRooms;
         Button addRoomButton = binding.addRoomButton;
 
-        addRoomButton.setOnClickListener(v -> {
-            showAddRoomDialog();
-        });
+        addRoomButton.setOnClickListener(v -> showAddRoomDialog());
 
         RoomAdapter roomAdapter = new RoomAdapter(new RoomAdapter.RoomActionListener() {
             @Override
@@ -81,18 +81,16 @@ public class BuildingFragment extends Fragment {
                 new AlertDialog.Builder(requireContext())
                         .setTitle(getString(R.string.dialog_title_delete_room))
                         .setMessage(String.format(getString(R.string.dialog_message_delete_room), room.getName()))
-                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
-                            buildingViewModel.deleteRoom(room);
-                        })
-                        .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
-                            dialog.dismiss();
-                        })
+                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> buildingViewModel.deleteRoom(room))
+                        .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                         .setOnCancelListener(DialogInterface::dismiss)
                         .show();
             }
         });
 
         buildingViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
+            // sort rooms by name
+            rooms.sort(Comparator.comparing(Room::getName, String.CASE_INSENSITIVE_ORDER));
             roomAdapter.updateRooms(rooms);
             if(rooms.isEmpty()) {
                 textNoRooms.setVisibility(View.VISIBLE);
