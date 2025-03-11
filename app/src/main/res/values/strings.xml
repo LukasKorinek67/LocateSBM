@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">IndoorLocalizatorApp</string>
+    <string name="app_name" translatable="false">LocateSBM</string>
     <string name="database_name" translatable="false">app_database</string>
 
     <string name="title_localization">Localization</string>
@@ -58,7 +58,7 @@
     <string name="settings_change_color_title">Change building color</string>
     <string name="settings_about_app">About app</string>
     <string name="settings_app_info">App info</string>
-    <string name="settings_app_info_text">IndoorLocalizatorApp is an application that allows users to connect to a building’s control system and manage various room attributes via their phone. The application also utilizes WiFi fingerprinting and phone sensors to determine the user’s location within the building. This helps estimate their position and simplifies control by always displaying the relevant room. \n\nThis application was created as part of a master’s thesis at the Technical University of Liberec, Faculty of Mechatronics, Informatics, and Interdisciplinary Studies (TUL FM).\n</string>
+    <string name="settings_app_info_text">LocateSBM is an application that allows users to connect to a building’s control system and manage various room attributes via their phone. The application also utilizes WiFi fingerprinting and phone sensors to determine the user’s location within the building. This helps estimate their position and simplifies control by always displaying the relevant room. \n\nThis application was created as part of a master’s thesis at the Technical University of Liberec, Faculty of Mechatronics, Informatics, and Interdisciplinary Studies (TUL FM).\n</string>
     <string name="settings_app_reset">Reset app</string>
     <string name="settings_app_reset_text">Resetting will erase all data and restore all app settings to their default values. Are you sure you want to reset the entire app?</string>
     <string name="settings_choose_building">Choose object</string>

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.korinek.indoorlocalizatorapp"
+    namespace = "com.korinek.locate_sbm"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.korinek.indoorlocalizatorapp"
+        applicationId = "com.korinek.locate_sbm"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

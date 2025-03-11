@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.korinek.indoorlocalizatorapp.ui.room_setup.wheel_view.WheelView
+    <com.korinek.locate_sbm.ui.room_setup.wheel_view.WheelView
         android:id="@+id/wheel_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

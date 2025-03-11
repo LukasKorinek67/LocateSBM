@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/navigation_localization"
-        android:name="com.korinek.indoorlocalizatorapp.ui.localization.LocalizationFragment"
+        android:name="com.korinek.locate_sbm.ui.localization.LocalizationFragment"
         android:label="@string/title_localization"
         tools:layout="@layout/fragment_localization" >
 
@@ -23,19 +23,19 @@
 
     <fragment
         android:id="@+id/navigation_building"
-        android:name="com.korinek.indoorlocalizatorapp.ui.building.BuildingFragment"
+        android:name="com.korinek.locate_sbm.ui.building.BuildingFragment"
         android:label="@string/title_building"
         tools:layout="@layout/fragment_building" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.korinek.indoorlocalizatorapp.ui.settings.SettingsFragment"
+        android:name="com.korinek.locate_sbm.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/roomSetupFragment"
-        android:name="com.korinek.indoorlocalizatorapp.ui.room_setup.RoomSetupFragment"
+        android:name="com.korinek.locate_sbm.ui.room_setup.RoomSetupFragment"
         android:label="Room Setup"
         tools:layout="@layout/fragment_room_setup" >
         <argument

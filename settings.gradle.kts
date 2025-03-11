@@ -21,5 +21,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "IndoorLocalizatorApp"
+rootProject.name = "LocateSBM"
 include(":app")
