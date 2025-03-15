@@ -10,6 +10,7 @@ public class ColorHelper {
     public enum ColorTheme {
         BLACK(R.id.color_black, R.string.black, R.color.black, R.style.Theme_LocateSBM),
         BLUE(R.id.color_blue, R.string.blue, R.color.blue, R.style.Theme_LocateSBMBlue),
+        GRAY(R.id.color_gray, R.string.gray, R.color.gray, R.style.Theme_LocateSBMGray),
         GREEN(R.id.color_green, R.string.green, R.color.green, R.style.Theme_LocateSBMGreen),
         ORANGE(R.id.color_orange, R.string.orange, R.color.orange, R.style.Theme_LocateSBMOrange),
         PINK(R.id.color_pink, R.string.pink, R.color.pink, R.style.Theme_LocateSBMPink),

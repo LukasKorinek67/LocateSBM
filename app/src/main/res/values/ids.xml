@@ -2,6 +2,7 @@
 <resources>
     <item name="color_black" type="id"/>
     <item name="color_blue" type="id"/>
+    <item name="color_gray" type="id"/>
     <item name="color_green" type="id"/>
     <item name="color_orange" type="id"/>
     <item name="color_pink" type="id"/>

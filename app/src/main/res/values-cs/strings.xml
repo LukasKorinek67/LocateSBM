@@ -117,6 +117,7 @@
     <!-- Colors -->
     <string name="black">Černá</string>
     <string name="blue">Modrá</string>
+    <string name="gray">Šedá</string>
     <string name="green">Zelená</string>
     <string name="orange">Oranžová</string>
     <string name="pink">Růžová</string>
