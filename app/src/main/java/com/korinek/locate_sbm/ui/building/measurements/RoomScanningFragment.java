@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class RoomScanningFragment extends Fragment {
     private FragmentRoomScanningBinding binding;
-    private RoomScanningViewModel roomScanningViewModel;
+    private RoomScanningStateViewModel roomScanningStateViewModel;
     private WifiFingerprintViewModel wifiFingerprintViewModel;
     private WifiListAdapter adapter;
 
@@ -36,7 +36,7 @@ public class RoomScanningFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        roomScanningViewModel = new ViewModelProvider(requireActivity()).get(RoomScanningViewModel.class);
+        roomScanningStateViewModel = new ViewModelProvider(requireActivity()).get(RoomScanningStateViewModel.class);
         wifiFingerprintViewModel = new ViewModelProvider(this).get(WifiFingerprintViewModel.class);
         binding = FragmentRoomScanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -56,15 +56,15 @@ public class RoomScanningFragment extends Fragment {
 
         // buttons onClickListeners
         getFingerprintButton.setOnClickListener(v -> {
-            roomScanningViewModel.setScanState(RoomScanningViewModel.ScanState.LOADING);
+            roomScanningStateViewModel.setScanState(RoomScanningStateViewModel.ScanState.LOADING);
             wifiFingerprintViewModel.startWifiScan();
         });
         repeatScanButton.setOnClickListener(v -> {
-            roomScanningViewModel.setScanState(RoomScanningViewModel.ScanState.LOADING);
+            roomScanningStateViewModel.setScanState(RoomScanningStateViewModel.ScanState.LOADING);
             wifiFingerprintViewModel.startWifiScan();
         });
         errorRepeatScanButton.setOnClickListener(v -> {
-            roomScanningViewModel.setScanState(RoomScanningViewModel.ScanState.LOADING);
+            roomScanningStateViewModel.setScanState(RoomScanningStateViewModel.ScanState.LOADING);
             wifiFingerprintViewModel.startWifiScan();
         });
         saveFingerprintButton.setOnClickListener(v -> {
@@ -81,7 +81,7 @@ public class RoomScanningFragment extends Fragment {
         wifiFingerprintViewModel.getWifiScanResults().observe(getViewLifecycleOwner(), this::updateWifiScanResults);
 
         // state observing - show corresponding view
-        roomScanningViewModel.getScanState().observe(getViewLifecycleOwner(), state -> {
+        roomScanningStateViewModel.getScanState().observe(getViewLifecycleOwner(), state -> {
             switch (state) {
                 case NOT_STARTED:
                     viewFlipper.setDisplayedChild(0);
@@ -99,26 +99,28 @@ public class RoomScanningFragment extends Fragment {
         });
 
         // update room scanning title - number in text
-        roomScanningViewModel.getScanCount().observe(getViewLifecycleOwner(), measurementCount -> {
+        roomScanningStateViewModel.getScanCount().observe(getViewLifecycleOwner(), measurementCount -> {
             TextView roomScanningTitle = binding.roomScanningTitle;
             roomScanningTitle.setText(String.format(Locale.getDefault(), getString(R.string.room_scanning_title), measurementCount));
         });
 
         // set number of steps on StepProgressView
-        roomScanningViewModel.getNumberOfScans().observe(getViewLifecycleOwner(), stepProgressView::setStepsCount);
+        roomScanningStateViewModel.getNumberOfScans().observe(getViewLifecycleOwner(), stepProgressView::setStepsCount);
     }
 
     private void updateWifiScanResults(List<ScanResult> wifiList) {
-        if (wifiList == null || wifiList.isEmpty()) {
-            roomScanningViewModel.setScanState(RoomScanningViewModel.ScanState.FAILED);
-        } else {
-            roomScanningViewModel.setScanState(RoomScanningViewModel.ScanState.DONE);
+        if(roomScanningStateViewModel.getScanState().getValue().equals(RoomScanningStateViewModel.ScanState.LOADING)) {
+            if (wifiList == null || wifiList.isEmpty()) {
+                roomScanningStateViewModel.setScanState(RoomScanningStateViewModel.ScanState.FAILED);
+            } else {
+                roomScanningStateViewModel.setScanState(RoomScanningStateViewModel.ScanState.DONE);
+            }
+            adapter.updateWifiList(wifiList);
         }
-        adapter.updateWifiList(wifiList);
     }
 
     private void goToNextScan() {
-        if(roomScanningViewModel.isLastScan()) {
+        if(roomScanningStateViewModel.isLastScan()) {
             // save fingerprints and dismiss bottomSheetDialog
             wifiFingerprintViewModel.saveAllFingerprints();
             BottomSheetDialogFragment parent = (BottomSheetDialogFragment) getParentFragment();
@@ -127,8 +129,8 @@ public class RoomScanningFragment extends Fragment {
             }
         } else {
             // next scan and update stepProgressView
-            roomScanningViewModel.goToNextScan();
-            roomScanningViewModel.setScanState(RoomScanningViewModel.ScanState.NOT_STARTED);
+            roomScanningStateViewModel.goToNextScan();
+            roomScanningStateViewModel.setScanState(RoomScanningStateViewModel.ScanState.NOT_STARTED);
             StepProgressView stepProgressView = binding.stepProgress;
             stepProgressView.nextStep(true);
         }
@@ -137,6 +139,7 @@ public class RoomScanningFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        roomScanningViewModel.reset();
+        roomScanningStateViewModel.reset();
+        wifiFingerprintViewModel.reset();
     }
 }

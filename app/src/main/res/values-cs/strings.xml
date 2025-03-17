@@ -27,7 +27,7 @@
     <string name="label_name">Název:</string>
     <string name="label_icon">Ikona:</string>
     <string name="label_color">Barva:</string>
-    <string name="wifi_list_title">Seznam WiFi sítí</string>
+    <string name="wifi_list_title">Okolní Wi-Fi sítě</string>
     <string name="accelerometer">Akcelerometr</string>
     <string name="gyroscope">Gyroskop</string>
     <string name="wifi_analysis">Wi-Fi Analýza</string>

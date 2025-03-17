@@ -20,7 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.korinek.locate_sbm.R;
 import com.korinek.locate_sbm.model.Room;
-import com.korinek.locate_sbm.ui.building.measurements.RoomScanningViewModel;
+import com.korinek.locate_sbm.ui.building.measurements.RoomScanningStateViewModel;
 import com.korinek.locate_sbm.ui.building.measurements.RoomScanningFragment;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
 
@@ -30,7 +30,7 @@ public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
 
     private final Room room;
 
-    private RoomScanningViewModel roomScanningViewModel;
+    private RoomScanningStateViewModel roomScanningStateViewModel;
 
     public enum RoomSize {
         SMALL(3),
@@ -55,7 +55,7 @@ public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        roomScanningViewModel = new ViewModelProvider(requireActivity()).get(RoomScanningViewModel.class);
+        roomScanningStateViewModel = new ViewModelProvider(requireActivity()).get(RoomScanningStateViewModel.class);
         return inflater.inflate(R.layout.bottom_sheet_calibrate_room, container, false);
     }
 
@@ -106,7 +106,7 @@ public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
                 int numberOfScans = selectedRoomSize.getNumberOfScans();
 
                 calibrationInfoText.setText(String.format(Locale.getDefault(), getContext().getString(R.string.calibration_info_text), numberOfScans));
-                roomScanningViewModel.setNumberOfScans(numberOfScans);
+                roomScanningStateViewModel.setNumberOfScans(numberOfScans);
             } else {
                 layoutStartingCalibration.setVisibility(View.INVISIBLE);
             }

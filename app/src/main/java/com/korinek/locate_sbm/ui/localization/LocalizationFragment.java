@@ -2,6 +2,7 @@ package com.korinek.locate_sbm.ui.localization;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.korinek.locate_sbm.R;
 import com.korinek.locate_sbm.databinding.FragmentLocalizationBinding;
-import com.korinek.locate_sbm.model.Room;
 import com.korinek.locate_sbm.ui.building.BuildingViewModel;
 import com.korinek.locate_sbm.ui.localization.localized_rooms.LocationSortedRoomAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocalizationFragment extends Fragment {
@@ -29,7 +32,8 @@ public class LocalizationFragment extends Fragment {
     private FragmentLocalizationBinding binding;
     LocalizationCountdownViewModel localizationViewModel;
     BuildingViewModel buildingViewModel;
-    LocationSortedRoomAdapter locationSortedRoomAdapter;
+    private LocationSortedRoomAdapter locationSortedRoomAdapter;
+    private WifiListAdapter wifiListAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -52,22 +56,16 @@ public class LocalizationFragment extends Fragment {
     }
 
     private void initialize() {
+        ImageButton showWifiButton = binding.localizationShowWifiButton;
         ImageButton locateNowButton = binding.localizationRefreshButton;
         TextView countdownTimerNumber = binding.localizationCountdownTimer;
         TextView textBuildingNotSet = binding.infoTextBuildingNotSetLocalization;
         TextView textNoRooms = binding.infoTextNoRoomsLocalization;
         RecyclerView roomsRecyclerView = binding.locationSortedRoomsList;
 
-        // localization countdown timer
-        localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
-        localizationViewModel.getLocalizationTrigger().observe(getViewLifecycleOwner(), trigger -> sortAndUpdateRoomsList(buildingViewModel.getRooms().getValue()));
-
-        locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
-
-        locationSortedRoomAdapter = new LocationSortedRoomAdapter(LocalizationFragment.this);
-
+        // get all rooms
         buildingViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
-            sortAndUpdateRoomsList(rooms);
+            localizationViewModel.setLocationSortedRooms(rooms);
             if(rooms.isEmpty()) {
                 textNoRooms.setVisibility(View.VISIBLE);
                 roomsRecyclerView.setVisibility(View.GONE);
@@ -77,6 +75,16 @@ public class LocalizationFragment extends Fragment {
             }
         });
 
+        // init wifi list adapter
+        List<ScanResult> wifiList = localizationViewModel.getWifiScanResults().getValue();
+        if(wifiList == null) {
+            wifiList = new ArrayList<>();
+        }
+        wifiListAdapter = new WifiListAdapter(wifiList);
+
+
+        // init location sorted room adapter
+        locationSortedRoomAdapter = new LocationSortedRoomAdapter(LocalizationFragment.this);
         roomsRecyclerView.setAdapter(locationSortedRoomAdapter);
         roomsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -90,12 +98,39 @@ public class LocalizationFragment extends Fragment {
                 textNoRooms.setVisibility(View.INVISIBLE);
             }
         });
+
+
+        // localization countdown timer - show seconds
+        localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
+
+        // update wifi list after every scan
+        localizationViewModel.getWifiScanResults().observe(getViewLifecycleOwner(), scanResults -> {
+            wifiListAdapter.updateWifiList(scanResults);
+        });
+
+        // update rooms after every localization
+        localizationViewModel.getLocationSortedRooms().observe(getViewLifecycleOwner(), rooms -> {
+            locationSortedRoomAdapter.updateRooms(rooms);
+        });
+
+        // buttons
+        locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
+        showWifiButton.setOnClickListener(v -> showWifiBottomSheetDialog());
     }
 
-    private void sortAndUpdateRoomsList(List<Room> rooms) {
-        // Sorting rooms by location
-        List<Room> locationSortedRooms = RoomLocationSorter.sortRoomsByLocation(rooms);
-        locationSortedRoomAdapter.updateRooms(locationSortedRooms);
+    private void showWifiBottomSheetDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_wifi_list, null);
+        bottomSheetDialog.setContentView(view);
+
+        RecyclerView wifiListRecyclerView = view.findViewById(R.id.wifi_list_recycler_view);
+        wifiListRecyclerView.setAdapter(wifiListAdapter);
+        wifiListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        TextView countdownTimerNumber = view.findViewById(R.id.localization_second_countdown_timer);
+        localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
+
+        bottomSheetDialog.show();
     }
 
     @Override
@@ -115,21 +150,4 @@ public class LocalizationFragment extends Fragment {
         super.onResume();
         localizationViewModel.restartCountdown();
     }
-
-    /*private void addFragmentsOnScreen() {
-        // WifiAnalysisFragment
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.wifi_analysis_container, new WifiAnalysisFragment())
-                .commit();
-
-        // GyroscopeFragment
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.gyroscope_container, new GyroscopeFragment())
-                .commit();
-
-        // AccelerometerFragment
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.accelerometer_container, new AccelerometerFragment())
-                .commit();
-    }*/
 }

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.korinek.locate_sbm.databinding.ActivityMainBinding;
+import com.korinek.locate_sbm.ui.building.measurements.WifiScanService;
 import com.korinek.locate_sbm.utils.SharedPreferencesHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,4 +39,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WifiScanService.getInstance(this).unregisterReceiver();
+    }
 }

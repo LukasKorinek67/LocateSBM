@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class RoomScanningViewModel extends ViewModel {
+public class RoomScanningStateViewModel extends ViewModel {
 
     public enum ScanState {
         NOT_STARTED,
