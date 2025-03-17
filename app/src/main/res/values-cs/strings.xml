@@ -13,10 +13,12 @@
     <string name="delete">Odstranit</string>
     <string name="calibrate">Kalibrovat</string>
     <string name="set">Nastavit</string>
+    <string name="save">Uložit</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="back">Zpět</string>
     <string name="add_building">Přidat místnost</string>
+    <string name="scan_again">Skenovat znovu</string>
     <string name="more_symbols_dots">…</string>
 
     <!-- Fragments -->
@@ -113,6 +115,18 @@
     <string name="light3">Světlo 3</string>
     <string name="blinds">Rolety</string>
     <string name="ventilation">Ventilace</string>
+
+    <!-- Calibration -->
+    <string name="calibration_title">Kalibrace lokalizace místnosti</string>
+    <string name="choose_size_text">Zvolte velikost místnosti</string>
+    <string name="size_small">Malá</string>
+    <string name="size_medium">Střední</string>
+    <string name="size_large">Velká</string>
+    <string name="calibration_info_text">Bude provedeno %d skenování okolního Wi-Fi signálu v místnosti. Každý sken zachytí unikátní otisk (Wi-Fi fingerprint), který pomůže aplikaci přesněji určit vaši polohu uvnitř budovy. Pokuste se pokrýt co největší plochu místnosti a provádějte sken na různých místech pro dosažení nejlepší přesnosti.</string>
+    <string name="start_scanning">Začít se skenováním</string>
+    <string name="room_scanning_title">Skenování místnosti - bod č. %d</string>
+    <string name="button_get_wifi_fingerprint">Získat Wi-Fi fingerprint</string>
+
 
     <!-- Colors -->
     <string name="black">Černá</string>

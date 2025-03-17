@@ -65,8 +65,7 @@ public class BuildingFragment extends Fragment {
 
             @Override
             public void onRoomCalibrate(Room room) {
-                Toast.makeText(requireContext(), "Not implemented yet", Toast.LENGTH_LONG).show();
-                // TODO - implement what to do
+                showCalibrateRoomBottomSheet(room);
             }
 
             @Override
@@ -141,6 +140,10 @@ public class BuildingFragment extends Fragment {
         });
 
         bottomSheetDialog.show();
+    }
+
+    private void showCalibrateRoomBottomSheet(Room room) {
+        new CalibrateRoomBottomSheetDialog(room).show(getParentFragmentManager(), "CalibrateRoomBottomSheetDialog");
     }
 
     private void showEditRoomBottomSheet(Room room) {

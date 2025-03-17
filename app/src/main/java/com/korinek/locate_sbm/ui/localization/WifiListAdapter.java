@@ -45,22 +45,22 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiVi
     }
 
     static class WifiViewHolder extends RecyclerView.ViewHolder {
-        private final TextView wifiTextView;
         private final TextView wifiSignalStrength;
-        private final TextView wifiRttRange;
+        private final TextView wifiSSIDTextView;
+        private final TextView wifiMacTextView;
 
         public WifiViewHolder(@NonNull View itemView) {
             super(itemView);
-            wifiTextView = itemView.findViewById(R.id.wifi_text_view);
             wifiSignalStrength = itemView.findViewById(R.id.wifi_signal_strength);
-            wifiRttRange = itemView.findViewById(R.id.rtt_text);
+            wifiSSIDTextView = itemView.findViewById(R.id.wifi_ssid_text_view);
+            wifiMacTextView = itemView.findViewById(R.id.wifi_mac_text_view);
         }
 
         public void bind(ScanResult wifi) {
             String ssid = (wifi.SSID == null || wifi.SSID.isBlank()) ? itemView.getContext().getString(R.string.no_ssid) : wifi.SSID;
-            wifiTextView.setText(ssid);
+            wifiSSIDTextView.setText(ssid);
             wifiSignalStrength.setText(String.format(Locale.getDefault(), itemView.getContext().getString(R.string.wifi_signal_with_unit), wifi.level));
-            wifiRttRange.setText(wifi.is80211mcResponder()? itemView.getContext().getString(R.string.wifi_rtt) : "");
+            wifiMacTextView.setText(wifi.BSSID);
         }
     }
 }
