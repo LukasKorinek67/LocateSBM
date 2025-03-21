@@ -56,7 +56,9 @@
     <string name="settings_room_load_dialog_message">Are you sure you want to load all the rooms from TecoApi? All existing rooms with data will be deleted.</string>
     <string name="settings_room_load_loaded_rooms_text">Loaded Rooms</string>
     <string name="settings_room_load_success_toast">Rooms added</string>
-    <string name="settings_building">Building</string>
+    <string name="settings_general">General</string>
+    <string name="settings_localization_method">Localization method</string>
+    <string name="settings_localization_method_random">Random (not implemented yet)</string>
     <string name="settings_change_color_title">Change building color</string>
     <string name="settings_about_app">About app</string>
     <string name="settings_app_info">App info</string>

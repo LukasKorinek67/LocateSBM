@@ -9,7 +9,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.korinek.locate_sbm.mapper.WifiFingerprintMapper;
 import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.WifiFingerprint;
 import com.korinek.locate_sbm.ui.building.measurements.WifiScanService;
 
 import java.util.List;
@@ -43,8 +45,8 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
     }
 
     private void performLocalization(List<ScanResult> scanResults) {
-        // TODO - map scanResult to WifiFingerprint and pass it to sortRoomsByLocation()
-        List<Room> sortedRooms = RoomLocationSorter.sortRoomsByLocation(locationSortedRooms.getValue());
+        WifiFingerprint actualFingerprint = WifiFingerprintMapper.scanResultsToWifiFingerprint(scanResults);
+        List<Room> sortedRooms = RoomLocationSorter.sortRoomsByLocation(actualFingerprint, locationSortedRooms.getValue(), getApplication());
         locationSortedRooms.setValue(sortedRooms);
 
         // start new countdown

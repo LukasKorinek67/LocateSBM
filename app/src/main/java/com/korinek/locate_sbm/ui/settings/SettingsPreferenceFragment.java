@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
@@ -45,6 +46,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
     EditTextPreference authUsername;
     EditTextPreference authPassword;
     Preference roomLoadPreference;
+    ListPreference localizationMethodPreference;
     Preference changeColorPreference;
 
     @Override
@@ -70,6 +72,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         authUsername = findPreference("settings_request_authorization_username");
         authPassword = findPreference("settings_request_authorization_password");
         roomLoadPreference = findPreference("settings_room_load");
+        localizationMethodPreference = findPreference("settings_localization_method");
         changeColorPreference = findPreference("settings_change_building_color");
     }
 
@@ -158,7 +161,9 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
                         tecoApiUrlPref != null && tecoApiUrlPref.getText() != null &&
                         tecoApiBuildingNamePref != null && tecoApiBuildingNamePref.getText() != null ) {
                     roomLoadPreference.setEnabled(!tecoApiUrlPref.getText().isEmpty() && !tecoApiBuildingNamePref.getText().isEmpty());
-
+                }
+                if(localizationMethodPreference != null) {
+                    localizationMethodPreference.setEnabled(true);
                 }
             } else {
                 if(tecoApiUrlPref != null) {
@@ -183,6 +188,9 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
                 }
                 if(roomLoadPreference != null) {
                     roomLoadPreference.setEnabled(false);
+                }
+                if(localizationMethodPreference != null) {
+                    localizationMethodPreference.setEnabled(false);
                 }
             }
         });
@@ -227,6 +235,13 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
                 } else {
                     return getString(R.string.not_set_text);
                 }
+            });
+        }
+
+        if (localizationMethodPreference != null) {
+            localizationMethodPreference.setSummaryProvider(preference -> {
+                String value = (String) localizationMethodPreference.getEntry();
+                return value != null && !value.isEmpty() ? value : getString(R.string.not_set_text);
             });
         }
     }

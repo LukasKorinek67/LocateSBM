@@ -54,7 +54,9 @@
     <string name="settings_room_load_dialog_message">Opravdu chcete načíst všechny místnosti z TecoApi? Všechny stávající místnosti s daty budou smazány.</string>
     <string name="settings_room_load_loaded_rooms_text">Načtené místnosti</string>
     <string name="settings_room_load_success_toast">Místnosti přidány</string>
-    <string name="settings_building">Objekt</string>
+    <string name="settings_general">Obecné</string>
+    <string name="settings_localization_method">Metoda Lokalizace</string>
+    <string name="settings_localization_method_random">Náhodně (zatím neimplementováno)</string>
     <string name="settings_change_color_title">Změnit barvu objektu</string>
     <string name="settings_about_app">O aplikaci</string>
     <string name="settings_app_info">Info o aplikaci</string>

@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="localization_method_values_entries">
+        <item>@string/settings_localization_method_random</item>
+    </string-array>
+
+    <string-array name="localization_method_values">
+        <item>random</item>
+    </string-array>
 </resources>

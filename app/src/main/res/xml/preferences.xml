@@ -43,7 +43,16 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_building">
+        android:title="@string/settings_general">
+
+        <ListPreference
+            android:key="settings_localization_method"
+            android:title="@string/settings_localization_method"
+            android:entries="@array/localization_method_values_entries"
+            android:entryValues="@array/localization_method_values"
+            android:defaultValue="random"
+            android:icon="@drawable/ic_localization"/>
+
         <Preference
             android:key="settings_change_building_color"
             android:title="@string/settings_change_color_title"
