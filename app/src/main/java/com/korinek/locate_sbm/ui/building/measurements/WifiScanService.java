@@ -26,6 +26,7 @@ public class WifiScanService {
     private final BroadcastReceiver wifiReceiver;
     private final MutableLiveData<List<ScanResult>> wifiScanResults = new MutableLiveData<>();
     private final Context appContext;
+    private boolean isReceiverRegistered;
 
     private WifiScanService(Context context) {
         this.appContext = context.getApplicationContext();
@@ -50,6 +51,7 @@ public class WifiScanService {
             }
         };
         appContext.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        isReceiverRegistered = true;
     }
 
     public static synchronized WifiScanService getInstance(Context context) {
@@ -76,6 +78,9 @@ public class WifiScanService {
     }
 
     public void unregisterReceiver() {
-        appContext.unregisterReceiver(wifiReceiver);
+        if (isReceiverRegistered) {
+            appContext.unregisterReceiver(wifiReceiver);
+            isReceiverRegistered = false;
+        }
     }
 }
