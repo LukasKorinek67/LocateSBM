@@ -146,6 +146,9 @@
     <string name="toast_localization_permission_not_granted">Přístup k lokalizaci není povolen. Povolení je nutné pro skenování WiFi.</string>
     <string name="toast_scan_failed">Skenování Wi-Fi selhalo.</string>
 
+    <!-- Tooltips -->
+    <string name="tooltip_localization_probability">Pravděpodobnost lokalizace: %s</string>
+
     <!-- Room setup -->
     <string name="confirm_set_toast">Nastaveno:\n%s %s%s</string>
     <string name="decimal_separator">,</string>

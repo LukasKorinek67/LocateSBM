@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -61,6 +62,14 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         roomNameTextView.setText(localizedRoom.getRoom().getName());
         roomLocationProbabilityTextView.setText(String.format(Locale.getDefault(),"%.0f %%", localizedRoom.getLocationProbability()));
 
+        // Tooltip text on roomLocationProbabilityTextView
+        String percentageText = roomLocationProbabilityTextView.getText().toString();
+        TooltipCompat.setTooltipText(
+                roomLocationProbabilityTextView,
+                String.format(Locale.getDefault(), parentFragment.getString(R.string.tooltip_localization_probability), percentageText)
+        );
+        // show tooltip on click instead of long click
+        roomLocationProbabilityTextView.setOnClickListener(View::performLongClick);
 
         roomSetButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();

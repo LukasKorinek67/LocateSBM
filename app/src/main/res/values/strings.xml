@@ -152,6 +152,9 @@
     <string name="toast_localization_permission_not_granted">Location access is not allowed. Permission is required for WiFi scanning.</string>
     <string name="toast_scan_failed">Wi-Fi scan failed.</string>
 
+    <!-- Tooltips -->
+    <string name="tooltip_localization_probability">Localization probability: %s</string>
+
     <!-- Room setup -->
     <string name="confirm_set_toast">Set:\n%s %s%s</string>
     <string name="decimal_separator">.</string>
