@@ -9,21 +9,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.korinek.locate_sbm.mapper.RoomMapper;
 import com.korinek.locate_sbm.mapper.WifiFingerprintMapper;
+import com.korinek.locate_sbm.model.LocalizedRoom;
 import com.korinek.locate_sbm.model.Room;
 import com.korinek.locate_sbm.model.WifiFingerprint;
 import com.korinek.locate_sbm.ui.building.measurements.WifiScanService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocalizationCountdownViewModel extends AndroidViewModel {
 
     WifiScanService wifiScanService;
     private final MediatorLiveData<List<ScanResult>> wifiScanResults = new MediatorLiveData<>();
-    private final MutableLiveData<List<Room>> locationSortedRooms = new MutableLiveData<>();
+    private final MutableLiveData<List<LocalizedRoom>> locationSortedRooms = new MutableLiveData<>(new ArrayList<>());
     private static final long LOCALIZATION_INTERVAL = 10000; // 10 sec
     private final MutableLiveData<Integer> countdownTime = new MutableLiveData<>();
     private CountDownTimer countDownTimer;
+    private final MutableLiveData<Boolean> localizationDone = new MutableLiveData<>(false);
 
     public LocalizationCountdownViewModel(Application application) {
         super(application);
@@ -34,20 +38,23 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
             // set wifi scan results to show in UI
             wifiScanResults.setValue(scanResults);
 
-            // sort rooms by location
             performLocalization(scanResults);
         });
         performWifiScan();
     }
 
     private void performWifiScan() {
+        localizationDone.setValue(false);
         wifiScanService.startWifiScan();
     }
 
     private void performLocalization(List<ScanResult> scanResults) {
-        WifiFingerprint actualFingerprint = WifiFingerprintMapper.scanResultsToWifiFingerprint(scanResults);
-        List<Room> sortedRooms = RoomLocationSorter.sortRoomsByLocation(actualFingerprint, locationSortedRooms.getValue(), getApplication());
-        locationSortedRooms.setValue(sortedRooms);
+        if(locationSortedRooms.getValue() != null || !locationSortedRooms.getValue().isEmpty()) {
+            WifiFingerprint actualFingerprint = WifiFingerprintMapper.scanResultsToWifiFingerprint(scanResults);
+            List<LocalizedRoom> sortedRooms = RoomLocationSorter.sortRoomsByLocation(actualFingerprint, locationSortedRooms.getValue(), getApplication());
+            locationSortedRooms.setValue(sortedRooms);
+        }
+        localizationDone.setValue(true);
 
         // start new countdown
         startCountdown();
@@ -57,12 +64,16 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
         return wifiScanResults;
     }
 
-    public MutableLiveData<List<Room>> getLocationSortedRooms() {
+    public MutableLiveData<List<LocalizedRoom>> getLocationSortedRooms() {
         return locationSortedRooms;
     }
 
-    public void setLocationSortedRooms(List<Room> rooms) {
-        locationSortedRooms.setValue(rooms);
+    public void setRooms(List<Room> rooms) {
+        locationSortedRooms.setValue(RoomMapper.toLocalizedRoomList(rooms));
+    }
+
+    public MutableLiveData<Boolean> isLocalizationDone() {
+        return localizationDone;
     }
 
     private void startCountdown() {
@@ -93,7 +104,7 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
     }
 
     public void restartCountdown() {
-        startCountdown();
+        performWifiScan();
     }
 
     public void stopCountdownTimer() {

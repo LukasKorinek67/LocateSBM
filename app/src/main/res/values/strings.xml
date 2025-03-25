@@ -34,6 +34,7 @@
     <string name="gyroscope">Gyroscope</string>
     <string name="wifi_analysis">Wi-Fi Analysis</string>
     <string name="localization_title">Localization</string>
+    <string name="show_wifi_list">Show Wi-Fi List</string>
     <string name="locate_now">Locate now</string>
 
     <!-- Settings -->

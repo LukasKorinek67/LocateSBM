@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.korinek.locate_sbm.R;
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.LocalizedRoom;
 import com.korinek.locate_sbm.model.api.RoomApiModel;
 import com.korinek.locate_sbm.utils.RoomAttributesHelper;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
@@ -25,6 +25,7 @@ import com.korinek.locate_sbm.utils.api.RequestHandler;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
     private final ImageView roomIcon;
     private final TextView roomNameTextView;
     private final Button roomSetButton;
+    private final TextView roomLocationProbabilityTextView;
     private final ProgressBar overviewLoadingBar;
     private final TextView roomDataNotAvailableText;
     private final TextView roomHasNoAttributesText;
@@ -46,6 +48,7 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         roomIcon = itemView.findViewById(R.id.localized_room_icon);
         roomNameTextView = itemView.findViewById(R.id.localized_room_name);
         roomSetButton = itemView.findViewById(R.id.room_set_button);
+        roomLocationProbabilityTextView = itemView.findViewById(R.id.localized_location_probability);
         overviewLoadingBar = itemView.findViewById(R.id.data_overview_loading_bar);
         roomDataNotAvailableText = itemView.findViewById(R.id.text_room_data_not_available);
         roomHasNoAttributesText = itemView.findViewById(R.id.text_room_has_no_attributes);
@@ -53,15 +56,16 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         recyclerView = itemView.findViewById(R.id.room_data_overview_recycler_view);
     }
 
-    public void bind(Room room, Fragment parentFragment) {
-        roomIcon.setImageResource(RoomIconsHelper.getIconResId(room.getIcon()));
-        roomNameTextView.setText(room.getName());
+    public void bind(LocalizedRoom localizedRoom, Fragment parentFragment) {
+        roomIcon.setImageResource(RoomIconsHelper.getIconResId(localizedRoom.getRoom().getIcon()));
+        roomNameTextView.setText(localizedRoom.getRoom().getName());
+        roomLocationProbabilityTextView.setText(String.format(Locale.getDefault(),"%.0f %%", localizedRoom.getLocationProbability()));
 
 
         roomSetButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString("roomName", room.getName());
-            bundle.putString("roomIcon", room.getIcon());
+            bundle.putString("roomName", localizedRoom.getRoom().getName());
+            bundle.putString("roomIcon", localizedRoom.getRoom().getIcon());
 
             NavController navController = Navigation.findNavController(parentFragment.requireActivity(), R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.action_localizationFragment_to_roomSetupFragment, bundle);
@@ -81,7 +85,7 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         recyclerView.setRecycledViewPool(viewPool);
 
-        loadData(room.getName());
+        loadData(localizedRoom.getRoom().getName());
 
         indicatorMoreItems.setOnClickListener(v -> {
             indicatorMoreItems.setVisibility(View.GONE);

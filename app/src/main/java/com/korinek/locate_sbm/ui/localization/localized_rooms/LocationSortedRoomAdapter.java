@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.korinek.locate_sbm.R;
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.LocalizedRoom;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocationSortedRoomAdapter extends RecyclerView.Adapter<LocationSortedRoomAdapter.LocationSortedRoomViewHolder> {
 
-    private final List<Room> rooms = new ArrayList<>();
+    private final List<LocalizedRoom> rooms = new ArrayList<>();
     private final Fragment parentFragment;
     private int localizedIndex = 0;
     private static final int VIEW_TYPE_LOCALIZED = 0;
@@ -26,13 +26,13 @@ public class LocationSortedRoomAdapter extends RecyclerView.Adapter<LocationSort
         this.parentFragment = parentFragment;
     }
 
-    public void updateRooms(List<Room> rooms) {
+    public void updateRooms(List<LocalizedRoom> rooms) {
         this.rooms.clear();
         this.rooms.addAll(rooms);
         notifyDataSetChanged();
     }
 
-    public Room getRoomAt(int position) {
+    public LocalizedRoom getRoomAt(int position) {
         return rooms.get(position);
     }
 
@@ -56,7 +56,7 @@ public class LocationSortedRoomAdapter extends RecyclerView.Adapter<LocationSort
 
     @Override
     public void onBindViewHolder(@NonNull LocationSortedRoomViewHolder holder, int position) {
-        Room room = rooms.get(position);
+        LocalizedRoom room = rooms.get(position);
 
         holder.itemView.setOnClickListener(v -> {
             if (localizedIndex != holder.getAdapterPosition()) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -35,6 +36,23 @@ public class LocalizationFragment extends Fragment {
     private LocationSortedRoomAdapter locationSortedRoomAdapter;
     private WifiListAdapter wifiListAdapter;
 
+    public enum LocalizationViewState {
+        LOCALIZATION_IN_PROGRESS(0),
+        LOCALIZED_ROOMS(1),
+        NO_BUILDING_SELECTED(2),
+        NO_ROOMS(3);
+
+        private final int index;
+
+        LocalizationViewState(int index) {
+            this.index = index;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         localizationViewModel = new ViewModelProvider(requireActivity()).get(LocalizationCountdownViewModel.class);
@@ -56,66 +74,93 @@ public class LocalizationFragment extends Fragment {
     }
 
     private void initialize() {
-        ImageButton showWifiButton = binding.localizationShowWifiButton;
-        ImageButton locateNowButton = binding.localizationRefreshButton;
-        TextView countdownTimerNumber = binding.localizationCountdownTimer;
-        TextView textBuildingNotSet = binding.infoTextBuildingNotSetLocalization;
-        TextView textNoRooms = binding.infoTextNoRoomsLocalization;
-        RecyclerView roomsRecyclerView = binding.locationSortedRoomsList;
+        ViewFlipper viewFlipper = binding.localizationViewFlipper;
+        viewFlipper.setDisplayedChild(LocalizationViewState.LOCALIZATION_IN_PROGRESS.getIndex());
+
+        initializeButtons();
+        initializeCountdownTimer();
+        initializeWifiListAdapter();
+        initializeLocationSortedRoomAdapter();
 
         // get all rooms
         buildingViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
-            localizationViewModel.setLocationSortedRooms(rooms);
-            if(rooms.isEmpty()) {
-                textNoRooms.setVisibility(View.VISIBLE);
-                roomsRecyclerView.setVisibility(View.GONE);
+            localizationViewModel.setRooms(rooms);
+            if(rooms.isEmpty() && buildingViewModel.getIsBuildingSelected().getValue()) {
+                viewFlipper.setDisplayedChild(LocalizationViewState.NO_ROOMS.getIndex());
             } else {
-                textNoRooms.setVisibility(View.GONE);
-                roomsRecyclerView.setVisibility(View.VISIBLE);
+                setViewFlipperChild(viewFlipper);
             }
         });
 
-        // init wifi list adapter
+        // visibility of elements depends on selected building
+        buildingViewModel.getIsBuildingSelected().observe(getViewLifecycleOwner(), isBuildingSelected -> {
+            if (!isBuildingSelected) {
+                viewFlipper.setDisplayedChild(LocalizationViewState.NO_BUILDING_SELECTED.getIndex());
+            } else {
+                setViewFlipperChild(viewFlipper);
+            }
+        });
+
+        // visibility while localization in progress
+        localizationViewModel.isLocalizationDone().observe(getViewLifecycleOwner(), isLocalizationDone -> {
+            // if no building selected or empty room
+            if(!buildingViewModel.getIsBuildingSelected().getValue() ||
+                    (buildingViewModel.getRooms().getValue() != null && buildingViewModel.getRooms().getValue().isEmpty())) {
+                setViewFlipperChild(viewFlipper);
+            } else if (!isLocalizationDone) {
+                viewFlipper.setDisplayedChild(LocalizationViewState.LOCALIZATION_IN_PROGRESS.getIndex());
+            } else {
+                viewFlipper.setDisplayedChild(LocalizationViewState.LOCALIZED_ROOMS.getIndex());
+            }
+        });
+
+    }
+
+    private void setViewFlipperChild(ViewFlipper viewFlipper) {
+        if(!buildingViewModel.getIsBuildingSelected().getValue()) {
+            viewFlipper.setDisplayedChild(LocalizationViewState.NO_BUILDING_SELECTED.getIndex());
+        } else if(buildingViewModel.getRooms().getValue() != null && buildingViewModel.getRooms().getValue().isEmpty()) {
+            viewFlipper.setDisplayedChild(LocalizationViewState.NO_ROOMS.getIndex());
+        } else if (localizationViewModel.isLocalizationDone().getValue() != null && !localizationViewModel.isLocalizationDone().getValue()) {
+            viewFlipper.setDisplayedChild(LocalizationViewState.LOCALIZATION_IN_PROGRESS.getIndex());
+        } else {
+            viewFlipper.setDisplayedChild(LocalizationViewState.LOCALIZED_ROOMS.getIndex());
+        }
+    }
+
+    private void initializeButtons() {
+        ImageButton showWifiButton = binding.localizationShowWifiButton;
+        ImageButton locateNowButton = binding.localizationRefreshButton;
+        locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
+        showWifiButton.setOnClickListener(v -> showWifiBottomSheetDialog());
+    }
+
+    private void initializeCountdownTimer() {
+        TextView countdownTimerNumber = binding.localizationCountdownTimer;
+        // localization countdown timer - show seconds
+        localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
+
+    }
+
+    private void initializeWifiListAdapter() {
         List<ScanResult> wifiList = localizationViewModel.getWifiScanResults().getValue();
         if(wifiList == null) {
             wifiList = new ArrayList<>();
         }
         wifiListAdapter = new WifiListAdapter(wifiList);
 
+        // update wifi list after every scan
+        localizationViewModel.getWifiScanResults().observe(getViewLifecycleOwner(), scanResults -> wifiListAdapter.updateWifiList(scanResults));
+    }
 
-        // init location sorted room adapter
+    private void initializeLocationSortedRoomAdapter() {
+        RecyclerView roomsRecyclerView = binding.locationSortedRoomsList;
         locationSortedRoomAdapter = new LocationSortedRoomAdapter(LocalizationFragment.this);
         roomsRecyclerView.setAdapter(locationSortedRoomAdapter);
         roomsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // visibility of elements depends on selected building
-        buildingViewModel.getIsBuildingSelected().observe(getViewLifecycleOwner(), isBuildingSelected -> {
-            roomsRecyclerView.setVisibility(isBuildingSelected ? View.VISIBLE : View.GONE);
-            textBuildingNotSet.setVisibility(isBuildingSelected ? View.GONE : View.VISIBLE);
-            locateNowButton.setVisibility(isBuildingSelected ? View.VISIBLE : View.GONE);
-            countdownTimerNumber.setVisibility(isBuildingSelected ? View.VISIBLE : View.GONE);
-            if (!isBuildingSelected) {
-                textNoRooms.setVisibility(View.INVISIBLE);
-            }
-        });
-
-
-        // localization countdown timer - show seconds
-        localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
-
-        // update wifi list after every scan
-        localizationViewModel.getWifiScanResults().observe(getViewLifecycleOwner(), scanResults -> {
-            wifiListAdapter.updateWifiList(scanResults);
-        });
-
         // update rooms after every localization
-        localizationViewModel.getLocationSortedRooms().observe(getViewLifecycleOwner(), rooms -> {
-            locationSortedRoomAdapter.updateRooms(rooms);
-        });
-
-        // buttons
-        locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
-        showWifiButton.setOnClickListener(v -> showWifiBottomSheetDialog());
+        localizationViewModel.getLocationSortedRooms().observe(getViewLifecycleOwner(), localizedRooms -> locationSortedRoomAdapter.updateRooms(localizedRooms));
     }
 
     private void showWifiBottomSheetDialog() {

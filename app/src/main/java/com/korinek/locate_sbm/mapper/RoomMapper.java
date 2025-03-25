@@ -1,5 +1,6 @@
 package com.korinek.locate_sbm.mapper;
 
+import com.korinek.locate_sbm.model.LocalizedRoom;
 import com.korinek.locate_sbm.model.Room;
 import com.korinek.locate_sbm.model.api.RoomApiModel;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
@@ -29,6 +30,17 @@ public class RoomMapper {
     public static List<RoomApiModel> toRoomApiModelList(List<Room> rooms) {
         return rooms.stream()
                 .map(RoomMapper::toRoomApiModel)
+                .collect(Collectors.toList());
+    }
+
+    public static LocalizedRoom toLocalizedRoom(Room room) {
+        double defaultProbability = 0.0;
+        return new LocalizedRoom(room, defaultProbability);
+    }
+
+    public static List<LocalizedRoom> toLocalizedRoomList(List<Room> rooms) {
+        return rooms.stream()
+                .map(RoomMapper::toLocalizedRoom)
                 .collect(Collectors.toList());
     }
 }

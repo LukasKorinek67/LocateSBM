@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.LocalizedRoom;
 import com.korinek.locate_sbm.model.WifiFingerprint;
 
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import java.util.Random;
 
 public class RoomLocationSorter {
 
-    public static List<Room> sortRoomsByLocation(WifiFingerprint actualFingerprint, List<Room> rooms, Context context) {
-        List<Room> locationSortedRooms = new ArrayList<>(rooms);
+    public static List<LocalizedRoom> sortRoomsByLocation(WifiFingerprint actualFingerprint, List<LocalizedRoom> rooms, Context context) {
+        List<LocalizedRoom> locationSortedRooms = new ArrayList<>(rooms);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String localizationMethod = sharedPreferences.getString("settings_localization_method", "random");
@@ -24,6 +24,9 @@ public class RoomLocationSorter {
         if(localizationMethod.equals("random")) {
             // random shuffle
             Collections.shuffle(locationSortedRooms, new Random());
+            // set  equal probability to all rooms
+            double equalProbability = 100.0 / locationSortedRooms.size();
+            locationSortedRooms.forEach(room -> room.setLocationProbability(equalProbability));
         } else {
             // TODO - sort by location (different methods), for now just random shuffle
             Collections.shuffle(locationSortedRooms, new Random());

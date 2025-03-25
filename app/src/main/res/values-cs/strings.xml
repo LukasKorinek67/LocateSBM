@@ -32,6 +32,7 @@
     <string name="gyroscope">Gyroskop</string>
     <string name="wifi_analysis">Wi-Fi Analýza</string>
     <string name="localization_title">Lokalizace</string>
+    <string name="show_wifi_list">Ukázat Wi-Fi seznam</string>
     <string name="locate_now">Lokalizovat nyní</string>
 
     <!-- Settings -->
