@@ -56,6 +56,18 @@
             android:layout_gravity="center">
 
             <TextView
+                android:id="@+id/text_calibration_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:layout_marginVertical="10dp"
+                android:text="@string/calibration_title"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"

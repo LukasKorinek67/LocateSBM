@@ -2,6 +2,7 @@ package com.korinek.locate_sbm.mapper;
 
 import com.korinek.locate_sbm.model.LocalizedRoom;
 import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.model.api.RoomApiModel;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
 
@@ -33,12 +34,12 @@ public class RoomMapper {
                 .collect(Collectors.toList());
     }
 
-    public static LocalizedRoom toLocalizedRoom(Room room) {
+    public static LocalizedRoom toLocalizedRoom(RoomWithWifiFingerprints room) {
         double defaultProbability = 0.0;
         return new LocalizedRoom(room, defaultProbability);
     }
 
-    public static List<LocalizedRoom> toLocalizedRoomList(List<Room> rooms) {
+    public static List<LocalizedRoom> toLocalizedRoomList(List<RoomWithWifiFingerprints> rooms) {
         return rooms.stream()
                 .map(RoomMapper::toLocalizedRoom)
                 .collect(Collectors.toList());

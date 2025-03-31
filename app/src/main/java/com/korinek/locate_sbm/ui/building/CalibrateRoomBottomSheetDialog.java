@@ -1,6 +1,7 @@
 package com.korinek.locate_sbm.ui.building;
 
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +14,25 @@ import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.korinek.locate_sbm.R;
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.ui.building.measurements.RoomScanningStateViewModel;
 import com.korinek.locate_sbm.ui.building.measurements.RoomScanningFragment;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
+import com.korinek.locate_sbm.utils.TimestampHelper;
 
 import java.util.Locale;
 
 public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
 
-    private final Room room;
+    private final RoomWithWifiFingerprints room;
 
     private RoomScanningStateViewModel roomScanningStateViewModel;
 
@@ -48,7 +52,7 @@ public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
         }
     }
 
-    public CalibrateRoomBottomSheetDialog(Room room) {
+    public CalibrateRoomBottomSheetDialog(RoomWithWifiFingerprints room) {
         this.room = room;
     }
 
@@ -82,12 +86,29 @@ public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
         ImageView roomIcon = view.findViewById(R.id.calibrate_room_icon);
         TextView roomName = view.findViewById(R.id.calibrate_room_name);
         ViewFlipper viewFlipper = view.findViewById(R.id.calibrate_view_flipper);
+        TextView calibrationStateText = view.findViewById(R.id.text_calibration_state);
         MaterialButtonToggleGroup buttonGroupRoomSize = view.findViewById(R.id.button_group_room_size);
         LinearLayout layoutStartingCalibration = view.findViewById(R.id.layout_starting_calibration);
         Button startCalibrateButton = view.findViewById(R.id.button_start_calibration);
 
         roomIcon.setImageResource(RoomIconsHelper.getIconResId(room.getIcon()));
         roomName.setText(room.getName());
+
+        long lastCalibrationTimestamp = room.getRoom().lastCalibrationTimestamp;
+        Drawable drawable;
+        if (lastCalibrationTimestamp == 0) {
+            calibrationStateText.setText(getString(R.string.status_text_not_calibrated_yet));
+            calibrationStateText.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+            drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_alert_circle);
+            DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), R.color.red));
+            calibrationStateText.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        } else {
+            calibrationStateText.setText(String.format(Locale.getDefault(), getString(R.string.status_text_calibrated_date), TimestampHelper.toLocalDateTime(lastCalibrationTimestamp)));
+            calibrationStateText.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+            drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_check_circle);
+            DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), R.color.green));
+            calibrationStateText.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        }
 
         buttonGroupRoomSize.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             int checkedIdFromGroupButton = group.getCheckedButtonId();
@@ -116,8 +137,14 @@ public class CalibrateRoomBottomSheetDialog extends BottomSheetDialogFragment {
         startCalibrateButton.setOnClickListener(v -> viewFlipper.setDisplayedChild(1));
 
         // RoomScanningFragment
+        RoomScanningFragment roomScanningFragment = new RoomScanningFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("roomId", room.getRoom().getId());
+        roomScanningFragment.setArguments(bundle);
+
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.room_scanning_fragment_container, new RoomScanningFragment())
+                .replace(R.id.room_scanning_fragment_container, roomScanningFragment)
                 .commit();
     }
 }

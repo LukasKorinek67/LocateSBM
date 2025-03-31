@@ -29,10 +29,11 @@
             android:background="?attr/selectableItemBackgroundBorderless" />
 
         <LinearLayout
+            android:id="@+id/room_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/room_menu"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="9dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
@@ -56,6 +57,16 @@
                 android:ellipsize="end"
                 android:maxLines="1" />
         </LinearLayout>
+        <ImageView
+            android:id="@+id/is_room_calibrated"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_below="@id/room_info"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_wifi_fingerprints_missing"
+            android:contentDescription="@string/tooltip_room_not_calibrated"
+            app:tint="?colorPrimary" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

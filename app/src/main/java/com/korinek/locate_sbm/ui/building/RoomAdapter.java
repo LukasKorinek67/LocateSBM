@@ -8,10 +8,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.korinek.locate_sbm.R;
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
 
 import java.lang.reflect.Field;
@@ -21,27 +22,27 @@ import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
 
-    private final List<Room> rooms = new ArrayList<>();
+    private final List<RoomWithWifiFingerprints> rooms = new ArrayList<>();
     private final RoomAdapter.RoomActionListener listener;
 
     public interface RoomActionListener {
-        void onRoomClick(Room room);
-        void onRoomCalibrate(Room room);
-        void onRoomEdit(Room room);
-        void onRoomDelete(Room room);
+        void onRoomClick(RoomWithWifiFingerprints room);
+        void onRoomCalibrate(RoomWithWifiFingerprints room);
+        void onRoomEdit(RoomWithWifiFingerprints room);
+        void onRoomDelete(RoomWithWifiFingerprints room);
     }
 
     public RoomAdapter(RoomAdapter.RoomActionListener listener) {
         this.listener = listener;
     }
 
-    public void updateRooms(List<Room> rooms) {
+    public void updateRooms(List<RoomWithWifiFingerprints> rooms) {
         this.rooms.clear();
         this.rooms.addAll(rooms);
         notifyDataSetChanged();
     }
 
-    public Room getRoomAt(int position) {
+    public RoomWithWifiFingerprints getRoomAt(int position) {
         return rooms.get(position);
     }
 
@@ -54,7 +55,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RoomAdapter.RoomViewHolder holder, int position) {
-        Room room = rooms.get(position);
+        RoomWithWifiFingerprints room = rooms.get(position);
         holder.bind(room, listener);
     }
 
@@ -71,22 +72,31 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         private final ImageView roomIcon;
         private final TextView roomNameTextView;
         private final ImageView roomMenu;
+        private final ImageView isRoomCalibrated;
 
         public RoomViewHolder(@NonNull View itemView) {
             super(itemView);
             roomIcon = itemView.findViewById(R.id.room_icon);
             roomNameTextView = itemView.findViewById(R.id.room_name);
             roomMenu = itemView.findViewById(R.id.room_menu);
+            isRoomCalibrated = itemView.findViewById(R.id.is_room_calibrated);
         }
 
-        public void bind(Room room, RoomAdapter.RoomActionListener listener) {
+        public void bind(RoomWithWifiFingerprints room, RoomAdapter.RoomActionListener listener) {
             roomIcon.setImageResource(RoomIconsHelper.getIconResId(room.getIcon()));
             roomNameTextView.setText(room.getName());
             itemView.setOnClickListener(v -> listener.onRoomClick(room));
             roomMenu.setOnClickListener(v -> showPopupMenu(v, room, listener));
+            isRoomCalibrated.setVisibility(room.getWifiFingerprints().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+            if(room.getWifiFingerprints().isEmpty()) {
+                // Tooltip text on isRoomCalibrated image
+                TooltipCompat.setTooltipText(isRoomCalibrated, itemView.getContext().getString(R.string.tooltip_room_not_calibrated));
+                // show tooltip on click instead of long click
+                isRoomCalibrated.setOnClickListener(View::performLongClick);
+            }
         }
 
-        private void showPopupMenu(View view, Room room, RoomAdapter.RoomActionListener listener) {
+        private void showPopupMenu(View view, RoomWithWifiFingerprints room, RoomAdapter.RoomActionListener listener) {
             PopupMenu popup = new PopupMenu(view.getContext(), view);
             popup.inflate(R.menu.room_menu);
 

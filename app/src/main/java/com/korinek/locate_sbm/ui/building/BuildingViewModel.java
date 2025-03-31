@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.korinek.locate_sbm.database.AppDatabase;
 import com.korinek.locate_sbm.model.Building;
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.utils.SharedPreferencesHelper;
 import com.korinek.locate_sbm.utils.api.ApiClient;
 
@@ -26,7 +26,7 @@ public class BuildingViewModel extends AndroidViewModel {
     private final AppDatabase database;
     SharedPreferencesHelper sharedPreferencesHelper;
     private final MutableLiveData<Boolean> isBuildingSelected;
-    private final MutableLiveData<List<Room>> rooms;
+    private final MutableLiveData<List<RoomWithWifiFingerprints>> rooms;
 
     public BuildingViewModel(Application application) {
         super(application);
@@ -38,7 +38,7 @@ public class BuildingViewModel extends AndroidViewModel {
         if(sharedPreferencesHelper.isBuildingSelected()) {
             setRooms(sharedPreferencesHelper.getBuilding());
         } else {
-            List<Room> roomsList = new ArrayList<>();
+            List<RoomWithWifiFingerprints> roomsList = new ArrayList<>();
             rooms.setValue(roomsList);
         }
     }
@@ -120,11 +120,15 @@ public class BuildingViewModel extends AndroidViewModel {
     private void setRooms(Building building) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
-            List<Room> roomsList = database.roomDao().getRoomsForBuilding(building.getId());
+            List<RoomWithWifiFingerprints> roomsList = database.roomDao().getRoomsWithWifiFingerprintsForBuilding(building.getId());
             if (roomsList != null) {
                 rooms.postValue(roomsList);
             }
         });
+    }
+
+    public void reloadRooms() {
+        setRooms(sharedPreferencesHelper.getBuilding());
     }
 
     public Building getSelectedBuilding() {
@@ -145,16 +149,16 @@ public class BuildingViewModel extends AndroidViewModel {
         sharedPreferencesHelper.removeBuilding();
     }
 
-    public LiveData<List<Room>> getRooms() {
+    public LiveData<List<RoomWithWifiFingerprints>> getRooms() {
         return rooms;
     }
 
-    public void insertRoom(Room room) {
+    public void insertRoom(RoomWithWifiFingerprints room) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
             try {
-                database.roomDao().insert(room);
-                List<Room> roomsList = rooms.getValue();
+                database.roomDao().insertRoomWithWifiFingerprints(room);
+                List<RoomWithWifiFingerprints> roomsList = rooms.getValue();
                 if (roomsList != null) {
                     roomsList.add(room);
                     rooms.postValue(roomsList);
@@ -169,12 +173,12 @@ public class BuildingViewModel extends AndroidViewModel {
         });
     }
 
-    public void updateRoom(Room room) {
+    public void updateRoom(RoomWithWifiFingerprints room) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
             try {
-                database.roomDao().update(room);
-                List<Room> roomsList = rooms.getValue();
+                database.roomDao().update(room.getRoom());
+                List<RoomWithWifiFingerprints> roomsList = rooms.getValue();
                 if (roomsList != null) {
                     roomsList = roomsList.stream()
                             .map(orginalRoom -> orginalRoom.getName().equals(room.getName()) ? room : orginalRoom)
@@ -191,11 +195,11 @@ public class BuildingViewModel extends AndroidViewModel {
         });
     }
 
-    public void deleteRoom(Room room) {
+    public void deleteRoom(RoomWithWifiFingerprints room) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(() -> database.roomDao().delete(room));
+        executorService.execute(() -> database.roomDao().delete(room.getRoom()));
 
-        List<Room> roomsList = rooms.getValue();
+        List<RoomWithWifiFingerprints> roomsList = rooms.getValue();
         if(roomsList != null && room != null) {
             roomsList.remove(room);
             rooms.setValue(roomsList);

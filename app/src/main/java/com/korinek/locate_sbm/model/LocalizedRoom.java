@@ -3,21 +3,21 @@ package com.korinek.locate_sbm.model;
 
 public class LocalizedRoom {
 
-    private Room room;
+    private RoomWithWifiFingerprints room;
 
     // probability of user being placed in this room
     private double locationProbability;
 
-    public LocalizedRoom(Room room, double probability) {
+    public LocalizedRoom(RoomWithWifiFingerprints room, double probability) {
         this.room = room;
         this.locationProbability = probability;
     }
 
-    public Room getRoom() {
+    public RoomWithWifiFingerprints getRoom() {
         return room;
     }
 
-    public void setRoom(Room room) {
+    public void setRoom(RoomWithWifiFingerprints room) {
         this.room = room;
     }
 
@@ -27,5 +27,13 @@ public class LocalizedRoom {
 
     public void setLocationProbability(double locationProbability) {
         this.locationProbability = locationProbability;
+    }
+
+    public String getName() {
+        return room.getName();
+    }
+
+    public String getIcon() {
+        return room.getIcon();
     }
 }

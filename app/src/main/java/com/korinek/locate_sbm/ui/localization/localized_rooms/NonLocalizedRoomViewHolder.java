@@ -25,8 +25,8 @@ class NonLocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSorte
     }
 
     public void bind(LocalizedRoom localizedRoom) {
-        roomIcon.setImageResource(RoomIconsHelper.getIconResId(localizedRoom.getRoom().getIcon()));
-        roomNameTextView.setText(localizedRoom.getRoom().getName());
+        roomIcon.setImageResource(RoomIconsHelper.getIconResId(localizedRoom.getIcon()));
+        roomNameTextView.setText(localizedRoom.getName());
         roomLocationProbabilityTextView.setText(String.format(Locale.getDefault(),"%.0f %%", localizedRoom.getLocationProbability()));
     }
 }

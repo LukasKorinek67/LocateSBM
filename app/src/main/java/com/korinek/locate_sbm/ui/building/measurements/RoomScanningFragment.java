@@ -20,6 +20,7 @@ import com.funrisestudio.stepprogress.StepProgressView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.korinek.locate_sbm.R;
 import com.korinek.locate_sbm.databinding.FragmentRoomScanningBinding;
+import com.korinek.locate_sbm.ui.building.BuildingViewModel;
 import com.korinek.locate_sbm.ui.localization.WifiListAdapter;
 
 import java.util.ArrayList;
@@ -30,14 +31,26 @@ public class RoomScanningFragment extends Fragment {
     private FragmentRoomScanningBinding binding;
     private RoomScanningStateViewModel roomScanningStateViewModel;
     private WifiFingerprintViewModel wifiFingerprintViewModel;
+    BuildingViewModel buildingViewModel;
     private WifiListAdapter adapter;
+    private static final String ARG_ROOM_ID = "roomId";
+    private int roomId;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            roomId = getArguments().getInt(ARG_ROOM_ID);
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         roomScanningStateViewModel = new ViewModelProvider(requireActivity()).get(RoomScanningStateViewModel.class);
-        wifiFingerprintViewModel = new ViewModelProvider(this).get(WifiFingerprintViewModel.class);
+        WifiFingerprintViewModel.WifiFingerprintViewModelFactory factory = new WifiFingerprintViewModel.WifiFingerprintViewModelFactory(requireActivity().getApplication(), roomId);
+        wifiFingerprintViewModel = new ViewModelProvider(this, factory).get(WifiFingerprintViewModel.class);
+        buildingViewModel = new ViewModelProvider(requireActivity()).get(BuildingViewModel.class);
         binding = FragmentRoomScanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -123,6 +136,7 @@ public class RoomScanningFragment extends Fragment {
         if(roomScanningStateViewModel.isLastScan()) {
             // save fingerprints and dismiss bottomSheetDialog
             wifiFingerprintViewModel.saveAllFingerprints();
+            buildingViewModel.reloadRooms();
             BottomSheetDialogFragment parent = (BottomSheetDialogFragment) getParentFragment();
             if(parent != null) {
                 parent.dismiss();

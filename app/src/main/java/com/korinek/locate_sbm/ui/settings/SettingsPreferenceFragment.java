@@ -26,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.korinek.locate_sbm.R;
 import com.korinek.locate_sbm.model.Building;
 import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.ui.building.BuildingViewModel;
 import com.korinek.locate_sbm.utils.ColorHelper;
 import com.korinek.locate_sbm.utils.SharedPreferencesHelper;
@@ -290,7 +291,8 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
 
         addLoadedRoomsButton.setOnClickListener(v -> {
             for (Room room : rooms) {
-                buildingViewModel.insertRoom(room);
+                RoomWithWifiFingerprints roomWithWifiFingerprints = new RoomWithWifiFingerprints(room);
+                buildingViewModel.insertRoom(roomWithWifiFingerprints);
             }
             bottomSheetDialog.dismiss();
             Toast.makeText(requireContext(), getString(R.string.settings_room_load_success_toast), Toast.LENGTH_SHORT).show();

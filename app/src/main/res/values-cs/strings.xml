@@ -121,6 +121,8 @@
 
     <!-- Calibration -->
     <string name="calibration_title">Kalibrace lokalizace místnosti</string>
+    <string name="status_text_not_calibrated_yet">Místnost zatím není zkalibrovaná</string>
+    <string name="status_text_calibrated_date">Naposledy kalibrováno: %s</string>
     <string name="choose_size_text">Zvolte velikost místnosti</string>
     <string name="size_small">Malá</string>
     <string name="size_medium">Střední</string>
@@ -145,9 +147,11 @@
     <!-- Toast -->
     <string name="toast_localization_permission_not_granted">Přístup k lokalizaci není povolen. Povolení je nutné pro skenování WiFi.</string>
     <string name="toast_scan_failed">Skenování Wi-Fi selhalo.</string>
+    <string name="toast_room_calibrated">Místnost úspěšně zkalibrována</string>
 
     <!-- Tooltips -->
     <string name="tooltip_localization_probability">Pravděpodobnost lokalizace: %s</string>
+    <string name="tooltip_room_not_calibrated">Místnost není zkalibrovaná</string>
 
     <!-- Room setup -->
     <string name="confirm_set_toast">Nastaveno:\n%s %s%s</string>

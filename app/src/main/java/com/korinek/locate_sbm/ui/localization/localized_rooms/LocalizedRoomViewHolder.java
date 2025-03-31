@@ -58,8 +58,8 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
     }
 
     public void bind(LocalizedRoom localizedRoom, Fragment parentFragment) {
-        roomIcon.setImageResource(RoomIconsHelper.getIconResId(localizedRoom.getRoom().getIcon()));
-        roomNameTextView.setText(localizedRoom.getRoom().getName());
+        roomIcon.setImageResource(RoomIconsHelper.getIconResId(localizedRoom.getIcon()));
+        roomNameTextView.setText(localizedRoom.getName());
         roomLocationProbabilityTextView.setText(String.format(Locale.getDefault(),"%.0f %%", localizedRoom.getLocationProbability()));
 
         // Tooltip text on roomLocationProbabilityTextView
@@ -73,8 +73,8 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
 
         roomSetButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString("roomName", localizedRoom.getRoom().getName());
-            bundle.putString("roomIcon", localizedRoom.getRoom().getIcon());
+            bundle.putString("roomName", localizedRoom.getName());
+            bundle.putString("roomIcon", localizedRoom.getIcon());
 
             NavController navController = Navigation.findNavController(parentFragment.requireActivity(), R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.action_localizationFragment_to_roomSetupFragment, bundle);
@@ -94,7 +94,7 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         recyclerView.setRecycledViewPool(viewPool);
 
-        loadData(localizedRoom.getRoom().getName());
+        loadData(localizedRoom.getName());
 
         indicatorMoreItems.setOnClickListener(v -> {
             indicatorMoreItems.setVisibility(View.GONE);

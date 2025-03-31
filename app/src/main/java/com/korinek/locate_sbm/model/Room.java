@@ -28,12 +28,14 @@ public class Room {
     private String name;
     private int buildingId;
     private String icon;
+    public long lastCalibrationTimestamp;
 
-    public Room(int id, String name, int buildingId, String icon) {
+    public Room(int id, String name, int buildingId, String icon, long lastCalibrationTimestamp) {
         this.id = id;
         this.name = name;
         this.buildingId = buildingId;
         this.icon = icon;
+        this.lastCalibrationTimestamp = lastCalibrationTimestamp;
     }
 
     @Ignore
@@ -41,11 +43,6 @@ public class Room {
         this.name = name;
         this.buildingId = buildingId;
         this.icon = icon;
-    }
-
-    @Ignore
-    public Room(String name) {
-        this.name = name;
     }
 
     public int getId() {
@@ -78,6 +75,14 @@ public class Room {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public long getLastCalibrationTimestamp() {
+        return lastCalibrationTimestamp;
+    }
+
+    public void setLastCalibrationTimestamp(long lastCalibrationTimestamp) {
+        this.lastCalibrationTimestamp = lastCalibrationTimestamp;
     }
 
     @Override

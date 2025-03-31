@@ -25,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.korinek.locate_sbm.R;
 import com.korinek.locate_sbm.databinding.FragmentBuildingBinding;
 import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.utils.RoomIconsHelper;
 
 import java.util.Comparator;
@@ -59,22 +60,22 @@ public class BuildingFragment extends Fragment {
 
         RoomAdapter roomAdapter = new RoomAdapter(new RoomAdapter.RoomActionListener() {
             @Override
-            public void onRoomClick(Room room) {
+            public void onRoomClick(RoomWithWifiFingerprints room) {
                 // TODO - implement what to do
             }
 
             @Override
-            public void onRoomCalibrate(Room room) {
+            public void onRoomCalibrate(RoomWithWifiFingerprints room) {
                 showCalibrateRoomBottomSheet(room);
             }
 
             @Override
-            public void onRoomEdit(Room room) {
+            public void onRoomEdit(RoomWithWifiFingerprints room) {
                 showEditRoomBottomSheet(room);
             }
 
             @Override
-            public void onRoomDelete(Room room) {
+            public void onRoomDelete(RoomWithWifiFingerprints room) {
                 new AlertDialog.Builder(requireContext())
                         .setTitle(getString(R.string.dialog_title_delete_room))
                         .setMessage(String.format(getString(R.string.dialog_message_delete_room), room.getName()))
@@ -87,7 +88,7 @@ public class BuildingFragment extends Fragment {
 
         buildingViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
             // sort rooms by name
-            rooms.sort(Comparator.comparing(Room::getName, String.CASE_INSENSITIVE_ORDER));
+            rooms.sort(Comparator.comparing(RoomWithWifiFingerprints::getName, String.CASE_INSENSITIVE_ORDER));
             roomAdapter.updateRooms(rooms);
             if(rooms.isEmpty()) {
                 textNoRooms.setVisibility(View.VISIBLE);
@@ -131,7 +132,7 @@ public class BuildingFragment extends Fragment {
 
             if (!roomName.isEmpty() && selectedIcon != 0) {
                 int buildingId = buildingViewModel.getSelectedBuilding().getId();
-                Room room = new Room(roomName, buildingId, RoomIconsHelper.getIconName(selectedIcon));
+                RoomWithWifiFingerprints room = new RoomWithWifiFingerprints(new Room(roomName, buildingId, RoomIconsHelper.getIconName(selectedIcon)));
                 buildingViewModel.insertRoom(room);
                 bottomSheetDialog.dismiss();
             } else {
@@ -142,11 +143,11 @@ public class BuildingFragment extends Fragment {
         bottomSheetDialog.show();
     }
 
-    private void showCalibrateRoomBottomSheet(Room room) {
+    private void showCalibrateRoomBottomSheet(RoomWithWifiFingerprints room) {
         new CalibrateRoomBottomSheetDialog(room).show(getParentFragmentManager(), "CalibrateRoomBottomSheetDialog");
     }
 
-    private void showEditRoomBottomSheet(Room room) {
+    private void showEditRoomBottomSheet(RoomWithWifiFingerprints room) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
         View view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_edit_room, null);
         bottomSheetDialog.setContentView(view);

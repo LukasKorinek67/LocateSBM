@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.korinek.locate_sbm.mapper.RoomMapper;
 import com.korinek.locate_sbm.mapper.WifiFingerprintMapper;
 import com.korinek.locate_sbm.model.LocalizedRoom;
-import com.korinek.locate_sbm.model.Room;
+import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.model.WifiFingerprint;
 import com.korinek.locate_sbm.ui.building.measurements.WifiScanService;
 
@@ -68,7 +68,7 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
         return locationSortedRooms;
     }
 
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(List<RoomWithWifiFingerprints> rooms) {
         locationSortedRooms.setValue(RoomMapper.toLocalizedRoomList(rooms));
     }
 
