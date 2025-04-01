@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.korinek.locate_sbm.R;
 import com.korinek.locate_sbm.database.AppDatabase;
 import com.korinek.locate_sbm.model.Building;
 import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
@@ -166,7 +167,7 @@ public class BuildingViewModel extends AndroidViewModel {
             } catch (SQLiteConstraintException e) {
                 new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
                         Toast.makeText(getApplication().getApplicationContext(),
-                                "Nelze přidat místnost, název je již použit v této budově.",
+                                getApplication().getString(R.string.toast_add_room_error_duplicated_name),
                                 Toast.LENGTH_LONG).show()
                 );
             }
@@ -188,7 +189,7 @@ public class BuildingViewModel extends AndroidViewModel {
             } catch (SQLiteConstraintException e) {
                 new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
                         Toast.makeText(getApplication().getApplicationContext(),
-                                "Nelze upravit místnost! Problém v databázi",
+                                getApplication().getString(R.string.toast_edit_room_database_error),
                                 Toast.LENGTH_LONG).show()
                 );
             }

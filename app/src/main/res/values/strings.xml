@@ -154,6 +154,8 @@
     <string name="toast_localization_permission_not_granted">Location access is not allowed. Permission is required for WiFi scanning.</string>
     <string name="toast_scan_failed">Wi-Fi scan failed.</string>
     <string name="toast_room_calibrated">Room calibrated successfully</string>
+    <string name="toast_add_room_error_duplicated_name">Cannot add room, name is already used in this building.</string>
+    <string name="toast_edit_room_database_error">Unable to edit room - database error</string>
 
     <!-- Tooltips -->
     <string name="tooltip_localization_probability">Localization probability: %s</string>
