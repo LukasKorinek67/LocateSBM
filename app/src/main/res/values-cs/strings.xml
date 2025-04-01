@@ -147,6 +147,8 @@
     <!-- Toast -->
     <string name="toast_localization_permission_not_granted">Přístup k lokalizaci není povolen. Povolení je nutné pro skenování WiFi.</string>
     <string name="toast_scan_failed">Skenování Wi-Fi selhalo.</string>
+    <string name="toast_countdown_timer_paused">Odpočet do lokalizování pozastaven.</string>
+    <string name="toast_countdown_timer_resumed">Odpočet do lokalizování znovu spuštěn.</string>
     <string name="toast_room_calibrated">Místnost úspěšně zkalibrována</string>
     <string name="toast_add_room_error_duplicated_name">Nelze přidat místnost, název je již použit v této budově.</string>
     <string name="toast_edit_room_database_error">Nelze upravit místnost - problém v databázi.</string>

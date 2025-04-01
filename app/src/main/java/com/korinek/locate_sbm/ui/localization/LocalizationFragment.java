@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -139,7 +140,7 @@ public class LocalizationFragment extends Fragment {
         TextView countdownTimerNumber = binding.localizationCountdownTimer;
         // localization countdown timer - show seconds
         localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
-
+        countdownTimerNumber.setOnClickListener(v -> pauseOrResumeCountdown());
     }
 
     private void initializeWifiListAdapter() {
@@ -174,8 +175,19 @@ public class LocalizationFragment extends Fragment {
 
         TextView countdownTimerNumber = view.findViewById(R.id.localization_second_countdown_timer);
         localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
+        countdownTimerNumber.setOnClickListener(v -> pauseOrResumeCountdown());
 
         bottomSheetDialog.show();
+    }
+
+    private void pauseOrResumeCountdown() {
+        if(localizationViewModel.isCountdownPaused()) {
+            localizationViewModel.resumeCountdown();
+            Toast.makeText(requireContext(), getString(R.string.toast_countdown_timer_resumed), Toast.LENGTH_SHORT).show();
+        } else {
+            localizationViewModel.pauseCountdown();
+            Toast.makeText(requireContext(), getString(R.string.toast_countdown_timer_paused), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

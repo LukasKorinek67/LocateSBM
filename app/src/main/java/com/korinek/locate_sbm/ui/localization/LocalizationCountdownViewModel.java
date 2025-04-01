@@ -28,6 +28,8 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
     private final MutableLiveData<Integer> countdownTime = new MutableLiveData<>();
     private CountDownTimer countDownTimer;
     private final MutableLiveData<Boolean> localizationDone = new MutableLiveData<>(false);
+    private long remainingTimeMillis = LOCALIZATION_INTERVAL;
+    private boolean isCountdownPaused = false;
 
     public LocalizationCountdownViewModel(Application application) {
         super(application);
@@ -81,22 +83,26 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
             countDownTimer.cancel();
         }
 
-        countDownTimer = new CountDownTimer(LOCALIZATION_INTERVAL, 1000) {
+        countDownTimer = new CountDownTimer(remainingTimeMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                remainingTimeMillis = millisUntilFinished;
                 countdownTime.postValue((int) ((millisUntilFinished / 1000) + 1));
             }
 
             @Override
             public void onFinish() {
                 countdownTime.postValue(0);
+                remainingTimeMillis = LOCALIZATION_INTERVAL;
                 performWifiScan();
             }
         }.start();
+        isCountdownPaused = false;
     }
 
     public void refreshLocalizationNow() {
         performWifiScan();
+        remainingTimeMillis = LOCALIZATION_INTERVAL;
     }
 
     public LiveData<Integer> getCountdownTime() {
@@ -111,6 +117,23 @@ public class LocalizationCountdownViewModel extends AndroidViewModel {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+    public void pauseCountdown() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            isCountdownPaused = true;
+        }
+    }
+
+    public void resumeCountdown() {
+        if (isCountdownPaused) {
+            startCountdown();
+        }
+    }
+
+    public boolean isCountdownPaused() {
+        return isCountdownPaused;
     }
 
     @Override
