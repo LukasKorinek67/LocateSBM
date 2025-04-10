@@ -177,6 +177,14 @@ public class LocalizationFragment extends Fragment {
         localizationViewModel.getCountdownTime().observe(getViewLifecycleOwner(), secondsLeft -> countdownTimerNumber.setText(String.valueOf(secondsLeft)));
         countdownTimerNumber.setOnClickListener(v -> pauseOrResumeCountdown());
 
+        ImageButton locateNowButton = view.findViewById(R.id.localization_second_refresh_button);
+        locateNowButton.setOnClickListener(v -> localizationViewModel.refreshLocalizationNow());
+
+        ViewFlipper viewFlipper = view.findViewById(R.id.wifi_list_view_flipper);
+        final int LOCALIZATION_IN_PROGRESS_STATE = 0;
+        final int WIFI_LIST_STATE = 1;
+        localizationViewModel.isLocalizationDone().observe(getViewLifecycleOwner(), isLocalizationDone -> viewFlipper.setDisplayedChild(isLocalizationDone? WIFI_LIST_STATE : LOCALIZATION_IN_PROGRESS_STATE));
+
         bottomSheetDialog.show();
     }
 
