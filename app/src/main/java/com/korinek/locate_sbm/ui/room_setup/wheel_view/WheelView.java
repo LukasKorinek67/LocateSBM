@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -72,24 +73,35 @@ public class WheelView extends View {
         centerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         centerPaint.setStyle(Paint.Style.FILL);
 
-        // texts - name o attributes
+        // texts - name of attributes
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
-        textPaint.setTextSize(35);
+        textPaint.setTextSize(spToPx(12));
         textPaint.setTextAlign(Paint.Align.CENTER);
 
         // value inside circle
         valuePaint= new Paint(Paint.ANTI_ALIAS_FLAG);
         valuePaint.setColor(Color.DKGRAY);
-        valuePaint.setTextSize(100);
+        valuePaint.setTextSize(spToPx(34));
         valuePaint.setFakeBoldText(true);
         valuePaint.setTextAlign(Paint.Align.CENTER);
 
         // gap between segments
         linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         linePaint.setColor(ContextCompat.getColor(getContext(), R.color.background_color));
-        linePaint.setStrokeWidth(10);
+        linePaint.setStrokeWidth(dpToPx(3));
     }
+
+    private float spToPx(float sp) {
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, sp, getResources().getDisplayMetrics());
+    }
+
+    private int dpToPx(float dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    }
+
 
     private int lightenColor(int color) {
         float mixFactor = 0.4f;
@@ -185,7 +197,7 @@ public class WheelView extends View {
             float distanceFromCenter = 0.72f;
             Drawable icon = ContextCompat.getDrawable(getContext(), menuItem.getIcon());
             if (icon != null) {
-                int iconSize = 120;
+                int iconSize = dpToPx(40);
                 float iconAngle = startAngle + segmentAngle / 2;
                 int iconX = (int) (centerX + (outerRadius * distanceFromCenter) * Math.cos(Math.toRadians(iconAngle)) - (float) iconSize / 2);
                 int iconY = (int) (centerY + (outerRadius * distanceFromCenter) * Math.sin(Math.toRadians(iconAngle)) - (float) iconSize / 2);
@@ -198,7 +210,7 @@ public class WheelView extends View {
             // text
             float textAngle = startAngle + segmentAngle / 2;
             float textX = (float) (centerX + (outerRadius * distanceFromCenter) * Math.cos(Math.toRadians(textAngle)));
-            float textY = (float) (centerY + (outerRadius * distanceFromCenter) * Math.sin(Math.toRadians(textAngle))) + 85; // move below icon
+            float textY = (float) (centerY + (outerRadius * distanceFromCenter) * Math.sin(Math.toRadians(textAngle))) + dpToPx(29); // move below icon
             canvas.drawText(menuItem.getText(), textX, textY, textPaint);
 
             index++;
@@ -228,7 +240,7 @@ public class WheelView extends View {
             if (selectedSegment == -1) {
                 Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_gesture_tap);
                 if (icon != null) {
-                    int iconSize = 250;
+                    int iconSize = dpToPx(80);
                     int iconX = (int) (centerX - (float) iconSize / 2);
                     int iconY = (int) (centerY - (float) iconSize / 2);
 
