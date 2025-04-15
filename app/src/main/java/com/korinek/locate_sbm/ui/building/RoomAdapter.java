@@ -94,6 +94,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
                 // show tooltip on click instead of long click
                 isRoomCalibrated.setOnClickListener(View::performLongClick);
             }
+            // Tooltip text on roomName - not visible when too long
+            TooltipCompat.setTooltipText(roomNameTextView, roomNameTextView.getText());
+            roomNameTextView.setOnClickListener(View::performLongClick);
         }
 
         private void showPopupMenu(View view, RoomWithWifiFingerprints room, RoomAdapter.RoomActionListener listener) {

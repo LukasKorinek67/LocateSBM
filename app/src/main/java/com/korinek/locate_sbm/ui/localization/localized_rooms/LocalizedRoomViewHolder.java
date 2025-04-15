@@ -62,14 +62,7 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         roomNameTextView.setText(localizedRoom.getName());
         roomLocationProbabilityTextView.setText(String.format(Locale.getDefault(),"%.0f %%", localizedRoom.getLocationProbability()));
 
-        // Tooltip text on roomLocationProbabilityTextView
-        String percentageText = roomLocationProbabilityTextView.getText().toString();
-        TooltipCompat.setTooltipText(
-                roomLocationProbabilityTextView,
-                String.format(Locale.getDefault(), parentFragment.getString(R.string.tooltip_localization_probability), percentageText)
-        );
-        // show tooltip on click instead of long click
-        roomLocationProbabilityTextView.setOnClickListener(View::performLongClick);
+        setTextTooltips(parentFragment);
 
         roomSetButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
@@ -102,6 +95,22 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
                 adapter.updateAttributes(allAttributes);
             }
         });
+    }
+
+    private void setTextTooltips(Fragment parentFragment) {
+        // Tooltip text on roomName - not visible when too long
+        TooltipCompat.setTooltipText(roomNameTextView, roomNameTextView.getText());
+
+        // Tooltip text on roomLocationProbabilityTextView
+        String percentageText = roomLocationProbabilityTextView.getText().toString();
+        TooltipCompat.setTooltipText(
+                roomLocationProbabilityTextView,
+                String.format(Locale.getDefault(), parentFragment.getString(R.string.tooltip_localization_probability), percentageText)
+        );
+
+        // show tooltip on click instead of long click
+        roomNameTextView.setOnClickListener(View::performLongClick);
+        roomLocationProbabilityTextView.setOnClickListener(View::performLongClick);
     }
 
     private void loadData(String roomName) {
