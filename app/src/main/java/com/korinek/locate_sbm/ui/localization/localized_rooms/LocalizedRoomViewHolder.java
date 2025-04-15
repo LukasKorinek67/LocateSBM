@@ -1,5 +1,7 @@
 package com.korinek.locate_sbm.ui.localization.localized_rooms;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -73,10 +75,6 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
             navController.navigate(R.id.action_localizationFragment_to_roomSetupFragment, bundle);
         });
 
-        overviewLoadingBar.setVisibility(View.VISIBLE);
-        roomDataNotAvailableText.setVisibility(View.GONE);
-        roomHasNoAttributesText.setVisibility(View.GONE);
-        indicatorMoreItems.setVisibility(View.GONE);
         Map<String, Object> attributes = new HashMap<>();
 
         adapter = new RoomDataOverviewAdapter(attributes);
@@ -87,7 +85,11 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         recyclerView.setRecycledViewPool(viewPool);
 
-        loadData(localizedRoom.getName());
+        if(isIntegrationSet(parentFragment)) {
+            loadData(localizedRoom.getName(), parentFragment);
+        } else {
+            setIntegrationNotSet(parentFragment);
+        }
 
         indicatorMoreItems.setOnClickListener(v -> {
             indicatorMoreItems.setVisibility(View.GONE);
@@ -113,7 +115,21 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
         roomLocationProbabilityTextView.setOnClickListener(View::performLongClick);
     }
 
-    private void loadData(String roomName) {
+    private boolean isIntegrationSet(Fragment parentFragment) {
+        SharedPreferences sharedPreferences = parentFragment.requireContext()
+                .getSharedPreferences("com.korinek.locate_sbm_preferences", Context.MODE_PRIVATE);
+
+        String url = sharedPreferences.getString("settings_teco_api_url", "");
+        String buildingName = sharedPreferences.getString("settings_teco_api_building_name", "");
+        return !url.isEmpty() && !buildingName.isEmpty();
+    }
+
+    private void loadData(String roomName, Fragment parentFragment) {
+        overviewLoadingBar.setVisibility(View.VISIBLE);
+        roomDataNotAvailableText.setVisibility(View.GONE);
+        roomHasNoAttributesText.setVisibility(View.GONE);
+        indicatorMoreItems.setVisibility(View.GONE);
+
         RequestHandler requestHandler = new RequestHandler(itemView.getContext());
 
         if(roomName != null) {
@@ -153,9 +169,19 @@ class LocalizedRoomViewHolder extends LocationSortedRoomAdapter.LocationSortedRo
                     roomHasNoAttributesText.setVisibility(View.GONE);
                     indicatorMoreItems.setVisibility(View.GONE);
                     roomSetButton.setEnabled(false);
+                    roomDataNotAvailableText.setText(parentFragment.getString(R.string.info_data_not_available));
                     Toast.makeText(itemView.getContext(), errorMessage, Toast.LENGTH_LONG).show();
                 }
             });
         }
+    }
+
+    private void setIntegrationNotSet(Fragment parentFragment) {
+        overviewLoadingBar.setVisibility(View.GONE);
+        roomDataNotAvailableText.setVisibility(View.VISIBLE);
+        roomHasNoAttributesText.setVisibility(View.GONE);
+        indicatorMoreItems.setVisibility(View.GONE);
+        roomSetButton.setEnabled(false);
+        roomDataNotAvailableText.setText(parentFragment.getString(R.string.info_plc_integration_not_set));
     }
 }

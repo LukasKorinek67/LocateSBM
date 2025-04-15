@@ -97,6 +97,7 @@
     <string name="info_please_choose_building">Zvolte prosím objekt v nastavení</string>
     <string name="info_no_rooms_yet">Prozatím žádné místnosti</string>
     <string name="info_data_not_available">Data nejsou k dispozici</string>
+    <string name="info_plc_integration_not_set">Není nastavena PLC integrace</string>
     <string name="info_loading">Načítání dat…</string>
     <string name="info_data_not_loaded">Nepodařilo se načíst data o místnosti</string>
     <string name="info_data_not_loaded_with_error_message">Nepodařilo se načíst data o místnosti\n\n%s</string>

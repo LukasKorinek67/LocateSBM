@@ -104,6 +104,7 @@
     <string name="info_please_choose_building">Please select an object in the settings</string>
     <string name="info_no_rooms_yet">No rooms yet</string>
     <string name="info_data_not_available">Data not available</string>
+    <string name="info_plc_integration_not_set">PLC integration is not set up</string>
     <string name="info_loading">Loading…</string>
     <string name="info_data_not_loaded">Failed to load room data</string>
     <string name="info_data_not_loaded_with_error_message">Failed to load room data\n\n%s</string>
