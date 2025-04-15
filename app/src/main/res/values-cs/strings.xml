@@ -38,21 +38,21 @@
     <!-- Settings -->
     <string name="not_set_text">Nezadáno</string>
     <string name="not_selected">Není zvoleno</string>
-    <string name="settings_teco_api_integration">Integrace s TecoApi</string>
+    <string name="settings_teco_api_integration">Integrace s PLC</string>
     <string name="settings_url_title">URL</string>
-    <string name="settings_url_dialog_message">Zadejte URL adresu pro komunikaci s TecoApi</string>
-    <string name="settings_building_name_title">Název objektu v TecoApi</string>
-    <string name="settings_building_name_dialog_message">Zadejte název budovy v TecoAPI</string>
+    <string name="settings_url_dialog_message">Zadejte URL adresu pro komunikaci s PLC</string>
+    <string name="settings_building_name_title">Název objektu v PLC</string>
+    <string name="settings_building_name_dialog_message">Zadejte název budovy v PLC</string>
     <string name="settings_request_auth_title">Autorizace requestu</string>
-    <string name="settings_request_auth_summary_enabled">Používat basic autorizaci ke komunikaci s TecoApi</string>
-    <string name="settings_request_auth_summary_disabled">Nepoužívat basic autorizaci ke komunikaci s TecoApi</string>
+    <string name="settings_request_auth_summary_enabled">Používat basic autorizaci ke komunikaci s PLC</string>
+    <string name="settings_request_auth_summary_disabled">Nepoužívat basic autorizaci ke komunikaci s PLC</string>
     <string name="settings_request_auth_username_title">Username</string>
     <string name="settings_request_auth_username_dialog_message">Zadejte username pro autorizaci</string>
     <string name="settings_request_auth_password_title">Password</string>
     <string name="settings_request_auth_password_dialog_message">Zadejte heslo pro autorizaci</string>
     <string name="settings_room_load_title">Přenačíst místnosti v objektu</string>
     <string name="settings_room_load_dialog_title">Načtení místností</string>
-    <string name="settings_room_load_dialog_message">Opravdu chcete načíst všechny místnosti z TecoApi? Všechny stávající místnosti s daty budou smazány.</string>
+    <string name="settings_room_load_dialog_message">Opravdu chcete načíst všechny místnosti z PLC? Všechny stávající místnosti s daty budou smazány.</string>
     <string name="settings_room_load_loaded_rooms_text">Načtené místnosti</string>
     <string name="settings_room_load_success_toast">Místnosti přidány</string>
     <string name="settings_general">Obecné</string>
@@ -70,9 +70,9 @@
     <!-- RequestHandler -->
     <string name="request_error_data_load">Chyba při načítání dat: %s</string>
     <string name="request_error_network">Chyba sítě: %s</string>
-    <string name="request_error_room_not_in_teco_api">Chyba: Místnost nenalezena v TecoApi</string>
+    <string name="request_error_room_not_in_teco_api">Chyba: Místnost nenalezena v PLC</string>
     <string name="request_error_invalid_url">Neplatná URL adresa - %s</string>
-    <string name="request_error_edited_room_not_in_teco_api">Chyba: Místnost, kterou upravujete, nebyla v TecoApi nalezena</string>
+    <string name="request_error_edited_room_not_in_teco_api">Chyba: Místnost, kterou upravujete, nebyla v PLC nalezena</string>
     <string name="request_error_reading_error_response">Chyba při čtení error response</string>
     <string name="request_error_reading_error_response_message">Chyba při čtení error response: %s</string>
     <string name="request_error_unknown">Chyba: neznámý error</string>

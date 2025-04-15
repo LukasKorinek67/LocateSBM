@@ -40,21 +40,21 @@
     <!-- Settings -->
     <string name="not_set_text">Not set</string>
     <string name="not_selected">Not selected</string>
-    <string name="settings_teco_api_integration">TecoApi Integration</string>
+    <string name="settings_teco_api_integration">PLC Integration</string>
     <string name="settings_url_title">URL</string>
-    <string name="settings_url_dialog_message">Enter the URL address for communication with TecoApi</string>
-    <string name="settings_building_name_title">Building name in TecoApi</string>
-    <string name="settings_building_name_dialog_message">Enter the building name in TecoAPI</string>
+    <string name="settings_url_dialog_message">Enter the URL address for communication with PLC</string>
+    <string name="settings_building_name_title">Building name in PLC</string>
+    <string name="settings_building_name_dialog_message">Enter the building name in PLC</string>
     <string name="settings_request_auth_title">Request authorization</string>
-    <string name="settings_request_auth_summary_enabled">Use basic authorization to communicate with TecoApi</string>
-    <string name="settings_request_auth_summary_disabled">Do not use basic authorization to communicate with TecoApi</string>
+    <string name="settings_request_auth_summary_enabled">Use basic authorization to communicate with PLC</string>
+    <string name="settings_request_auth_summary_disabled">Do not use basic authorization to communicate with PLC</string>
     <string name="settings_request_auth_username_title">Username</string>
     <string name="settings_request_auth_username_dialog_message">Enter username for authorization</string>
     <string name="settings_request_auth_password_title">Password</string>
     <string name="settings_request_auth_password_dialog_message">Enter the password for authorization</string>
     <string name="settings_room_load_title">Reload rooms in the object</string>
     <string name="settings_room_load_dialog_title">Rooms reload</string>
-    <string name="settings_room_load_dialog_message">Are you sure you want to load all the rooms from TecoApi? All existing rooms with data will be deleted.</string>
+    <string name="settings_room_load_dialog_message">Are you sure you want to load all the rooms from PLC? All existing rooms with data will be deleted.</string>
     <string name="settings_room_load_loaded_rooms_text">Loaded Rooms</string>
     <string name="settings_room_load_success_toast">Rooms added</string>
     <string name="settings_general">General</string>
@@ -72,9 +72,9 @@
     <!-- RequestHandler -->
     <string name="request_error_data_load">Error loading data: %s</string>
     <string name="request_error_network">Network error: %s</string>
-    <string name="request_error_room_not_in_teco_api">Error: Room not found in TecoApi</string>
+    <string name="request_error_room_not_in_teco_api">Error: Room not found in PLC</string>
     <string name="request_error_invalid_url">Invalid URL address - %s</string>
-    <string name="request_error_edited_room_not_in_teco_api">Error: Room that is going to be edited not found in TecoApi</string>
+    <string name="request_error_edited_room_not_in_teco_api">Error: Room that is going to be edited not found in PLC</string>
     <string name="request_error_reading_error_response">Error while reading error response</string>
     <string name="request_error_reading_error_response_message">Error while reading error response: %s</string>
     <string name="request_error_unknown">Error: Unknown error</string>
