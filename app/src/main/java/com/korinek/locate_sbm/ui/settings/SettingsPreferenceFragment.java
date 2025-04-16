@@ -1,6 +1,5 @@
 package com.korinek.locate_sbm.ui.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -29,7 +28,6 @@ import com.korinek.locate_sbm.model.Room;
 import com.korinek.locate_sbm.model.RoomWithWifiFingerprints;
 import com.korinek.locate_sbm.ui.building.BuildingViewModel;
 import com.korinek.locate_sbm.utils.ColorHelper;
-import com.korinek.locate_sbm.utils.SharedPreferencesHelper;
 import com.korinek.locate_sbm.utils.api.ApiCalls;
 import com.korinek.locate_sbm.utils.api.ApiClient;
 import com.korinek.locate_sbm.utils.api.RequestHandler;
@@ -61,7 +59,7 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         initializeRoomLoadButton();
         initializeChangeColorButton();
         initializeInfoButton();
-        initializeResetButton();
+        initializeLicenseButton();
 
         setEnabledDisabled();
     }
@@ -380,27 +378,17 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void initializeResetButton() {
-        Preference resetPreference = findPreference("settings_reset_app");
+    private void initializeLicenseButton() {
+        Preference resetPreference = findPreference("settings_license_info");
         if (resetPreference != null) {
             resetPreference.setOnPreferenceClickListener(preference -> {
                 new AlertDialog.Builder(requireContext())
-                        .setTitle(getString(R.string.settings_app_reset))
-                        .setMessage(getString(R.string.settings_app_reset_text))
-                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> resetApp())
-                        .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss())
+                        .setTitle(getString(R.string.settings_license_info))
+                        .setMessage(getString(R.string.settings_license_info_text))
+                        .setPositiveButton(getString(R.string.close), (dialog, which) -> dialog.dismiss())
                         .show();
                 return true;
             });
         }
-    }
-
-    private void resetApp() {
-        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(requireContext());
-        sharedPreferencesHelper.resetApp();
-
-        Intent intent = requireActivity().getIntent();
-        requireActivity().finish();
-        startActivity(intent);
     }
 }

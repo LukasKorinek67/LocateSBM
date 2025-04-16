@@ -64,8 +64,8 @@
     <string name="settings_about_app">About app</string>
     <string name="settings_app_info">App info</string>
     <string name="settings_app_info_text">LocateSBM is an application that allows users to connect to a building’s control system and manage various room attributes via their phone. The application also utilizes WiFi fingerprinting and phone sensors to determine the user’s location within the building. This helps estimate their position and simplifies control by always displaying the relevant room. \n\nThis application was created as part of a master’s thesis at the Technical University of Liberec, Faculty of Mechatronics, Informatics, and Interdisciplinary Studies (TUL FM).\n</string>
-    <string name="settings_app_reset">Reset app</string>
-    <string name="settings_app_reset_text">Resetting will erase all data and restore all app settings to their default values. Are you sure you want to reset the entire app?</string>
+    <string name="settings_license_info">License Information</string>
+    <string name="settings_license_info_text">App icon was downloaded from the public icon library Flaticon.\n\nAuthor: Cuputo\nAvailable at: www.flaticon.com</string>
     <string name="settings_choose_building">Choose object</string>
     <string name="settings_add_building">Add object</string>
 

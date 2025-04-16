@@ -63,8 +63,4 @@ public class SharedPreferencesHelper {
                 .putInt(KEY_SELECTED_THEME, R.style.Theme_LocateSBM)
                 .apply();
     }
-
-    public void resetApp() {
-        sharedPreferences.edit().clear().apply();
-    }
 }

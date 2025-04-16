@@ -68,10 +68,9 @@
             android:icon="@drawable/ic_info" />
 
         <Preference
-            android:key="settings_reset_app"
-            android:title="@string/settings_app_reset"
-            android:icon="@drawable/ic_reset" />
-
+            android:key="settings_license_info"
+            android:title="@string/settings_license_info"
+            android:icon="@drawable/ic_license" />
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
