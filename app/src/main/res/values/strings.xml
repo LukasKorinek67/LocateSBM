@@ -99,6 +99,11 @@
     <string name="dialog_title_delete_room">Delete room</string>
     <string name="dialog_message_delete_room">Are you sure you want to delete room %s?</string>
     <string name="dialog_change_color_title">Change the color of building %s</string>
+    <string name="dialog_wifi_scan_info_title">Wi-Fi Scanning Limitation</string>
+    <string name="dialog_wifi_scan_info_message">Unfortunately, Android limits Wi-Fi scanning frequency to a maximum of 4 scans within 2 minutes, which significantly restricts the functionality of this application.\n\nTo enable unrestricted scanning, it is recommended to disable the Wi-Fi scan throttling option in Developer Settings. Otherwise, Wi-Fi scanning may often return outdated results.</string>
+    <string name="dialog_wifi_scan_info_setup_process">Developer Options &gt; Networking &gt; Wi-Fi scan throttling &gt; Disable</string>
+    <string name="dialog_wifi_scan_info_button_understand">I Understand</string>
+    <string name="dialog_wifi_scan_info_button_open_settings">Go to Settings</string>
 
     <!-- Info texts -->
     <string name="info_please_choose_building">Please select an object in the settings</string>

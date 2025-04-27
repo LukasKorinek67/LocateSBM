@@ -92,6 +92,11 @@
     <string name="dialog_title_delete_room">Odstranění místnosti</string>
     <string name="dialog_message_delete_room">Opravdu chcete odstranit místnost %s?</string>
     <string name="dialog_change_color_title">Změnit barvu objektu %s</string>
+    <string name="dialog_wifi_scan_info_title">Omezení skenování Wi-Fi</string>
+    <string name="dialog_wifi_scan_info_message">Android bohužel omezuje frekvenci skenování Wi-Fi na maximálně 4 skeny během 2 minut, což výrazně omezuje funkcionalitu této aplikace.\n\nPro neomezené skenování je doporučeno v Nastavení vývojáře vypnout volbu Wi-Fi scan throttling. V opačném případě bude Wi-Fi skenování velmi často vracet neaktualizované výsledky.</string>
+    <string name="dialog_wifi_scan_info_setup_process">Developer Options &gt; Networking &gt; Wi-Fi scan throttling &gt; Vypnout</string>
+    <string name="dialog_wifi_scan_info_button_understand">Rozumím</string>
+    <string name="dialog_wifi_scan_info_button_open_settings">Přejít do nastavení</string>
 
     <!-- Info texts -->
     <string name="info_please_choose_building">Zvolte prosím objekt v nastavení</string>

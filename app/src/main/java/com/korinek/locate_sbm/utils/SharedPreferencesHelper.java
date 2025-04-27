@@ -14,6 +14,7 @@ public class SharedPreferencesHelper {
     private static final String KEY_SELECTED_BUILDING_NAME = "selected_building_name";
     private static final String KEY_SELECTED_BUILDING_COLOR = "selected_building_color";
     private static final String KEY_SELECTED_THEME = "selected_theme";
+    private static final String KEY_WIFI_SCAN_INFO = "wifi_scan_info_shown";
 
     private final SharedPreferences sharedPreferences;
 
@@ -62,5 +63,13 @@ public class SharedPreferencesHelper {
                 .putBoolean(KEY_IS_BUILDING_SELECTED, false)
                 .putInt(KEY_SELECTED_THEME, R.style.Theme_LocateSBM)
                 .apply();
+    }
+
+    public boolean wasWifiScanInfoShown() {
+        return sharedPreferences.getBoolean(KEY_WIFI_SCAN_INFO, false);
+    }
+
+    public void setWifiScanInfoShown() {
+        sharedPreferences.edit().putBoolean(KEY_WIFI_SCAN_INFO, true).apply();
     }
 }

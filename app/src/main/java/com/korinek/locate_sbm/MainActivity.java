@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.korinek.locate_sbm.databinding.ActivityMainBinding;
+import com.korinek.locate_sbm.ui.startup_dialog.WifiScanInfoDialog;
 import com.korinek.locate_sbm.utils.SharedPreferencesHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,5 +37,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+        // show info to the user, that he needs to toggle the throttling off in developer option
+        WifiScanInfoDialog.showWifiScanInfoIfNeeded(this);
     }
 }
