@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.korinek.locate_sbm.localization.RoomLocationSorter;
 import com.korinek.locate_sbm.mapper.RoomMapper;
 import com.korinek.locate_sbm.mapper.WifiFingerprintMapper;
 import com.korinek.locate_sbm.model.LocalizedRoom;

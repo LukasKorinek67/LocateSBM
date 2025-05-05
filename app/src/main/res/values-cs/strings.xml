@@ -57,7 +57,10 @@
     <string name="settings_room_load_success_toast">Místnosti přidány</string>
     <string name="settings_general">Obecné</string>
     <string name="settings_localization_method">Metoda Lokalizace</string>
-    <string name="settings_localization_method_random">Náhodně (zatím neimplementováno)</string>
+    <string name="settings_localization_method_random">Náhodně (bez lokalizace)</string>
+    <string name="settings_localization_method_knn">K-Nearest Neighbours (KNN)</string>
+    <string name="settings_localization_method_wknn">Weighted K-Nearest Neighbours (WKNN) (doporučeno)</string>
+    <string name="settings_localization_method_cosine_wknn">Cosine Similarity (Cosine WKNN)</string>
     <string name="settings_change_color_title">Změnit barvu objektu</string>
     <string name="settings_about_app">O aplikaci</string>
     <string name="settings_app_info">Info o aplikaci</string>

@@ -59,7 +59,10 @@
     <string name="settings_room_load_success_toast">Rooms added</string>
     <string name="settings_general">General</string>
     <string name="settings_localization_method">Localization method</string>
-    <string name="settings_localization_method_random">Random (not implemented yet)</string>
+    <string name="settings_localization_method_random">Random (without localization)</string>
+    <string name="settings_localization_method_knn">K-Nearest Neighbours (KNN)</string>
+    <string name="settings_localization_method_wknn">Weighted K-Nearest Neighbours (WKNN) (Recommended)</string>
+    <string name="settings_localization_method_cosine_wknn">Cosine Similarity (Cosine WKNN)</string>
     <string name="settings_change_color_title">Change building color</string>
     <string name="settings_about_app">About app</string>
     <string name="settings_app_info">App info</string>

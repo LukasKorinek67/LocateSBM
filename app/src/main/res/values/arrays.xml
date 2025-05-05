@@ -2,9 +2,15 @@
 <resources>
     <string-array name="localization_method_values_entries">
         <item>@string/settings_localization_method_random</item>
+        <item>@string/settings_localization_method_knn</item>
+        <item>@string/settings_localization_method_wknn</item>
+        <item>@string/settings_localization_method_cosine_wknn</item>
     </string-array>
 
     <string-array name="localization_method_values">
         <item>random</item>
+        <item>knn_method</item>
+        <item>wknn_method</item>
+        <item>cosine_wknn_method</item>
     </string-array>
 </resources>
