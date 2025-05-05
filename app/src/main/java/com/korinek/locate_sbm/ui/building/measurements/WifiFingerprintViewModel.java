@@ -26,7 +26,7 @@ public class WifiFingerprintViewModel extends AndroidViewModel {
     private final AppDatabase database;
     WifiScanService wifiScanService;
     private final MediatorLiveData<List<ScanResult>> wifiScanResults = new MediatorLiveData<>();
-    private final int NUMBER_OF_WIFI_FINGERPRINTS = 5;
+    private final int NUMBER_OF_WIFI_FINGERPRINTS = 10;
     private final List<WifiFingerprint> wifiFingerprintList = new ArrayList<>();
     private final int roomId;
 
